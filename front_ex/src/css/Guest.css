@@ -1,0 +1,76 @@
+.guest-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.guest-list {
+  width: 100%;
+}
+
+.guest-item-box {
+  width: 100%;
+  height: 150px;
+  margin: 30px auto;
+  font-size: 14px;
+  border: 1px solid #eee;
+}
+
+.guest-item-box p {
+  line-height: 150px;
+}
+
+.guest-head {
+  display: flex;
+  height: 20%;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #fff2d9;
+  border-top: 2px solid #eee;
+}
+
+.guest-body {
+  display: flex;
+  height: 80%;
+  overflow: auto;
+}
+
+.guest-img {
+  width: 25%;
+}
+
+.guest-content {
+  width: 75%;
+  padding: 15px;
+  text-align: start;
+}
+
+.guest-head p {
+  margin-right: 15px;
+}
+
+.guest-list-private {
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.guest-list-update {
+  cursor: pointer;
+}
+
+.guest-list-delete {
+  cursor: pointer;
+}
+
+.guest-update-content {
+  width: 90%;
+  height: 100%;
+  padding: 15px;
+  outline: none;
+  border: 1px solid lightgray;
+}
+
+.guest-update-content:focus {
+  border: 1px solid gray;
+}
