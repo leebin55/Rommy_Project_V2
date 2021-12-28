@@ -1,6 +1,5 @@
 package com.roomy.model;
 
-import com.roomy.model.board.Board;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,7 +22,7 @@ public class LikeVO {
     // 좋아요 게시물 seq FK
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="board_seq")
-    private Board board;
+    private BoardVO board;
 
     // 좋아요 누른 회원 Seq
     @Column(name="like_user_id")

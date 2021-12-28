@@ -1,8 +1,7 @@
 package com.roomy.controller;
 
 import com.roomy.dto.SessionDTO;
-import com.roomy.model.board.Board;
-import com.roomy.model.board.BoardVO;
+import com.roomy.model.BoardVO;
 import com.roomy.model.LikeVO;
 import com.roomy.service.BoardService;
 import com.roomy.service.FileService;
@@ -24,23 +23,22 @@ import java.util.Map;
 public class GalleryController {
 
     private final FileService fileService;
-
     @Qualifier("galleryService") // Gallery 와 일반 게시판은 같은 galleryService interface  를 사용하기 때문에
     private final BoardService galleryService ;
     private final LikeService likeService;
 
-    public GalleryController(FileService fileService, BoardService galleryService, LikeService likeService) {
-        this.fileService = fileService;
+    public GalleryController(BoardService galleryService, FileService fileService, LikeService likeService
+                              ) {
         this.galleryService = galleryService;
+        this.fileService = fileService;
         this.likeService = likeService;
     }
 
     // 메인페이지 피드에서 최근 10개 게시물 불러오기
     @GetMapping("/gallery")
     public List<BoardVO> feeds(){
-
+/** feed 는 계속 최신순으로 불러오기 > 최신순으로 (페이징 처리하기)*/
         List<BoardVO> boardList = galleryService.selectAll();
-
       //  log.debug("feed all : {}",boardList.toString());
         return boardList;
     }
@@ -49,16 +47,16 @@ public class GalleryController {
     @GetMapping("/{userId}/gallery")
     public ResponseEntity<?> list(@PathVariable("userId") String userId){
         log.debug("userId : {}", userId);
-        List<BoardVO> boardList = galleryService.readBoardList(userId);
-        List<BoardVO> boardImgList= fileService.selectAllWithImage(boardList);
+//        List<BoardVO> boardList = galleryService.readBoardList(userId);
+//        List<BoardVO> boardImgList= fileService.selectAllWithImage(boardList);
      //   log.debug("select all : {}",boardList.toString());
-        return ResponseEntity.ok(boardImgList);
+        return ResponseEntity.ok(null);
     }
 
     // 게시물 번호(seq)로 찾아 해당 게시물 return
     @GetMapping("/{userId}/gallery/detail")
     public ResponseEntity<?> detail(@PathVariable("userId") String userId,@RequestParam Long board_seq ){
-        Board boardVO = galleryService.findById(board_seq);
+        BoardVO boardVO = galleryService.findById(board_seq);
         if(boardVO == null){
             //400 오류
             return ResponseEntity.badRequest().body("해당 게시물이 존재하지 않습니다.");
@@ -92,9 +90,10 @@ public class GalleryController {
     @PutMapping("/{userId}/gallery/img")
     public ResponseEntity<?> img(@PathVariable("userId") String userId,@RequestParam("img") MultipartFile img){
       log.debug("받아온 파일 이름 {}",img.getOriginalFilename());
-      String newFileName = fileService.uploadFile(img);
-      log.debug("보낼 url {}:", newFileName);
-        return ResponseEntity.ok(newFileName);
+     // String newFileName = fileService.uploadFile(img);
+     // log.debug("보낼 url {}:", newFileName);
+     //   return ResponseEntity.ok(newFileName);
+        return ResponseEntity.ok("");
     }
 
     // 갤러리 게시글 수정
@@ -140,8 +139,8 @@ public class GalleryController {
 //        SessionDTO sessionDTO= (SessionDTO) session.getAttribute("USER");
 //        if(sessionDTO!=null){
 //            log.debug("likeVO {} ",likeVO.toString());
-            int likeNum = likeService.insertOrDelete(likeVO);
-            return ResponseEntity.ok(likeNum);
+          //  int likeNum = likeService.insertOrDelete(likeVO);
+            return ResponseEntity.ok("");
 //        }
 //        //로그인 안되있을때
 //        return ResponseEntity.badRequest().body("로그인을 먼저 해주세요");
@@ -152,7 +151,8 @@ public class GalleryController {
     @GetMapping("/{userId}/gallery/beforeCheck")
     // gallery 리스트가 뜰때 좋아요를 이전에 눌렀는지 처음 한번만 확인하는 method
     public Boolean beforeLikeCheck(@PathVariable("userId") String userId, @RequestBody LikeVO likeVO){
-            return likeService.likeCheck(likeVO);
+           // return likeService.likeCheck(likeVO);
+        return true;
     }
 
     @GetMapping("/{userId}/gallery/{board_seq}/search")

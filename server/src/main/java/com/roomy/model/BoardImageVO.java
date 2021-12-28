@@ -1,8 +1,7 @@
 package com.roomy.model;
 
 
-import com.roomy.model.board.Board;
-import com.roomy.model.board.GalleryVO;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +23,6 @@ public class BoardImageVO {
     // board : imgs = 1 : N join
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="board_seq") // FK
-    private Board board;
+    private BoardVO board;
 
 }

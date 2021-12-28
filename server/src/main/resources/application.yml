@@ -15,7 +15,7 @@ spring:
   ########  JPA Setting
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
       jdbc:
       order_insert: true
       order_update: true

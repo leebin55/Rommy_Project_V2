@@ -1,4 +1,4 @@
-package com.roomy.model.board;
+package com.roomy.model;
 
 // 게시글 공개 비공개  친구공개
 public enum BoardStatus {

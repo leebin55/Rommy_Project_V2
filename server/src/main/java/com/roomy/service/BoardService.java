@@ -1,9 +1,11 @@
 package com.roomy.service;
 
-import com.roomy.model.board.BoardVO;
+import com.roomy.model.BoardVO;
+
 
 import java.util.List;
 
+//public interface BoardService<T extends Board> extends GenericService<T, Long> {
 public interface BoardService extends GenericService<BoardVO, Long> {
 
 //    public Page<BoardVO> selectAll(Pageable pageable);
@@ -11,7 +13,6 @@ public interface BoardService extends GenericService<BoardVO, Long> {
     
     public List<BoardVO> search(String select, String query);
 
-    public List<BoardVO> readBoardList (String userId);
-
+    public List<BoardVO> selectAllByUserId(String userId);
 
 }

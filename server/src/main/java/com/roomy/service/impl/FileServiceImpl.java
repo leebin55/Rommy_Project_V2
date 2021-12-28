@@ -1,7 +1,7 @@
 package com.roomy.service.impl;
 
 import com.roomy.model.BoardImageVO;
-import com.roomy.model.board.BoardVO;
+import com.roomy.model.BoardVO;
 import com.roomy.repository.FileRepository;
 import com.roomy.service.FileService;
 import lombok.extern.slf4j.Slf4j;
@@ -73,40 +73,42 @@ public class FileServiceImpl implements FileService {
             return "store_fail";
             //e.printStackTrace();
         }
-        return "http://localhost:8080/uploads/"+newFileName;
+        // 나중에 path 변경될 수 있기 때문에 file이름만 리턴
+       // return "http://localhost:8080/uploads/"+newFileName;
+        return newFileName;
     }
 
     @Override
-    public List<String> uploadMultiFiles(MultipartHttpServletRequest files) {
+    public void deleteFile(Long imgSeq) {
 
-        return null;
     }
+
+
 
     public void insertImages (List<String> imgURLs,Long board_seq){
         for(String image:imgURLs){
             BoardImageVO imageVO = new BoardImageVO();
             imageVO.setImgUrl(image);
-//            imageVO.setImgBoardSeq(board_seq);
-//            fileRepository.save(imageVO);
+          //  imageVO.setImgBoardSeq(board_seq);
+            fileRepository.save(imageVO);
         }
     }
     @Override
     public List<BoardVO> selectAllWithImage(List<BoardVO> boardList){
         // 새로운 리스트를 생성 => tbl_board 에는 이미지에 관한 정보가 없기 때문에
-//        List<BoardVO> boardWithImgList = new ArrayList<>();
-//        for(BoardVO board:boardList){
-//            // board_seq 를 뽑아와서
-//            Long board_seq =board.getBoardSeq();
-//            // 해당 개시물에 있는 image 를 tbl_board_image 테이블에서 imgURL들을 받아온다
-//            List<String>imgURL=fileRepository.findByImgBoardSeq(board_seq);
-//            // 이미지는 하나만 보여줄 거기 때문에 맨 처음 하나만  board 객체에 담음
-//            board.setImgURL(Collections.singletonList(imgURL.get(0)));
-//            // 리스트에 넣어줌
-//            boardWithImgList.add(board);
-//        }
-//        //새로만든 리스트 리턴
-//        return boardWithImgList;
-        return null;
+        List<BoardVO> boardWithImgList = new ArrayList<>();
+        for(BoardVO board:boardList){
+            // board_seq 를 뽑아와서
+            Long board_seq =board.getBoardSeq();
+            // 해당 개시물에 있는 image 를 tbl_board_image 테이블에서 imgURL들을 받아온다
+            List<String>imgURL=fileRepository.findByImgBoardSeq(board_seq);
+            // 이미지는 하나만 보여줄 거기 때문에 맨 처음 하나만  board 객체에 담음
+          //  board.setImgURL(Collections.singletonList(imgURL.get(0)));
+            // 리스트에 넣어줌
+            boardWithImgList.add(board);
+        }
+        //새로만든 리스트 리턴
+        return boardWithImgList;
     }
 
     @Override

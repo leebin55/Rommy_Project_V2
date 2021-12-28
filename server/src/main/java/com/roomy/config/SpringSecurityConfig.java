@@ -2,7 +2,7 @@ package com.roomy.config;
 
 import com.roomy.config.auth.JwtAuthenticationFilter;
 import com.roomy.config.jwt.JwtTokenProvider;
-import com.roomy.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

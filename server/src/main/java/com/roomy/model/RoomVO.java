@@ -5,6 +5,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -36,5 +39,7 @@ public class RoomVO {
     // room 소개글
     private String roomIntroduce;
 
+    @OneToMany(mappedBy = "room")
+    private List<BoardVO> boardList= new ArrayList<>();
 
 }
