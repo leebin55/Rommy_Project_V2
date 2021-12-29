@@ -1,4 +1,4 @@
-package com.roomy.model;
+package com.roomy.model.othertype;
 
 import lombok.Getter;
 

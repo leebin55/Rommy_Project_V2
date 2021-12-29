@@ -1,6 +1,6 @@
 package com.roomy.controller;
 
-import com.roomy.dto.SessionDTO;
+
 import com.roomy.model.BoardVO;
 import com.roomy.service.BoardService;
 

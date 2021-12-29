@@ -1,5 +1,5 @@
 spring:
-  # ?? ??? ?? : src/main/resources/static
+  #  src/main/resources/static
   # classpath : spring src/main ??? ???? ???
   mvc:
     static-path-pattern: /static/**

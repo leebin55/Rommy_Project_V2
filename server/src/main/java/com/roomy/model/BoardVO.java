@@ -1,5 +1,6 @@
 package com.roomy.model;
 
+import com.roomy.model.othertype.BoardStatus;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 

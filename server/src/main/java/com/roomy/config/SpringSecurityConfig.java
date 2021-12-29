@@ -1,41 +1,39 @@
 package com.roomy.config;
 
-import com.roomy.config.auth.JwtAuthenticationFilter;
-import com.roomy.config.jwt.JwtTokenProvider;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
+
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.CorsFilter;
 
-import javax.servlet.http.HttpSession;
 
-@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    private final JwtTokenProvider jwtTokenProvider;
-//
-//
-//
-//    @Bean
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
-    // antMatchers는 정확한 경로는 전부 구현되고 할 예정
-    // USER - /room/**
+    // Bean으로 PasswordEncoder interface를 등록
+    // BVryptPasswordEncoder 는 PasswordEncoder  interface를 implements 한다.
+    public SpringSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder bCryptPasswordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // Authentication 로그인 관련
+        // UserDetailsService 와 BCrypt... 를 사용하겠다.
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

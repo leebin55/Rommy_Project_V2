@@ -1,6 +1,5 @@
 package com.roomy.controller;
 
-import com.roomy.dto.SessionDTO;
 import com.roomy.model.BoardVO;
 import com.roomy.model.LikeVO;
 import com.roomy.service.BoardService;
@@ -12,10 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 @Slf4j
 @RequestMapping("/room")
@@ -73,16 +71,11 @@ public class GalleryController {
     //{userId}/gallery/write 에서 수정 > /{userId}/gallery  (url에 행위넣지 말기)
     // url은 똑같더라도 httpmethod : get post 가 다르기 때문에 url 겹쳐도 문제되지 않음
     @PostMapping("/{userId}/gallery")
-    public  ResponseEntity<?> write(HttpSession session, @PathVariable("userId") String userId, @RequestBody  BoardVO boardVO ) {
-        SessionDTO sessionDTO = (SessionDTO) session.getAttribute("USER");
-        if(sessionDTO != null){
+    public  ResponseEntity<?> write( @PathVariable("userId") String userId, @RequestBody  BoardVO boardVO ) {
+
             log.debug("controller_boardVO : {}",boardVO.toString());
             galleryService.insert(boardVO);
             return ResponseEntity.ok(boardVO);
-        }
-        Map<String,String> msg = new HashMap<>();
-        msg.put("message","게시판 글쓰기 권한이 없습니다.");
-         return ResponseEntity.badRequest().body(msg);
     }
 
     // editor 에서 이미지를 등록하면 base64로 변경됨 그래서 url 로 바꿔줌

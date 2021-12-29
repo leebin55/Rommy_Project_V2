@@ -1,5 +1,8 @@
 package com.roomy.model;
 
+import com.roomy.model.othertype.Birth;
+import com.roomy.model.othertype.UserGender;
+import com.roomy.model.othertype.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -52,8 +55,9 @@ public class UserVO {
     // 회원 이름
     private String userName;
 
-    // 회원 등급 ( 0 관리자 / 1 일반회원 )
-    private int userRank;
+    // 회원 등급 ( ADMIN, USER )
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     // 해당 유저가 팔로우한 유저리스트
     @OneToMany(mappedBy = "user")
