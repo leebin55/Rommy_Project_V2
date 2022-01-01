@@ -1,5 +1,7 @@
 package com.roomy.controller;
 
+import com.roomy.dto.GalleryDTO;
+import com.roomy.dto.ImgDTO;
 import com.roomy.model.BoardVO;
 import com.roomy.model.LikeVO;
 import com.roomy.service.BoardService;
@@ -20,10 +22,11 @@ import java.util.List;
 @RestController
 public class GalleryController {
 
-    private final FileService fileService;
+
     @Qualifier("galleryService") // Gallery 와 일반 게시판은 같은 galleryService interface  를 사용하기 때문에
     private final BoardService galleryService ;
     private final LikeService likeService;
+    private final FileService fileService;
 
     public GalleryController(BoardService galleryService, FileService fileService, LikeService likeService
                               ) {
@@ -34,11 +37,11 @@ public class GalleryController {
 
     // 메인페이지 피드에서 최근 10개 게시물 불러오기
     @GetMapping("/gallery")
-    public List<BoardVO> feeds(){
+    public ResponseEntity<?> feeds(){
 /** feed 는 계속 최신순으로 불러오기 > 최신순으로 (페이징 처리하기)*/
         List<BoardVO> boardList = galleryService.selectAll();
       //  log.debug("feed all : {}",boardList.toString());
-        return boardList;
+        return ResponseEntity.ok(boardList);
     }
 
     // room 에서 갤러리 목록에 들어가면 갤러리 맨 처음 보여주는 리스트 return
@@ -69,13 +72,15 @@ public class GalleryController {
 
     // 갤러리 등록할 때 post 로  데이터 받아오고 ok를 넘겨줌
     //{userId}/gallery/write 에서 수정 > /{userId}/gallery  (url에 행위넣지 말기)
-    // url은 똑같더라도 httpmethod : get post 가 다르기 때문에 url 겹쳐도 문제되지 않음
+    // url은 똑같더라도 http method : get post 가 다르기 때문에 url 겹쳐도 문제되지 않음
     @PostMapping("/{userId}/gallery")
-    public  ResponseEntity<?> write( @PathVariable("userId") String userId, @RequestBody  BoardVO boardVO ) {
+    public  ResponseEntity<?> write( @PathVariable("userId") String userId, @RequestBody GalleryDTO galleryDTO ) {
 
-            log.debug("controller_boardVO : {}",boardVO.toString());
-            galleryService.insert(boardVO);
-            return ResponseEntity.ok(boardVO);
+            log.debug("controller_boardVO : {}",galleryDTO.toString());
+            BoardVO board = new BoardVO();
+
+            //galleryService.insert(galleryDTO);
+            return ResponseEntity.ok(galleryDTO);
     }
 
     // editor 에서 이미지를 등록하면 base64로 변경됨 그래서 url 로 바꿔줌
@@ -157,10 +162,18 @@ public class GalleryController {
         return list;
     }
 
+    private BoardVO insertGallery(GalleryDTO galleryDTO){
+        BoardVO board = new BoardVO();
+        board.setBoardCode(1);
+        board.setTitle(galleryDTO.getTitle());
+        board.setContent(galleryDTO.getContent());
+        board.setStatus(galleryDTO.getStatus());
+        return board;
 
-    //댓글
+    }
 
 }
+
 
 // 쿠키를 사용하지 못하는 이유 :  client 와 server 가 분리되었기 때문에 cookie 는
 // 클라이언트 로컬에 저장함

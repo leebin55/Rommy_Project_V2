@@ -6,7 +6,6 @@ import com.roomy.repository.BoardRepository;
 import com.roomy.repository.FileRepository;
 import com.roomy.service.BoardService;
 import com.roomy.service.FileService;
-import com.roomy.service.GalleryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

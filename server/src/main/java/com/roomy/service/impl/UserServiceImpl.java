@@ -28,15 +28,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        UserVO user = userRepository.findById(userId).get();
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserVO user = userRepository.findById(username).get();
         if(user == null){
             log.debug("해당 유저를 찾을 수 없습니다.");
             throw new UsernameNotFoundException("User notfound in the DB");
         }else{
-            log.debug("DB에서 user를 찾았습니다. {}", userId);
+            log.debug("DB에서 user를 찾았습니다. {}", username);
         }
-        UserRole userRole = user.getRole();
+        String userRole = user.getRole().toString();
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole);
 
         return null;
