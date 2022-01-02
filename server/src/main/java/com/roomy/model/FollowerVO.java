@@ -7,7 +7,6 @@ import javax.persistence.*;
 // 나를 팔로우한 회원 테이블
 @Setter
 @Getter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

@@ -1,15 +1,13 @@
 package com.roomy.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+
+@Getter@Setter
 @Entity
 @Table(name = "tbl_todo")
 public class TodoVO {

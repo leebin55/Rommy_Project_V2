@@ -2,6 +2,7 @@ package com.roomy.service;
 
 import com.roomy.dto.BoardDTO;
 import com.roomy.model.BoardVO;
+import org.springframework.data.domain.Page;
 
 
 import java.util.List;
@@ -20,10 +21,10 @@ public interface BoardService {
 
     public BoardDTO findById(Long boardSeq);
 
-    public List<BoardDTO> getBoardList();
+    public Page<BoardDTO> getBoardList();
 
-    public List<BoardVO> search(String select, String query);
+    public Page<BoardDTO> search(String select, String query);
 
-    public List<BoardDTO> selectAllByUserId(String userId);
+    public Page<BoardDTO> selectAllByUserId(String userId);
 
 }

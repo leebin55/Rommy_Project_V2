@@ -3,10 +3,10 @@ package com.roomy.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -23,7 +23,7 @@ public class CommentVO {
 
     // 댓글 단 날짜 시간
 
-    private String date;
+    private LocalDateTime date;
 
     // 댓글 단 회원 아이디
     @Column(name = "comment_user_id")

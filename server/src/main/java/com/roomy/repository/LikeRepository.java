@@ -11,13 +11,13 @@ import java.util.List;
 
 @Repository
 public interface LikeRepository extends JpaRepository<LikeVO,Long> {
-
-    // board 와 user seq 로 해당 데이터가 존재 하는지 확인
-    boolean existsByBoardAndUserId(BoardVO board, String userId);
-
-    List<LikeVO> findAllByUserId(String userId);
-
-    void deleteByUserIdAndBoard(String userId , BoardVO boardVO);
+//
+//    // board 와 user seq 로 해당 데이터가 존재 하는지 확인
+//    boolean existsByBoardAndUserId(BoardVO board, String userId);
+//
+//    List<LikeVO> findAllByUserId(String userId);
+//
+//    void deleteByUserIdAndBoard(String userId , BoardVO boardVO);
 
 
 }

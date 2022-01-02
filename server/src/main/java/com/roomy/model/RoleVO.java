@@ -11,4 +11,11 @@ public class RoleVO {
     @Id
     @Column(name = "role_name")
     private String roleName;
+
+    protected RoleVO() {
+    }
+
+    public RoleVO(String roleName) {
+        this.roleName = roleName;
+    }
 }

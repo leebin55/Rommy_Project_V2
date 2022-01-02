@@ -15,8 +15,21 @@ public class BoardDTO {
     private String content;
     private String createDate;
     private String updateDate;
-    private int likeCount;
+    private Long likeCount;
     private BoardStatus status;
+
+    public BoardDTO() {
+    }
+
+    public BoardDTO(Long boardSeq, String userId, String title, String content, String createDate, Long likeCount, BoardStatus status) {
+        this.boardSeq = boardSeq;
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.createDate = createDate;
+        this.likeCount = likeCount;
+        this.status = status;
+    }
 
     public BoardVO.BoardVOBuilder toEntity(){
         return BoardVO.builder().boardSeq(boardSeq)

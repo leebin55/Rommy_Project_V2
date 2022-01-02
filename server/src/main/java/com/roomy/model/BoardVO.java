@@ -5,15 +5,15 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
 @Setter
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tbl_board", schema="roomyDB")
 public class BoardVO{
@@ -41,6 +41,7 @@ public class BoardVO{
     private String content;
 
     // 게시물 작성 시간
+    // LocalDateTime : hibernates 가 알아서 세팅
     private String createDate;
 
     // 게시물 수정 시간
@@ -65,6 +66,7 @@ public class BoardVO{
     private List<BoardImageVO>  img = new ArrayList<>();
 
 
+    private Long likeCount;
     // 게시물 구분코드 ( 1 갤러리 / 2 일반게시판 )
      private int boardCode;
 

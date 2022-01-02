@@ -12,16 +12,12 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@ToString
+//@ToString(of={"roomSeq","roomname","intro","total"})
 @Table(name="tbl_room", schema="roomyDB")
 public class RoomVO {
 
-    // 각 회원당 room 은 하나씩만 가질 수 있기때문에
-    // PK 는 회원번호
+
     @Id
     private Long roomSeq;
 
@@ -29,16 +25,18 @@ public class RoomVO {
     private UserVO user;
 
     // room 이름
-    private String roomName;
+    private String roomname;
 
     // room 방문자수
     @ColumnDefault("0")
-    private int roomTotal;
+    private int total;
 
     // room 소개글
-    private String roomIntroduce;
+    private String intro;
 
     @OneToMany(mappedBy = "room")
     private List<BoardVO> boardList= new ArrayList<>();
 
+    protected RoomVO() {
+    }
 }

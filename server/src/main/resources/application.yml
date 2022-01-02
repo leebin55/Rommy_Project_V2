@@ -45,6 +45,8 @@ spring:
 ########### logger
 logging:
   level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
     root: info
     com.roomy:
       config: debug

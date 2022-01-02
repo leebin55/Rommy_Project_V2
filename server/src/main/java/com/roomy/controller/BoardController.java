@@ -2,16 +2,13 @@ package com.roomy.controller;
 
 
 import com.roomy.dto.BoardDTO;
-import com.roomy.model.BoardVO;
 import com.roomy.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -29,14 +26,14 @@ public class BoardController {
 
     // 글 조회
     @GetMapping("/{userId}/board")
-    public List<BoardDTO> list(@PathVariable String userId) {
+    public ResponseEntity<?> list(@PathVariable String userId) {
         log.debug("board list 컨트롤러 실행 {}", userId);
         /**
          * 주의 >  BoardVO 자체를 리턴하면 여러 쿼리 실행 : 연관관계 때문에
          */
-        List<BoardDTO> boardList = boardService.selectAllByUserId(userId);
+        Page<BoardDTO> boardList = boardService.selectAllByUserId(userId);
         log.debug(boardList.toString());
-        return boardList;
+        return ResponseEntity.ok(boardList);
     }
 
     // 글 등록
@@ -57,10 +54,11 @@ public class BoardController {
     }
 
     // 글 수정
-    @PutMapping("/{userId}/board")
-    public void update(@RequestBody BoardDTO boardDTO) {
+    @PatchMapping("/{userId}/board")
+    public ResponseEntity<?> update(@RequestBody BoardDTO boardDTO) {
         log.debug("board update 컨트롤러 실행 {}", boardDTO.toString());
-        boardService.updateBoard(boardDTO);
+        Long boardSeq =boardService.updateBoard(boardDTO);
+        return ResponseEntity.ok(boardSeq);
     }
 
     // 글 삭제
