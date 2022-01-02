@@ -1,5 +1,6 @@
 package com.roomy.model;
 
+import com.roomy.model.othertype.GuestStatus;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,7 +12,6 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Entity
 @Table(name="tbl_guest", schema="roomyDB")
@@ -20,26 +20,30 @@ public class GuestVO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long guestSeq;
 
+    // 해당 Room
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
-    private String guestWriterName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_seq")
+    private RoomVO room;
+
+    // 글쓴 user
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username")
+    private UserVO user;
+
 
     @Column(columnDefinition = "VARCHAR(20)",nullable = false)
-    private String guestCreateAt;
+    private String date;
 
-    @Column(columnDefinition = "VARCHAR(20)",nullable = false)
-    private String guestUpdateAt;
-
-    @Column(columnDefinition = "INT", nullable = false)
-    private Boolean guestPrivate;
+    @Column(columnDefinition = "VARCHAR(7)", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GuestStatus status;
 
     @Column(columnDefinition = "VARCHAR(4000)", nullable = false)
-    private String guestContent;
+    private String content;
 
-    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
-    private String userId;
 
-    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
-    private String guestWriterId;
 
 
 }

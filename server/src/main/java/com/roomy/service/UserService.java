@@ -1,19 +1,19 @@
 package com.roomy.service;
 
-import com.roomy.model.UserVO;
+import com.roomy.dto.UserDTO;
 
 import java.util.List;
 
 public interface UserService{
 
 
-    List<UserVO> selectAll();
+    List<UserDTO> getAllUserList();
 
-    UserVO findById(String s);
+    UserDTO findById(String username);
 
-    void insert(UserVO userVO);
+    void createUser(UserDTO userDTO);
 
-    void update(UserVO userVO);
+    void updateUser(UserDTO userDTO);
 
-    void delete(String s);
+    void deleteUser(String username);
 }

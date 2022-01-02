@@ -1,5 +1,6 @@
 package com.roomy.service.impl;
 
+import com.roomy.dto.UserDTO;
 import com.roomy.model.UserVO;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.UserService;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
@@ -40,30 +43,54 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         return null;
     }
+
+
     @Override
-    public List<UserVO> selectAll() {
+    public List<UserDTO> getAllUserList() {
+        List<UserVO> userVOList = userRepository.findAll();
+
+        List<UserDTO> userList = userVOList.stream().map(user -> toUserDTO(user))
+                .collect(toList());
+
+        return userList;
+    }
+
+    @Override
+    public UserDTO findById(String username) {
+
+        UserVO userVO = userRepository.findById(username).orElse(null);
+        if(userVO != null){
+            return toUserDTO(userVO);
+        }
         return null;
     }
 
     @Override
-    public UserVO findById(String s) {
-        return null;
+    public void createUser(UserDTO userDTO) {
+        UserVO userVO = userDTO.toEntity();
+        userRepository.save(userVO);
     }
 
     @Override
-    public void insert(UserVO userVO) {
+    public void updateUser(UserDTO userDTO) {
 
+        UserVO userVO = userRepository.findById(userDTO.getUsername()).orElse(null);
+        if(userVO != null){
+         // update 할수 있는 칼럼은  nickname , email , password, profile
+            userVO.setNickname(userDTO.getNickname());
+            userVO.setEmail(userDTO.getEmail());
+            userVO.setProfile(userDTO.getProfile());
+            userVO.setPassword(userDTO.getPassword());
+        }
     }
 
     @Override
-    public void update(UserVO userVO) {
-
+    public void deleteUser(String username) {
+        userRepository.deleteById(username);
     }
 
-    @Override
-    public void delete(String s) {
-
+    private UserDTO toUserDTO(UserVO VO){
+        return new UserDTO(VO.getUsername(),
+                VO.getEmail(), VO.getBirth(), VO.getProfile(),VO.getGender(),VO.getNickname());
     }
-
-
 }

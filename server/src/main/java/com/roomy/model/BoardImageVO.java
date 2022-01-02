@@ -25,4 +25,9 @@ public class BoardImageVO {
     @JoinColumn(name="board_seq") // FK
     private BoardVO board;
 
+    public void setBoard(BoardVO board){
+        this.board = board;
+        board.getImgList().add(this);
+    }
+
 }

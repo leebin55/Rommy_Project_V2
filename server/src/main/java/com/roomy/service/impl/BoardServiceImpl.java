@@ -69,7 +69,7 @@ public class BoardServiceImpl implements BoardService {
 
         log.debug("board insert 메서드 {}", board.toString());
         board.setCreateDate(nowDateAndTime());
-        BoardVO boardVO = board.toEntity().build();
+        BoardVO boardVO = board.toEntity();
         boardRepository.save(boardVO);
 
         return boardVO.getBoardSeq();

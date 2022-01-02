@@ -11,7 +11,6 @@ import java.util.List;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
-@Setter
 @Entity
 //@ToString(of={"roomSeq","roomname","intro","total"})
 @Table(name="tbl_room", schema="roomyDB")
@@ -21,7 +20,9 @@ public class RoomVO {
     @Id
     private Long roomSeq;
 
-    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY)
+    // room 과 User 관계에서 Room 이 연관관계 주인 으로 설정 (외래키를 관리 할 곳)
+    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
+    @JoinColumn(name="user_id") //fk 참조할 곳 지정
     private UserVO user;
 
     // room 이름
@@ -29,7 +30,7 @@ public class RoomVO {
 
     // room 방문자수
     @ColumnDefault("0")
-    private int total;
+    private Long total;
 
     // room 소개글
     private String intro;
@@ -37,6 +38,33 @@ public class RoomVO {
     @OneToMany(mappedBy = "room")
     private List<BoardVO> boardList= new ArrayList<>();
 
+
+    // Room을 방문할 때마다 total 만 1씩 증가하기때문에
+    public void setTotal(Long total){
+        this.total= total;
+    }
+
+    // == 생성자 ==//
+    // roomSeq 도 같이 생성?????
+    public RoomVO( String roomname, String intro) {
+        this.roomname = roomname;
+        this.intro = intro;
+    }
     protected RoomVO() {
     }
+
+    // 두개를 원자적으로 묶음
+    //== 연관관계 메서드 ==// : 컨트롤 하는 쪽이 연관관계 메서드를 가지고 있는 것이 좋음
+    public void setUser(UserVO user){
+        //UserVO user = new USerVO();
+        // RoomVO room = new RoomVO();
+        // user.setRoom(room);
+        // room.setUser(user)
+        this.user = user;
+        user.setRoom(this);
+    }
+
+
+
+
 }

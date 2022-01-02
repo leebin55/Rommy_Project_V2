@@ -31,14 +31,14 @@ public class BoardDTO {
         this.status = status;
     }
 
-    public BoardVO.BoardVOBuilder toEntity(){
+    public BoardVO toEntity(){
         return BoardVO.builder().boardSeq(boardSeq)
-                .boardCode(2)
                 .userId(userId)
                 .title(title)
                 .content(content)
                 .createDate(createDate)
                 .updateDate(updateDate)
-                .status(status);
+                .status(status)
+                .build();
     }
 }

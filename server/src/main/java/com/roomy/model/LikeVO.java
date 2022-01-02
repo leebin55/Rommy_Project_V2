@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name="tbl_like" , schema = "roomyDB")
-public class LikeVO {
+public class LikeVO { // user 와 board 에대해 외래키 관리
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
@@ -32,5 +32,16 @@ public class LikeVO {
         this.likeSeq = likeSeq;
         this.board = board;
         this.user = user;
+    }
+
+    //== 연관관계 method
+    public void setUser(UserVO user){
+        this.user = user;
+        user.getLikeList().add(this);
+    }
+
+    public void setBoard(BoardVO board){
+        this.board= board;
+        board.getLikeList().add(this);
     }
 }
