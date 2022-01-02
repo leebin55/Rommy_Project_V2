@@ -8,6 +8,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.*;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,7 +36,10 @@ public class UserVO {
     @Column(unique = true)
     private String username;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+
+    // room 과 User 관계에서 user  가 연관관계 주인으로 설정
+    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
+    @JoinColumn(name="room_id") //fk 참조할 곳 지정
     private RoomVO room;
 
     // 비밀번호
@@ -57,6 +62,10 @@ public class UserVO {
 
     // 회원 닉네임
     private String nickname;
+
+    @OneToMany(mappedBy = "user")
+    private List<LikeVO> likeList = new ArrayList<>();
+
 
     // 회원 권한 user:role = N : N
     // jpa 에서 다대다 관계 매핑을 할때 1 대 다 와 다대1로 풀어서 매핑을 하는 것이 더 좋다

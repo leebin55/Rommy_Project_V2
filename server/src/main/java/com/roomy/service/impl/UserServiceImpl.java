@@ -1,7 +1,6 @@
 package com.roomy.service.impl;
 
 import com.roomy.model.UserVO;
-import com.roomy.model.othertype.UserRole;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.UserService;
 import lombok.extern.slf4j.Slf4j;

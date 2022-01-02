@@ -1,11 +1,13 @@
 package com.roomy.controller;
 
 
+import com.roomy.dto.BoardDTO;
 import com.roomy.model.BoardVO;
 import com.roomy.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -27,43 +29,45 @@ public class BoardController {
 
     // 글 조회
     @GetMapping("/{userId}/board")
-    public List<BoardVO> list(@PathVariable String userId) {
+    public List<BoardDTO> list(@PathVariable String userId) {
         log.debug("board list 컨트롤러 실행 {}", userId);
-        List<BoardVO> boardList = boardService.selectAllByUserId(userId);
+        /**
+         * 주의 >  BoardVO 자체를 리턴하면 여러 쿼리 실행 : 연관관계 때문에
+         */
+        List<BoardDTO> boardList = boardService.selectAllByUserId(userId);
         log.debug(boardList.toString());
         return boardList;
     }
 
     // 글 등록
     @PostMapping("/{userId}/board")
-    public String insert(HttpSession session, @PathVariable String userId, @RequestBody BoardVO boardVO) {
-        log.debug("board write 컨트롤러 실행 {}", boardVO.toString());
-
-        boardService.insert(boardVO);
-        return "OK";
+    public ResponseEntity<?> insert( @PathVariable String userId, @RequestBody BoardDTO boardDTO) {
+        log.debug("board write 컨트롤러 실행 {}", boardDTO.toString());
+       Long boardSeq= boardService.saveBoard(boardDTO);
+        return ResponseEntity.ok(boardSeq);
     }
 
     // 글 상세보기
     @GetMapping("/{userId}/board/{board_seq}")
-    public BoardVO detail(@PathVariable Long board_seq, HttpSession session) {
+    public ResponseEntity<?> detail(@PathVariable Long board_seq) {
         log.debug("board detail 컨트롤러 실행 {}",board_seq);
-        BoardVO boardVO =  boardService.findById(board_seq);
+        BoardDTO boardDTO =  boardService.findById(board_seq);
 
-        return boardVO;
+        return ResponseEntity.ok(boardDTO);
     }
 
     // 글 수정
     @PutMapping("/{userId}/board")
-    public void update(@RequestBody BoardVO boardVO) {
-        log.debug("board update 컨트롤러 실행 {}", boardVO.toString());
-        boardService.update(boardVO);
+    public void update(@RequestBody BoardDTO boardDTO) {
+        log.debug("board update 컨트롤러 실행 {}", boardDTO.toString());
+        boardService.updateBoard(boardDTO);
     }
 
     // 글 삭제
     @DeleteMapping("/{userId}/board/{board_seq}")
     public void delete(@PathVariable Long board_seq) {
         log.debug("board delete 컨트롤러 실행");
-        boardService.delete(board_seq);
+        boardService.deleteBoard(board_seq);
     }
 
 }

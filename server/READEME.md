@@ -1,51 +1,15 @@
-# application.yml 에서 JPA DDL 설정 : 
-- create, update, create-drop, validate, none 이 있다
-* create : 기존의 table 을 삭제하고 다시 생성하기
-* update : 기존 table 구조를 분석하여 변경사항을 alter table
-* create-drop : 기존 table 을 삭제하고 다시 생성하고 프로젝트를 종료하면 table 을 drop
-* validate : Entity 칼럼의 설정값과 실제 table 의 구조가 다르면  
-  프로젝트 실행 멈춤
-* none : 아무것도 실행하지 않음
-* 개발당시 : create, update 를 설정
-* 자동화된 test 를 진행할때 : create-drop 를 설정
-* 수동 test : update, validate 를 설정
-* 실제 실행 서버 : validate 또는 none
+# Roomy Project V2
+- 이전 프로젝트는 DATA JPA 의 기본적인 기능만 이용하여 사용해서 엔티티 관계에 대해서 JOIN 을 하지 않았다.
+- 그래서 하나의 요청을 하기위해서 많은 fetch 를 보내거나 SQL 퀴리를 많이 날린다
+- 데이터가 별로 없을때에는 크게 상관 없었지만 계속 데이터가 쌓일 때 너무 많은 쿼리와 요청이 들어오면 성능에 문제가 생길 거 같아 연관관계를 설정하고 JOIN을 함
 
+- 로그인을 구현할 때  spring security 를 사용하지 않고 session 을 이용해서 진행
+- REST API 를 사용할 때는 기본적으로 stateless 특징이 있어 요청을 할때마다 필요한 요청을 모두 같이 보내야된다. => 즉, 로그인한 유저 정보도 같이 보내야됨
+- session 에 모든 로그인한 유저를 저장하는 것은 비효율적 왜???
+- 로그인한 user 가 session 에 즉 서버 측 메모리에 저장한다는것은 서버 자원을 사용한다는 것이고 사용자가 많아지면 서버 자원이 부족해서 서버의 확장이 필요하다.
 
-# DB 사용자 생성
-CREATE DATABASE roomyDB; -- db 생성
-CREATE USER roomy@localhost; -- 사용자 생성
-GRANT all privileges on  *.* TO roomy@localhost; -- 권한부여
-ALTER USER 'roomy'@'localhost' identified WITH mysql_native_password BY 'roomy1234';
-
-
-authentication 인증 
-authorization 권한 
-
----
-# Cache
-- 리소스 파일등의 임시 저장소
-- 데이터가 바뀌지 않고 이전에 사용되었던 데이터 사용가능성이 높을 때 사용
-- 쉽게 말해 DB 에 요청이 계속 가지 않게 
-- 데이터가 자주 바뀌지 않는 곳에서 db조회를 계속하면 성능이 떨어지므로 
-  - buffer 와의 차이 : buffer는 속도 차이나는 엔티티 중간에 임시 저장소
-  @Cacheable: 캐시 채우기를 트리거
-  @CacheEvict: 캐시 제거를 트리거
-  @CachePut: 메소드 실행을 방해하지 않고 캐시 업데이트
-  @Caching: 메소드에 적용 할 여러 캐시 조작을 재 그룹화
-  @CacheConfig: 클래스 수준에서 몇 가지 일반적인 캐시 관련 설정을 공유
-
-# Cookie 
-- client 로컬에 저장되는 키와 값이 들어있는 작은 데이터파일 ( 저장위치 : 클라이언트 )
-- 만료 시간 지정가능, 브라우저 종류 후에도 만료 시간전이면 유지
-- 보안에 취약
-- ex ) 일정시간 자동 로그인 유지 및 팝업 보지 않기 등등
-
-# Session 
-- 서버에 저장되는 일종의 쿠키
-- 클라이언트와 서버의 통신 상태
-- 서버의 저장소에 저장
-- 브라우저 종료시 삭제 
-- ex) 로그인
-
----
+- like 테이블은 게시물(board)와  N : 1 관계로 설정했었는데 like 테이블은 한 User 가 서로다른 Board(N) 를 좋아요 누를수 있고 Board 는 서로다른 User(N) 가 좋아요를 누를 수 있다
+- 따라서 like 에 대해 ser : board 는  N  : N 관계 를 갖는다 
+- @ManyToMany 를 사용하면 한계가 존재 > 복잡한 조인 쿼리 발생, 두 테입즐에대해 필요한 추가 칼럼 사용 불가
+- 그래서 @ManyToOne , @OneToMany 1: N , N : 1 관계로 풀어주기
+- user : like : board  를  1 : N : 1 로 풀어주기

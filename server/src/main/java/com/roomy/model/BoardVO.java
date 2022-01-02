@@ -23,7 +23,7 @@ public class BoardVO{
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long boardSeq;
 
-    /** room : board = 1 : 1*/
+    /** room : board = 1 : N*/
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_seq")
     private RoomVO room;

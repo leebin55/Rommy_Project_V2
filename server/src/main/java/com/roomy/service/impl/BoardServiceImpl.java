@@ -1,5 +1,6 @@
 package com.roomy.service.impl;
 
+import com.roomy.dto.BoardDTO;
 import com.roomy.model.BoardVO;
 import com.roomy.repository.BoardRepository;
 import com.roomy.service.BoardService;
@@ -28,40 +29,47 @@ public class BoardServiceImpl implements BoardService {
 
     // userId 가 쓴 일반 게시물 조회
     @Override
-    public List<BoardVO> selectAllByUserId(String userId) {
-        List<BoardVO> list = boardRepository.findAllByBoardCodeAndUserIdOrderByBoardSeqDesc(2,userId);
-        log.debug("보드리스트 {}", list);
-        return list;
-
+    public List<BoardDTO> selectAllByUserId(String userId) {
+        List<BoardVO> boardVOList
+                = boardRepository.findAllByBoardCodeAndUserIdOrderByBoardSeqDesc(2,userId);
+       // log.debug("보드리스트 {}", list);
+       // return list;
+return null;
     }
 
     @Override
-    public BoardVO findById(Long boardSeq) {
+    public BoardDTO findById(Long boardSeq) {
         BoardVO boardVO = (BoardVO) boardRepository.findById(boardSeq).orElse(null);
 //        log.debug("findById 나와라 {}",boardVO.toString());
-        return boardVO;
+        //return boardVO;
+        return  null;
     }
 
     @Override
-    public void insert(BoardVO boardVO) {
+    public Long saveBoard(BoardDTO board) {
 
-        log.debug("board insert 메서드 {}", boardVO.toString());
-
-        boardVO.setCreateDate(nowDateAndTime());
-
+        log.debug("board insert 메서드 {}", board.toString());
+        board.setCreateDate(nowDateAndTime());
+        BoardVO boardVO = board.toEntity().build();
         boardRepository.save(boardVO);
+
+        return boardVO.getBoardSeq();
     }
 
     @Override
-    public void update(BoardVO boardVO) {
+    public Long updateBoard(BoardDTO board) {
 
-        boardVO.setUpdateDate(nowDateAndTime());
+        board.setUpdateDate(nowDateAndTime());
 
+        BoardVO boardVO = new BoardVO();
         boardRepository.save(boardVO);
+
+        return boardVO.getBoardSeq();
     }
 
     @Override
-    public void delete(Long boardSeq) {
+    public void deleteBoard(Long boardSeq) {
+
         boardRepository.deleteById(boardSeq);
     }
 
@@ -73,8 +81,10 @@ public class BoardServiceImpl implements BoardService {
 
     // 모든 일반 게시물 조회
     @Override
-    public List<BoardVO> selectAll() {
-        return boardRepository.findAllByBoardCode(2);
+    public List<BoardDTO> getBoardList() {
+      boardRepository.findAllByBoardCode(2);
+
+      return null;
     }
 
 }

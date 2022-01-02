@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="tbl_board_like" , schema = "roomyDB")
+@Table(name="tbl_like" , schema = "roomyDB")
 public class LikeVO {
 
     @Id
@@ -25,7 +25,9 @@ public class LikeVO {
     private BoardVO board;
 
     // 좋아요 누른 회원 Seq
-    @Column(name="like_user_id")
-    private String userId;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="user_id")
+    private UserVO user;
+
 
 }

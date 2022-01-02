@@ -25,8 +25,7 @@ public class RoomVO {
     @Id
     private Long roomSeq;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
-    @JoinColumn(name="user_id") //fk 참조할 곳 지정
+    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY)
     private UserVO user;
 
     // room 이름
