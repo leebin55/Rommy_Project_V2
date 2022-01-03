@@ -21,8 +21,8 @@ public class RoomVO {
     private Long roomSeq;
 
     // room 과 User 관계에서 Room 이 연관관계 주인 으로 설정 (외래키를 관리 할 곳)
-    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
-    @JoinColumn(name="user_id") //fk 참조할 곳 지정
+    @OneToOne( fetch = LAZY)
+    @JoinColumn(name="username") //fk 참조할 곳 지정
     private UserVO user;
 
     // room 이름

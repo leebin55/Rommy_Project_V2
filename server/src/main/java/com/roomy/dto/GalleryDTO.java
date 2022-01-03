@@ -20,7 +20,7 @@ public class GalleryDTO {
 
 
     private Long boardSeq;
-    private String userId;
+    private String username;
     private String title;
     private String content;
     private String createDate;

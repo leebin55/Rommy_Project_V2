@@ -18,8 +18,8 @@ public interface BoardRepository extends JpaRepository<BoardVO,Long > {
 
     // 보드 코드와 유저 아이디를 받아 해당 유저의 미니홈피에서 게시글 조회
    // Page<BoardVO> findAllByBoardCodeAndUserIdOrderByBoardSeqDesc(int boardCode, String userId,Pageable pageable);
-    @Query("select b from BoardVO b where b.boardCode=:boardCode and b.userId=:userId")
-    Page<BoardVO> getUserBoardList(@Param("boardCode") int boardCode , @Param("userId") String userId,Pageable pageable);
+    @Query("select b from BoardVO b where b.boardCode=:boardCode and b.username=:username")
+    Page<BoardVO> getUserBoardList(@Param("boardCode") int boardCode , @Param("username") String username,Pageable pageable);
 
 
 //

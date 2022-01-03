@@ -13,7 +13,6 @@ import static javax.persistence.FetchType.LAZY;
 
 @Setter
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tbl_board", schema="roomyDB")
@@ -30,7 +29,7 @@ public class BoardVO{
     private RoomVO room;
 
     // 작성한 회원 아이디 FK
-    private String userId;
+    private String username;
 
     // 게시물 제목
     private String title;
@@ -80,5 +79,14 @@ public class BoardVO{
         room.getBoardList().add(this);
     }
 
-
+    public BoardVO(Long boardSeq, String username, String title, String content, String createDate, String updateDate, BoardStatus status,int boardCode) {
+        this.boardSeq = boardSeq;
+        this.username = username;
+        this.title = title;
+        this.content = content;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.status = status;
+        this.boardCode = boardCode;
+    }
 }

@@ -10,7 +10,7 @@ import java.util.*;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Builder
+
 @NoArgsConstructor
 @Entity
 @Getter
@@ -18,13 +18,15 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name ="tbl_user" , schema = "roomyDB")
 public class UserVO {
 
+
     //userId > Security 사용할때
     @Id
     @Column(unique = true)
     private String username;
 
     // RoomVO user 에 의해 매핑
-    @OneToOne(mappedBy = "user", fetch = LAZY)
+    // User 가 등록 될때 Room 도 같이 등록 되기 위해서 두 연관관계 영속성 전이 설정
+    @OneToOne(mappedBy = "user", fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private RoomVO room;
 
     // 비밀번호
@@ -52,20 +54,20 @@ public class UserVO {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user", fetch = LAZY)
+    @OneToMany(mappedBy = "user")
     private List<LikeVO> likeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = LAZY)
+    @OneToMany(mappedBy = "user")
     private List<GuestVO> guestList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = LAZY)
-    private List<CommentVO> commentList = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    private List<CommentVO> commentList = new ArrayList<>();
 
     // 해당 유저가 팔로우한 유저리스트
-    @OneToMany(mappedBy = "user", fetch = LAZY)
+    @OneToMany(mappedBy = "user")
     private List<FollowVO> followList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = LAZY)
+    @OneToMany(mappedBy = "user")
     // 해당 유저를 팔로우한 유저리스트
     private List<FollowerVO> followerList = new ArrayList<>();
 

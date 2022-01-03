@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
-@Builder
 @Entity
 @Table(name="tbl_guest", schema="roomyDB")
 public class GuestVO {
@@ -21,13 +20,13 @@ public class GuestVO {
     private Long guestSeq;
 
     // 해당 Room
-    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+//    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_seq")
     private RoomVO room;
 
     // 글쓴 user
-    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+//    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
     private UserVO user;

@@ -21,3 +21,5 @@
 - 연관관계 주인 : 외래키 관리하는 곳 
 - User 가 등록 되면 Room 이 자동적으로 생성 되게 할 예정
 - User id 값을 Room에서 외래키로 설정 > Room 이 연관관계 주인
+
+- @OneToMany , @ManyToMany : 기본 페치 전략이 fetch = LAZY 로 설정 되어 있다.

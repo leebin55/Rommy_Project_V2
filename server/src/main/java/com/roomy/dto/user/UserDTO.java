@@ -1,12 +1,13 @@
-package com.roomy.dto;
+package com.roomy.dto.user;
 
 import com.roomy.model.UserVO;
 import com.roomy.model.othertype.Birth;
 import com.roomy.model.othertype.Gender;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter@Setter
+@Getter@Setter @ToString
 public class UserDTO {
 
     private String username;
@@ -24,18 +25,21 @@ public class UserDTO {
         this.birth = birth;
         this.profile = profile;
         this.gender = gender;
+        this.nickname = nickname;
+    }
+
+    public UserDTO() {
     }
 
     public UserVO toEntity(){
-        return UserVO.builder()
-                .username(username)
-                .birth(birth)
-                .gender(gender)
-                .password(password)
-                .email(email)
-                .profile(profile)
-                .nickname(nickname)
-                .build();
+        UserVO user = new UserVO();
+        user.setUsername(username);
+        user.setBirth(birth);
+        user.setGender(gender);
+        user.setEmail(email);
+        user.setProfile(profile);
+        user.setNickname(nickname);
+       return user;
     }
 
 }

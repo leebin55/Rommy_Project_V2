@@ -57,7 +57,7 @@ public class BoardServiceImpl implements BoardService {
     public BoardDTO findById(Long boardSeq) {
         BoardVO board = findVOById(boardSeq);
 //        log.debug("findById 나와라 {}",boardVO.toString());
-        BoardDTO boardDTO = new BoardDTO(board.getBoardSeq(), board.getUserId(),
+        BoardDTO boardDTO = new BoardDTO(board.getBoardSeq(), board.getUsername(),
                 board.getContent(), board.getTitle(), board.getCreateDate(),board.getLikeCount()
         ,board.getStatus());
         //return boardVO;
@@ -69,6 +69,7 @@ public class BoardServiceImpl implements BoardService {
 
         log.debug("board insert 메서드 {}", board.toString());
         board.setCreateDate(nowDateAndTime());
+        // 일반 게시글 등록일때
         BoardVO boardVO = board.toEntity();
         boardRepository.save(boardVO);
 
@@ -115,7 +116,7 @@ public class BoardServiceImpl implements BoardService {
 
     // Page<VO> => Page<DTO > 로 변환
     private Page<BoardDTO> toPageDTO(Page<BoardVO> VO){
-        Page<BoardDTO> toDto = VO.map(board -> new BoardDTO(board.getBoardSeq(), board.getUserId(),
+        Page<BoardDTO> toDto = VO.map(board -> new BoardDTO(board.getBoardSeq(), board.getUsername(),
                 board.getTitle(), board.getContent(), board.getCreateDate()
                 , board.getLikeCount(), board.getStatus()));
 
