@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "tbl_follow" ,schema="roomyDB")
-public class FollowVO {
+public class FriendVO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
@@ -21,10 +21,11 @@ public class FollowVO {
     private UserVO user;
 
     //  팔로우(친구맺기)를 한 회원 아이디
-    private String followUserId;
+    private Long followUserId;
 
 //    public void setUser(UserVO user){
 //        this.user = user;
 //        user.getFollowList().add(this);
 //    }
+    private Long followerUserId;
 }
