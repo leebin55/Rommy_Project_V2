@@ -7,16 +7,15 @@ import com.roomy.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Slf4j
-@Service("boardService")
+@Service("boardService") @Transactional
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
@@ -26,13 +25,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
 //------------------------------ 조회 ---------------------------------------------------
-    @Override
+    @Override @Transactional(readOnly = true)
     public Page<BoardDTO> search(String select, String query) {
         return null;
     }
 
     // userId 가 쓴 일반 게시물 조회
-    @Override
+    @Override @Transactional(readOnly = true)
     public Page<BoardDTO> selectAllByUserId(String userId) {
         Page<BoardVO> boardVOList
                 = boardRepository.getUserBoardList(2,userId,
@@ -43,7 +42,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     // 모든 일반 게시물 조회
-    @Override
+    @Override @Transactional(readOnly = true)
     public Page<BoardDTO> getBoardList() {
         // Page<BoardVO> 는 엔티티 자체를 그냥 넘기는 것 > 엔티티는 노출하지 않는 것이 좋으므로
         Page<BoardVO> boardVOList=boardRepository.findAllByBoardCode(2, setPageRequest());
@@ -53,12 +52,12 @@ public class BoardServiceImpl implements BoardService {
         return null;
     }
 
-    @Override
+    @Override @Transactional(readOnly = true)
     public BoardDTO findById(Long boardSeq) {
         BoardVO board = findVOById(boardSeq);
 //        log.debug("findById 나와라 {}",boardVO.toString());
         BoardDTO boardDTO = new BoardDTO(board.getBoardSeq(), board.getUsername(),
-                board.getContent(), board.getTitle(), board.getCreateDate(),board.getLikeCount()
+                board.getContent(), board.getTitle(), board.getCreateDate(), board.getLikeList().size()
         ,board.getStatus());
         //return boardVO;
         return  boardDTO;
@@ -109,6 +108,7 @@ public class BoardServiceImpl implements BoardService {
 
  // PageRequest return
     private PageRequest setPageRequest(){
+
         return PageRequest.of(0,10,
                 Sort.by(Sort.Direction.DESC,"boardSeq"));
     }
@@ -118,7 +118,7 @@ public class BoardServiceImpl implements BoardService {
     private Page<BoardDTO> toPageDTO(Page<BoardVO> VO){
         Page<BoardDTO> toDto = VO.map(board -> new BoardDTO(board.getBoardSeq(), board.getUsername(),
                 board.getTitle(), board.getContent(), board.getCreateDate()
-                , board.getLikeCount(), board.getStatus()));
+                , board.getLikeList().size(), board.getStatus()));
 
         return toDto;
     }

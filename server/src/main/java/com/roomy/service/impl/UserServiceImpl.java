@@ -17,11 +17,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Slf4j
-@Service
+@Service @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserVO user = userRepository.findById(username).get();
+        UserVO user = userRepository.findByUsername(username);
         if(user == null){
             log.debug("해당 유저를 찾을 수 없습니다.");
             throw new UsernameNotFoundException("User notfound in the DB");
@@ -54,40 +55,46 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public Page<UserSimpleDTO> getAllUserList() {
 
         PageRequest pageReq = PageRequest.of(0,15,
-                Sort.by(Sort.Direction.DESC,"username"));
+                Sort.by(Sort.Direction.DESC,"userId"));
         Page<UserVO> userVOPage = userRepository.findAllWithPage(pageReq);
 
-        Page<UserSimpleDTO> userPage = userVOPage.map(user -> new UserSimpleDTO(user.getUsername(),user.getEmail(),user.getNickname()));
+        Page<UserSimpleDTO> userPage = userVOPage.map(user -> new UserSimpleDTO(user.getUserId(),user.getUsername(),user.getEmail(),user.getNickname()));
 
         return userPage;
     }
 
     @Override
-    public UserDTO findById(String username) {
+    public UserDTO findById(Long userId) {
 
-        Optional<UserVO> userVO = userRepository.findById(username);
+        UserVO userVO = userRepository.findById(userId).orElse(null);
         if(userVO != null){
-            return toUserDTO(userVO.get());
+            return toUserDTO(userVO);
         }
         return null;
     }
 
     @Override
-    public String validateDuplicateUser(String username) {
-        UserDTO findUser = findById(username);
-        if(findUser != null){
-            return findUser.getUsername();
+    public UserSimpleDTO findByUsername(String username) {
+        UserVO findUser = userRepository.findByUsername(username);
+        if(findUser==null){
+            return null;
         }
-        return null;
+        return new UserSimpleDTO(findUser.getUserId(), findUser.getUsername()
+                , findUser.getEmail(), findUser.getNickname());
+    }
+
+    @Override
+    public Boolean validateDuplicateUser(String username) {
+      Boolean existCheck = userRepository.existsByUsername(username);
+      return existCheck;
     }
 
     // user 가입하면 해당 유저의 room 도 같이 생성
     @Override
     public String joinUser(UserDTO userDTO) {
         // 중복검사를 이미 했지만 user 를 insert 하기전 다시 확인> username이 있는데 save 하면 update 되기 때문에
-        String findUser = validateDuplicateUser(userDTO.getUsername());
-
-        if(findUser == null){
+        Boolean existCheck = validateDuplicateUser(userDTO.getUsername());
+        if(existCheck == false){
             // 우선 UserDTO 를 UserVO 로 변환
             UserVO user = userDTO.toEntity();
             // user 가 생성되면  room 도 같이 생성되게
@@ -106,7 +113,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void updateUser(UserDTO userDTO) {
 
-        UserVO userVO = userRepository.findById(userDTO.getUsername()).orElse(null);
+        UserVO userVO = userRepository.findById(userDTO.getUserId()).orElse(null);
         if(userVO != null){
          // update 할수 있는 칼럼은  nickname , email , password, profile
             userVO.setNickname(userDTO.getNickname());
@@ -124,8 +131,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteUser(String username) {
-        userRepository.deleteById(username);
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
     }
 
 
@@ -133,7 +140,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     // UserVO 클래스에 메소드를 만드는게 나을지 고민..
     private UserDTO toUserDTO(UserVO VO){
         return new UserDTO(VO.getUsername(),
-                VO.getEmail(), VO.getBirth(), VO.getProfile(),VO.getGender(),VO.getNickname());
+                VO.getEmail(), VO.getBirth(),
+                VO.getProfile(),VO.getGender(),VO.getNickname());
     }
 
     private String makeIntro(String nickname){

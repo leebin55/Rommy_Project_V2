@@ -23,14 +23,9 @@ public class CommentVO {
     private BoardVO board;
 
     // 댓글 단 날짜 시간
+    private String date;
 
-    private LocalDateTime date;
-
-    // 댓글 단 회원 아이디 > 댓글에서 User 엔티티를 참조할 필요가 없을거 같아서
-    // 단반향으로 설정
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-    private String userId;
+    private Long userId;
     
     // 댓글 단 회원 nickname
     private String nickname;

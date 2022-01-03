@@ -26,10 +26,8 @@ public class GuestVO {
     private RoomVO room;
 
     // 글쓴 user
-//    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username")
-    private UserVO user;
+   @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    private Long userId;
 
 
     @Column(columnDefinition = "VARCHAR(20)",nullable = false)

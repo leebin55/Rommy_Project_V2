@@ -1,6 +1,5 @@
 package com.roomy.model;
 
-import com.roomy.model.othertype.Birth;
 import com.roomy.model.othertype.Gender;
 import com.roomy.model.othertype.UserRole;
 import lombok.*;
@@ -20,7 +19,9 @@ public class UserVO {
 
 
     //userId > Security 사용할때
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+
     @Column(unique = true)
     private String username;
 
@@ -40,8 +41,7 @@ public class UserVO {
     private Gender gender;
 
     // 생년월일
-    @Embedded
-    private Birth birth;
+    private String birth;
 
     // 프로필 사진
     @Column(nullable = true)
@@ -57,11 +57,6 @@ public class UserVO {
     @OneToMany(mappedBy = "user")
     private List<LikeVO> likeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<GuestVO> guestList = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "user")
-//    private List<CommentVO> commentList = new ArrayList<>();
 
     // 해당 유저가 팔로우한 유저리스트
     @OneToMany(mappedBy = "user")

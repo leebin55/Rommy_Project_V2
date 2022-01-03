@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
+
 import static javax.persistence.FetchType.LAZY;
 
 //@Setter> 생성 시점에 값을 세팅할 예정
@@ -19,19 +21,25 @@ public class LikeVO { // user 와 board 에대해 외래키 관리
     private Long likeSeq;
 
     // 좋아요 게시물 seq FK
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="board_seq")
     private BoardVO board;
 
     // 좋아요 누른 회원 Seq
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private UserVO user;
 
-    public LikeVO(Long likeSeq, BoardVO board, UserVO user) {
-        this.likeSeq = likeSeq;
+    private LocalDateTime date;
+
+    public LikeVO() {
+        this.date = LocalDateTime.now();
+    }
+
+    public LikeVO(BoardVO board, UserVO user) {
         this.board = board;
         this.user = user;
+        this.date = LocalDateTime.now();
     }
 
     //== 연관관계 method

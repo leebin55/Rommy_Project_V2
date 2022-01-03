@@ -63,8 +63,9 @@ public class BoardVO{
     @OneToMany(mappedBy = "board", fetch = LAZY)
     private List<BoardImageVO>  imgList = new ArrayList<>();
 
+// likeCount 칼럼으로 넣을지 아님 likeList 에서 count 할지 고민중
+  //  private Long likeCount;
 
-    private Long likeCount;
     // 게시물 구분코드 ( 1 갤러리 / 2 일반게시판 )
      private int boardCode;
 

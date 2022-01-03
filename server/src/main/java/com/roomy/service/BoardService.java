@@ -1,11 +1,7 @@
 package com.roomy.service;
 
 import com.roomy.dto.BoardDTO;
-import com.roomy.model.BoardVO;
 import org.springframework.data.domain.Page;
-
-
-import java.util.List;
 
 //public interface BoardService<T extends Board> extends GenericService<T, Long> {
 public interface BoardService {

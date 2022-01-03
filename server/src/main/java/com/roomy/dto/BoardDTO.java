@@ -15,14 +15,15 @@ public class BoardDTO {
     private String content;
     private String createDate;
     private String updateDate;
-    private Long likeCount;
+    private int likeCount;
     private BoardStatus status;
     private int boardCode;
 
      protected BoardDTO() {
     }
 
-    public BoardDTO(Long boardSeq, String username, String title, String content, String createDate, Long likeCount, BoardStatus status) {
+    public BoardDTO(Long boardSeq, String username, String title, String content, String createDate, int likeCount,
+                    BoardStatus status) {
         this.boardSeq = boardSeq;
         this.username = username;
         this.title = title;

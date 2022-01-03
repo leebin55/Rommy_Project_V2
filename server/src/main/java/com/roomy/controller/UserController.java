@@ -44,8 +44,10 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<?> detail(@PathVariable String username) {
         log.debug("user detail 컨트롤러 실행 {}",username);
-       UserDTO userDTO = userService.findById(username);
-
-        return ResponseEntity.ok(userDTO);
+        UserSimpleDTO user = userService.findByUsername(username);
+        if(user == null){
+            return ResponseEntity.badRequest().body("해당 회원이 존재하지 않습니다.");
+        }
+        return ResponseEntity.ok(user);
     }
 }

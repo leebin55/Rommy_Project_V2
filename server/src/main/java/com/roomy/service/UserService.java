@@ -9,14 +9,17 @@ public interface UserService{
 
     public Page<UserSimpleDTO> getAllUserList();
 
-    public UserDTO findById(String username);
+    UserDTO findById(Long userId);
+
+    UserSimpleDTO findByUsername(String username);
 
     // 아이디 중복 검사
-    public String validateDuplicateUser(String username);
+    public Boolean validateDuplicateUser(String username);
 
     public String joinUser(UserDTO userDTO);
 
     public void updateUser(UserDTO userDTO);
 
-    public void deleteUser(String username);
+
+    void deleteUser(Long userId);
 }
