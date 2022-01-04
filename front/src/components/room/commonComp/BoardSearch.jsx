@@ -16,8 +16,13 @@ function BoardSearch({ userId, boardType }) {
   };
 
   return (
-    <>
+    <div>
       <select
+        style={{
+          height: '25px',
+          outline: 'none',
+          border: '1px solid lightgray',
+        }}
         value={select}
         onChange={(e) => {
           setSelect(e.target.value);
@@ -28,13 +33,27 @@ function BoardSearch({ userId, boardType }) {
         <option value="2">내용만</option>
       </select>
       <input
+        style={{
+          width: '250px',
+          height: '25px',
+          margin: '15px',
+        }}
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
         }}
       />
-      <button onClick={() => getSearchList()}>검색</button>
-    </>
+      <button
+        style={{
+          width: '50px',
+          height: '25px',
+          border: ' 1px solid lightgray',
+        }}
+        onClick={() => getSearchList()}
+      >
+        검색
+      </button>
+    </div>
   );
 }
 

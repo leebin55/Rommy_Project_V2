@@ -29,14 +29,7 @@ function RoomNav({ userId }) {
       >
         Gallery
       </NavLink>
-      <NavLink
-        className={({ isActive }) =>
-          'room-nav-box' + (isActive ? ' room-nav-click' : '')
-        }
-        to={'/room/' + userId + '/todo'}
-      >
-        Todo
-      </NavLink>
+
       <NavLink
         className={({ isActive }) =>
           'room-nav-box' + (isActive ? ' room-nav-click' : '')
@@ -49,7 +42,7 @@ function RoomNav({ userId }) {
         className={({ isActive }) =>
           'room-nav-box' + (isActive ? ' room-nav-click' : '')
         }
-        to={'/room/' + userId + '/friendlist'}
+        to={'/room/' + userId + '/friends'}
       >
         Friend
       </NavLink>

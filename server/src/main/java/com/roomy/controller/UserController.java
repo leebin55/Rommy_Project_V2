@@ -21,13 +21,20 @@ public class UserController {
 
     // user 등록 : 회원가입
     @PostMapping({"/",""})
-    public ResponseEntity<?> join(@RequestBody UserDTO userDTO) {
-        log.debug("User join 컨트롤러 실행 {}",userDTO.toString());
-       String username =userService.joinUser(userDTO);
+    public ResponseEntity<?> join(@RequestBody UserDTO userDto) {
+        log.debug("User join 컨트롤러 실행 {}",userDto.toString());
+       String username =userService.joinUser(userDto);
        if(username!= null){
            return ResponseEntity.ok(username);
        }
         return ResponseEntity.badRequest().body("회원가입 실패");
+    }
+
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserDTO userDto){
+        log.debug("login dto {} ",userDto.toString());
+        return null;
     }
 
     // user 조회

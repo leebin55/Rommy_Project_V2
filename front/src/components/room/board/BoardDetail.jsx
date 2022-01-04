@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useNavigate, useParams } from "react-router";
-import BoardWrite from "./BoardWrite";
-import "../../../css/Board.css";
+import React, { useEffect, useState } from 'react';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useNavigate, useParams } from 'react-router';
+import BoardWrite from './BoardWrite';
+import axiosInstance from '../../../utils/AxiosInstance';
+import '../../../css/Board.css';
 
 function BoardDetail() {
   const navigate = useNavigate();
@@ -14,19 +15,10 @@ function BoardDetail() {
   const [isDetail, setIsDetail] = useState(true);
 
   const [heart, setHeart] = useState(false); // 하트 눌렀었는지. 비회원이면 false 모양이 기본값으로 들어가도록 false로 초기값 지정
-  const [heart_num, setHeart_num] = useState(""); // 이 글의 하트수
+  const [heart_num, setHeart_num] = useState(''); // 이 글의 하트수
 
   const fetchDetail = async () => {
-    const res = await fetch(
-      `http://localhost:8080/room/${userId}/board/${board_seq}`,
-      {
-        // 글 상세보기라 GET 이지만 session 을 넘겨받아야 하기 때문에 POST
-        method: "POST",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "include",
-      }
-    );
+    const res = await axiosInstance.get(`/room/${userId}/board/${board_seq}`);
     const data = await res.json();
     // console.log(data);
     setDetail(data);
@@ -36,21 +28,21 @@ function BoardDetail() {
   };
 
   const clickUpdate = async () => {
-    if (window.confirm("글을 수정하시겠습니까?")) {
+    if (window.confirm('글을 수정하시겠습니까?')) {
       setIsDetail(false);
     }
   };
 
   const fetchDelete = async () => {
-    if (window.confirm("글을 삭제하시겠습니까?")) {
-      await fetch(`http://localhost:8080/room/${userId}/board/${board_seq}`, {
-        method: "DELETE",
-      }).then((res) => {
-        if (res?.ok) {
-          alert("삭제되었습니다");
-          navigate(`/room/${userId}/board`);
-        }
-      });
+    if (window.confirm('글을 삭제하시겠습니까?')) {
+      await axiosInstance
+        .delete(`/room/${userId}/board/${board_seq}`)
+        .then((res) => {
+          if (res?.ok) {
+            alert('삭제되었습니다');
+            navigate(`/room/${userId}/board`);
+          }
+        });
     }
   };
 
@@ -60,23 +52,15 @@ function BoardDetail() {
   };
 
   const fetchHeart = async () => {
-    const res = await fetch(
-      `http://localhost:8080/room/${userId}/board/${board_seq}/like`,
-      {
-        method: "POST",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ boardSeq: detail.boardSeq }),
-      }
-    );
+    const res = await axiosInstance.post(`/room/${userId}/board/like`, {
+      boardSeq: detail.boardSeq,
+    });
     const data = await res.json();
     setHeart_num(data);
   };
 
-  useEffect(async () => {
-    await fetchDetail();
+  useEffect(() => {
+    fetchDetail();
   }, []);
 
   return (

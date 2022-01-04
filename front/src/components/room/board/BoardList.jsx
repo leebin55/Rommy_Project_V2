@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BoardSearch from '../commonComp/BoardSearch';
+import BoardSingle from './BoardSingle';
+import axiosInstance from '../../../utils/AxiosInstance';
 
-function BoardList() {
+function BoardList({ setBoardState }) {
   const navigate = useNavigate();
-
-  const [board_list, setBoard_list] = useState([]); // 화면에 출력될 일반 게시판 글 list
+  const [boardList, setBoardList] = useState([]); // 화면에 출력될 일반 게시판 글 list
   const [select, setSelect] = useState('0'); // 검색 select box 선택한 것
   const [search, setSearch] = useState(''); // 검색 input box 에 입력한 내용
   // const [start_page, setStart_page] = useState("1");
@@ -13,11 +14,11 @@ function BoardList() {
   const { userId } = useParams();
 
   const fetchList = async () => {
-    const res = await fetch(`http://localhost:8080/room/${userId}/board`);
-    const result = await res.json();
+    const res = await axiosInstance(`/room/${userId}/board`);
+    const result = await res.data;
     // if (result?.content?.length > 0) setBoard_list(result?.content);
     console.log(result);
-    setBoard_list(result);
+    setBoardList(result);
   };
 
   // 검색 select box 선택하면 실행
@@ -36,11 +37,11 @@ function BoardList() {
       alert('검색어를 입력하세요');
       return;
     }
-    const res = await fetch(
-      `http://localhost:8080/room/${userId}/board/search?query=${search}&select=${select}`
+    const res = await axiosInstance(
+      `/room/${userId}/board/search?query=${search}&select=${select}`
     );
     const result = await res.json();
-    setBoard_list(result);
+    setBoardList(result);
     setSelect('0');
     setSearch('');
   });
@@ -49,50 +50,38 @@ function BoardList() {
     fetchList();
   }, []);
 
-  const boardList = board_list.map((item) => {
-    const date = item.boardCreateAt.split(' ');
-    return (
-      <tr>
-        <td>{item.boardSeq}</td>
-        <td
-          className="board-list-title"
-          onClick={() => navigate(`/room/${userId}/board/${item.boardSeq}`)}
-        >
-          {item.boardTitle}
-        </td>
-        <td>{date[0]}</td>
-        <td>{item.boardHit}</td>
-        <td>{item.boardLike}</td>
-      </tr>
-    );
-  });
-
   return (
     <div className="board-container">
-      <BoardSearch userId={userId} boardType="board" />
-      <table>
-        <thead>
-          <tr>
-            <th width="10%"></th>
-            <th width="55%">제목</th>
-            <th width="15%">작성일</th>
-            <th width="10%">조회</th>
-            <th width="10%">좋아요</th>
-          </tr>
-        </thead>
-        <tbody>
-          {board_list.length > 0 ? (
-            boardList
-          ) : (
-            <td colSpan="5">게시물이 없습니다</td>
-          )}
-        </tbody>
-      </table>
       <div className="btn-write-box">
-        <button onClick={() => navigate(`/room/${userId}/board/write`)}>
+        <button
+          onClick={() => {
+            setBoardState({ list: false, write: true, update: false });
+          }}
+        >
           글쓰기
         </button>
       </div>
+      <div className="board-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th width="10%"></th>
+              <th width="55%">제목</th>
+              <th width="15%">작성일</th>
+              <th width="10%">조회</th>
+              <th width="10%">좋아요</th>
+            </tr>
+          </thead>
+          <tbody>
+            {boardList.length > 0 ? (
+              boardList.map((item) => BoardSingle)
+            ) : (
+              <td colSpan="5">게시물이 없습니다</td>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <BoardSearch userId={userId} boardType="board" />
     </div>
   );
 }

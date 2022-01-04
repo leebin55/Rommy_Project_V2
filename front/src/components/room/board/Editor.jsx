@@ -2,7 +2,7 @@ import React, { useMemo, useRef } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import axiosInstance from '../../../utils/AxiosInstance';
 import 'react-quill/dist/quill.snow.css';
-import { useGalleryContext } from '../../../context/GalleryContextProvider';
+import { useBoardContext } from '../../../context/GalleryContextProvider';
 
 //--------- toolbar handlers --------------------
 // Toolbar에서 작동하기 위한 redo , undo function
@@ -38,8 +38,7 @@ const formats = [
 
 /////////////////////////////////////////////////////////////////////////
 
-function Editor({ toolbarId, userId }) {
-  const { content, setContent, setGalleryImgList } = useGalleryContext();
+function Editor({ toolbarId, content, setContent }) {
   /**
  *    이미지를 잘못 불러서 지울 때 이미지가 그대로 서버에 같이 리스트로 보내진다
      보내기전에 글 본문에 이미지가 있는지 확인하기위해 galleryList에 담는다
@@ -81,7 +80,7 @@ function Editor({ toolbarId, userId }) {
       console.log('form data : ', formData);
       try {
         await axiosInstance
-          .put(`/room/${userId}/gallery/img`, formData)
+          .put(`/room/gallery/img`, formData)
           .then((result) => {
             // server에서 이미지 url 받아오기 (또는 여기서 url로 바꿔서 server 에 넘겨준다)
             console.log(result.data);
@@ -89,7 +88,7 @@ function Editor({ toolbarId, userId }) {
             const img_url = result.data;
             //   setGalleryImg(img_url);
             // setGalleryImgList([...galleryImgList]) 하면 마지막 사진만 저장
-            setGalleryImgList((gallery) => [...gallery, img_url]);
+
             // 현재 에디터 내에서 커서 위치값 가져오기
             const editor = quillRef.current.getEditor(); // 에디터 정보 가져오기
             const range = editor.getSelection(); // 현재 커서 위치

@@ -1,6 +1,6 @@
 import { React, useState, useRef, useEffect } from 'react';
-import QuillEditor from './QuillEditor';
-import QuillToolbar from './QuillToolbar';
+import Editor from './Editor';
+import EditorToolbar from './EditorToolbar';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function BoardWrite({ upData }) {
@@ -104,12 +104,8 @@ function BoardWrite({ upData }) {
         />
       </div>
       <div className="board-write-content">
-        <QuillToolbar toolbarId={'qb'} />
-        <QuillEditor
-          toolbarId={'qb'}
-          content={content}
-          setContent={setContent}
-        />
+        <EditorToolbar toolbarId={'qb'} />
+        <Editor toolbarId={'qb'} content={content} setContent={setContent} />
       </div>
       <button type="button" onClick={() => writeSubmit()}>
         등록

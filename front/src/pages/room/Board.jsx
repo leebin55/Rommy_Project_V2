@@ -15,16 +15,18 @@ function Board() {
   });
 
   return (
-    <BoardContextProvider>
+    <>
       {boardState.list ? (
         <>
-          <BoardList />
+          <BoardList setBoardState={setBoardState} />
         </>
       ) : (
-        <>{/* <BoardWrite /> */}</>
+        <>
+          {' '}
+          <BoardWrite />{' '}
+        </>
       )}
-      <BoardList />
-    </BoardContextProvider>
+    </>
   );
 }
 

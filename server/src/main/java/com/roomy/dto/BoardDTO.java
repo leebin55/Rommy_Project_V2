@@ -10,7 +10,9 @@ import lombok.ToString;
 public class BoardDTO {
 
     private Long boardSeq;
+    private Long userId;
     private String username;
+    private String nickname;
     private String title;
     private String content;
     private String createDate;
@@ -22,10 +24,11 @@ public class BoardDTO {
      protected BoardDTO() {
     }
 
-    public BoardDTO(Long boardSeq, String username, String title, String content, String createDate, int likeCount,
+    public BoardDTO(Long boardSeq, Long userId, String nickname,String title, String content, String createDate, int likeCount,
                     BoardStatus status) {
         this.boardSeq = boardSeq;
-        this.username = username;
+        this.userId = userId;
+        this.nickname= nickname;
         this.title = title;
         this.content = content;
         this.createDate = createDate;
@@ -35,7 +38,8 @@ public class BoardDTO {
     }
 
     public BoardVO toEntity(){
-        BoardVO board = new BoardVO(boardSeq,username,title,content,createDate,updateDate,status,2);
-        return board;
+       // BoardVO board = new BoardVO(boardSeq,username,title,content,createDate,updateDate,status,2);
+        //return board;
+        return null;
     }
 }

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter@Setter @ToString
+@Getter @ToString
 public class UserDTO {
 
     private Long userId;
@@ -27,6 +27,12 @@ public class UserDTO {
         this.profile = profile;
         this.gender = gender;
         this.nickname = nickname;
+    }
+
+    // 로그인 할때
+    public UserDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public UserDTO() {

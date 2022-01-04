@@ -6,9 +6,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { bgcolor } from '@mui/system';
 
-export default function JoinModal({ setCheckLogin }) {
+export default function JoinModal() {
   const btnStyle = {
     width: '200px',
     p: 1,
@@ -102,7 +101,7 @@ export default function JoinModal({ setCheckLogin }) {
           sx={btnStyle}
           /* 주의 : ()=>{} 안에서 넣지 않으면 랜더링 되자마자 실행됨 */
           onClick={() => {
-            setCheckLogin(true);
+            // 처음 메인화면으로 이도 navigate 사용해서
           }}
           variant="contained"
         >

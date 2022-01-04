@@ -58,9 +58,14 @@ public class UserVO {
     private List<LikeVO> likeList = new ArrayList<>();
 
 
-    // 해당 유저가 팔로우한 유저리스트
+    // 해당 유저가 팔로우와 팔로워 리스트
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<FriendVO> friendList = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<FriendVO> boardList = new ArrayList<>();
+
 
 
 

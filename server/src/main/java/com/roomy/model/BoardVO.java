@@ -28,8 +28,10 @@ public class BoardVO{
     @JoinColumn(name = "room_seq")
     private RoomVO room;
 
-    // 작성한 회원 아이디 FK
-    private String username;
+    // 메인페이지 피드에서 회원정보와 같이 보여주기 위해
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="user_id")
+    private UserVO user;
 
     // 게시물 제목
     private String title;
@@ -80,9 +82,9 @@ public class BoardVO{
         room.getBoardList().add(this);
     }
 
-    public BoardVO(Long boardSeq, String username, String title, String content, String createDate, String updateDate, BoardStatus status,int boardCode) {
+    public BoardVO(Long boardSeq, UserVO user, String title, String content, String createDate, String updateDate, BoardStatus status,int boardCode) {
         this.boardSeq = boardSeq;
-        this.username = username;
+        this.user = user;
         this.title = title;
         this.content = content;
         this.createDate = createDate;

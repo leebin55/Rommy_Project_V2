@@ -9,15 +9,14 @@ function GalleryDetail() {
   //http://localhost:3000/room/gallery/2 에 board_seq 값 가져오기
   const { userId, board_seq } = useParams();
   const [galleryInfo, setGalleryInfo] = useState({
-    boardCode: '',
-    boardContent: '',
-    boardCreateAt: '',
-    boardLike: '',
-    boardPrivate: '',
+    content: '',
+    createDate: '',
+    updateDate: '',
+    likeCount: '',
+    status: '',
+    title: '',
     boardSeq: '',
-    boardTitle: '',
-    boardUpdateAt: '',
-    boardUserSeq: '',
+    nickname: '',
   });
 
   useEffect(() => {

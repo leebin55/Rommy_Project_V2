@@ -7,8 +7,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import JoinModal from './JoinModal';
 import LoginModal from './LoginModal';
-import CancelIcon from '@mui/icons-material/Cancel';
 import Cancel from '@mui/icons-material/Cancel';
+import UpdateModal from './UpdateModal';
 
 const style = {
   position: 'absolute',
@@ -63,12 +63,17 @@ export default function MainModal({ btnType, setCheckLogin }) {
             </Box>
             {btnType === '로그인' && (
               <>
-                <LoginModal setCheckLogin={setCheckLogin} />
+                <LoginModal />
               </>
             )}
             {btnType === '회원가입' && (
               <>
-                <JoinModal setCheckLogin={setCheckLogin} />
+                <JoinModal />
+              </>
+            )}
+            {btnType === '수정하기' && (
+              <>
+                <UpdateModal />
               </>
             )}
           </Box>

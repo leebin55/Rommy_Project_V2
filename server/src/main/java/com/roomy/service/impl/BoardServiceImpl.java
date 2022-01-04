@@ -56,11 +56,12 @@ public class BoardServiceImpl implements BoardService {
     public BoardDTO findById(Long boardSeq) {
         BoardVO board = findVOById(boardSeq);
 //        log.debug("findById 나와라 {}",boardVO.toString());
-        BoardDTO boardDTO = new BoardDTO(board.getBoardSeq(), board.getUsername(),
-                board.getContent(), board.getTitle(), board.getCreateDate(), board.getLikeList().size()
-        ,board.getStatus());
+//        BoardDTO boardDTO = new BoardDTO(board.getBoardSeq(),
+//                board.getContent(), board.getTitle(), board.getCreateDate(), board.getLikeList().size()
+//        ,board.getStatus());
         //return boardVO;
-        return  boardDTO;
+     //   return  boardDTO;
+        return null;
     }
 //------------------------------- save , delete ----------------------------------------------------
     @Override
@@ -116,11 +117,12 @@ public class BoardServiceImpl implements BoardService {
 
     // Page<VO> => Page<DTO > 로 변환
     private Page<BoardDTO> toPageDTO(Page<BoardVO> VO){
-        Page<BoardDTO> toDto = VO.map(board -> new BoardDTO(board.getBoardSeq(), board.getUsername(),
-                board.getTitle(), board.getContent(), board.getCreateDate()
-                , board.getLikeList().size(), board.getStatus()));
+//        Page<BoardDTO> toDto = VO.map(board -> new BoardDTO(board.getBoardSeq(),
+//                board.getTitle(), board.getContent(), board.getCreateDate()
+//                , board.getLikeList().size(), board.getStatus()));
 
-        return toDto;
+       // return toDto;
+        return  null;
     }
 
     private BoardVO findVOById(Long boardSeq){
