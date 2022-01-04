@@ -50,4 +50,10 @@ public class UserController {
         }
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/check")
+    public ResponseEntity<?> checkLogin(){
+        // 여기서 토큰이 유효한지 확인..
+        return ResponseEntity.ok("ok");
+    }
 }

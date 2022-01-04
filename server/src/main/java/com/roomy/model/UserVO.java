@@ -54,17 +54,14 @@ public class UserVO {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<LikeVO> likeList = new ArrayList<>();
 
 
     // 해당 유저가 팔로우한 유저리스트
-    @OneToMany(mappedBy = "user")
-    private List<FollowVO> followList = new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<FriendVO> friendList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    // 해당 유저를 팔로우한 유저리스트
-    private List<FollowerVO> followerList = new ArrayList<>();
 
 
 

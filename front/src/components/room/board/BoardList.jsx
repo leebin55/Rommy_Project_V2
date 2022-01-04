@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import "../../../css/Board.css";
+import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import BoardSearch from '../commonComp/BoardSearch';
 
 function BoardList() {
   const navigate = useNavigate();
 
   const [board_list, setBoard_list] = useState([]); // 화면에 출력될 일반 게시판 글 list
-  const [select, setSelect] = useState("0"); // 검색 select box 선택한 것
-  const [search, setSearch] = useState(""); // 검색 input box 에 입력한 내용
+  const [select, setSelect] = useState('0'); // 검색 select box 선택한 것
+  const [search, setSearch] = useState(''); // 검색 input box 에 입력한 내용
   // const [start_page, setStart_page] = useState("1");
   // const [end_page, setEnd_page] = useState("1");
   const { userId } = useParams();
@@ -32,8 +32,8 @@ function BoardList() {
 
   // 검색 버튼 클릭하면 실행
   const fetchSearch = useCallback(async () => {
-    if (search.trim() === "") {
-      alert("검색어를 입력하세요");
+    if (search.trim() === '') {
+      alert('검색어를 입력하세요');
       return;
     }
     const res = await fetch(
@@ -41,8 +41,8 @@ function BoardList() {
     );
     const result = await res.json();
     setBoard_list(result);
-    setSelect("0");
-    setSearch("");
+    setSelect('0');
+    setSearch('');
   });
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function BoardList() {
   }, []);
 
   const boardList = board_list.map((item) => {
-    const date = item.boardCreateAt.split(" ");
+    const date = item.boardCreateAt.split(' ');
     return (
       <tr>
         <td>{item.boardSeq}</td>
@@ -69,6 +69,7 @@ function BoardList() {
 
   return (
     <div className="board-container">
+      <BoardSearch userId={userId} boardType="board" />
       <table>
         <thead>
           <tr>
@@ -91,18 +92,6 @@ function BoardList() {
         <button onClick={() => navigate(`/room/${userId}/board/write`)}>
           글쓰기
         </button>
-      </div>
-      {/* <div className="board-page-box">
-        <div>1</div>
-      </div> */}
-      <div className="search-box">
-        <select value={select} onChange={selectHandler}>
-          <option value="0">제목만</option>
-          <option value="1">제목+내용</option>
-          <option value="2">내용만</option>
-        </select>
-        <input value={search} onChange={searchText} />
-        <button onClick={() => fetchSearch()}>검색</button>
       </div>
     </div>
   );

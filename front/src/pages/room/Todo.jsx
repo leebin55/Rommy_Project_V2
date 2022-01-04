@@ -1,13 +1,8 @@
-import React from "react";
-import TodoMain from "./todo/TodoMain";
-import TodoContextProvider from "../../context/TodoContextProvider";
+import React from 'react';
+import TodoMain from '../../components/room/todo/TodoMain';
 
 function Todo() {
-  return (
-    <TodoContextProvider>
-      <TodoMain />
-    </TodoContextProvider>
-  );
+  return <TodoMain />;
 }
 
 export default Todo;

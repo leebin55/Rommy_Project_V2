@@ -2,7 +2,6 @@ import { React, useState, useRef, useEffect } from 'react';
 import QuillEditor from './QuillEditor';
 import QuillToolbar from './QuillToolbar';
 import { useNavigate, useParams } from 'react-router-dom';
-import '../../../css/Board.css';
 
 function BoardWrite({ upData }) {
   const navigate = useNavigate();

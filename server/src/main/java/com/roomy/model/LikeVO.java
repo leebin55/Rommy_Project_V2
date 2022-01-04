@@ -11,7 +11,6 @@ import static javax.persistence.FetchType.LAZY;
 //@Setter> 생성 시점에 값을 세팅할 예정
 @Getter
 //@ToString() > ToString 을 하게되면 연관관계 되어있는 것까지 다 끌고 오기 때문에 무한 루프가 발생할 수 있음
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name="tbl_like" , schema = "roomyDB")
 public class LikeVO { // user 와 board 에대해 외래키 관리

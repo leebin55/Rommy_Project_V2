@@ -1,7 +1,6 @@
-import { React, useState, useEffect } from "react";
-import "../../../css/Guest.css";
-import GuestItem from "./GuestItem";
-import { useParams } from "react-router-dom";
+import { React, useState, useEffect } from 'react';
+import GuestItem from './GuestItem';
+import { useParams } from 'react-router-dom';
 
 function GuestMain() {
   const [guest_list, setGuest_list] = useState([]);

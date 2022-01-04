@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { LeftSide } from '../components/room/RoomComps';
-import axiosInstance from '../utils/AxiosInstance';
-import RoomNav from '../components/room/RoomNav';
-import '../css/Room.css';
+import LeftSide from '../../components/room/LeftSide';
+import axiosInstance from '../../utils/AxiosInstance';
+import RoomNav from '../../components/room/RoomNav';
+import '../../css/room/Room.css';
 
 function Room() {
   // 현재 접속해있는 미니홈피 주인회원id URL에서 잘라오기

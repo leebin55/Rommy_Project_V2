@@ -53,14 +53,14 @@ public class BoardVO{
     /** 컬렉션을 필드에서 바로 초기화한 이유
      * -> 하이버네이트는 엔티티를 컬렉션을 한번 감싸서 하이버네이트가 제공하는 내장 컬렉션(class org.hibernate.collection.internal.PersistentBag)으로 변경
      * -> new 초기화 하지 않고 사용할때 new (class java.util.ArrayList)를 하면 하이버네이트가 관리할 수 없음*/
-    @OneToMany(mappedBy = "board", fetch = LAZY)
+    @OneToMany(mappedBy = "board", fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<LikeVO> likeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", fetch = LAZY)
+    @OneToMany(mappedBy = "board", fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CommentVO> commentList = new ArrayList<>();
 
     //BoardImg 테이블에 있는 board 필드에 의해 매칭
-    @OneToMany(mappedBy = "board", fetch = LAZY)
+    @OneToMany(mappedBy = "board", fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<BoardImageVO>  imgList = new ArrayList<>();
 
 // likeCount 칼럼으로 넣을지 아님 likeList 에서 count 할지 고민중

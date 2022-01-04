@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import "../../css/Search.css";
+import React, { useState } from 'react';
+import '../css/main/Search.css';
 
 // 메인화면 - 미니홈피 검색 페이지
 function SearchMain() {
   const [searchResult, setSearchResult] = useState([]); // 검색 결과 리스트
   const [isRoomName, setIsRoomName] = useState(true); // 미니홈피명으로 검색하는지
-  const [search, setSearch] = useState({ select: 0, query: "" });
+  const [search, setSearch] = useState({ select: 0, query: '' });
 
   const fetchResult = async () => {};
 

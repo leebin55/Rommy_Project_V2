@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Feed from '../components/Feed/Feed';
-// import SearchIcon from "@mui/icons-material/Search";
-import axios from 'axios';
-import '../../css/Feeds.css';
+import Feed from '../components/main/Feed';
+import axiosInstance from '../utils/AxiosInstance';
+import '../css/main/Feeds.css';
 
 // 개별 피드
 function Feeds() {
@@ -18,10 +17,12 @@ function Feeds() {
   // server 에서 gallery 리스트를 가져옴
   const viewGalleryList = async () => {
     try {
-      await axios.get(`http://localhost:8080/room/gallery`).then((res) => {
-        console.log(' gallery  list 에서 받은 데이터 : ', res.data);
-        setGalleryList(res.data);
-      }); //end then
+      await axiosInstance
+        .get(`http://localhost:8080/room/gallery`)
+        .then((res) => {
+          console.log(' gallery  list 에서 받은 데이터 : ', res.data);
+          setGalleryList(res.data);
+        }); //end then
     } catch (error) {
       // end try
       throw error;

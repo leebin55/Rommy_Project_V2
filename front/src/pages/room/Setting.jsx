@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import "../../css/Setting.css";
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../../utils/AxiosInstance';
+import '../../css/room/Setting.css';
 
 function Setting() {
   const navigate = useNavigate();
-  const [room_name, setRoom_name] = useState("");
-  const [room_introduce, setRoom_introduce] = useState("");
+  const [room_name, setRoom_name] = useState('');
+  const [room_introduce, setRoom_introduce] = useState('');
   const { userId } = useParams();
 
   const onChangeRoomName = (e) => {
@@ -28,8 +29,8 @@ function Setting() {
   // 미니홈피 정보 수정
   const settingUpdate = async () => {
     await fetch(`http://localhost:8080/room/${userId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         userId: userId,
         roomName: room_name,
@@ -38,7 +39,7 @@ function Setting() {
     }).then((res) => {
       if (res?.ok) {
         navigate(`/room/${userId}/setting`);
-        alert("수정되었습니다");
+        alert('수정되었습니다');
       }
     });
   };

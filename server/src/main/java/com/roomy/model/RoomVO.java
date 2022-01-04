@@ -36,8 +36,11 @@ public class RoomVO {
     // room 소개글
     private String intro;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<BoardVO> boardList= new ArrayList<>();
+
+    @OneToMany(mappedBy = "room",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<GuestVO> guestList= new ArrayList<>();
 
 
     // Room을 방문할 때마다 total 만 1씩 증가하기때문에

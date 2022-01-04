@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Setter
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -21,7 +21,7 @@ public class GuestVO {
 
     // 해당 Room
 //    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "room_seq")
     private RoomVO room;
 
@@ -31,7 +31,7 @@ public class GuestVO {
 
 
     @Column(columnDefinition = "VARCHAR(20)",nullable = false)
-    private String date;
+    private LocalDateTime date;
 
     @Column(columnDefinition = "VARCHAR(7)", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -40,7 +40,17 @@ public class GuestVO {
     @Column(columnDefinition = "VARCHAR(4000)", nullable = false)
     private String content;
 
+// == 연관관계 메서드
+    public void setRoom(RoomVO room){
+        this.room = room;
+        room.getGuestList().add(this);
+    }
 
-
-
+    public GuestVO(Long guestSeq, Long userId, LocalDateTime date, GuestStatus status, String content) {
+        this.guestSeq = guestSeq;
+        this.userId = userId;
+        this.date = date;
+        this.status = status;
+        this.content = content;
+    }
 }

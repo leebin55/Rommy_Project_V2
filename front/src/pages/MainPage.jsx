@@ -1,23 +1,20 @@
 import React from 'react';
-import MainNav from '../components/MainNav';
+import MainNav from '../components/main/MainNav';
 import { Outlet } from 'react-router-dom';
-import ProfileBox from '../components/ProfileBox';
-import Popular from '../components/Popular';
-import '../css/Main.css';
-import LoginContextProvider from '../context/LoginContextProvider';
+import ProfileBox from '../components/main/ProfileBox';
+import Popular from '../components/main/Popular';
+import '../css/main/Main.css';
 
 function MainPage() {
   return (
     <div>
       <header>
-        <img className="logo" src="img/cyworld.jpg" />
+        <img className="logo" src="img/logo1.png" alt="logo" />
       </header>
       <MainNav />
       <div className="main-container">
         <section className="section-left">
-          <LoginContextProvider>
-            <ProfileBox />
-          </LoginContextProvider>
+          <ProfileBox />
         </section>
         <section className="section-middle">
           <Outlet />
