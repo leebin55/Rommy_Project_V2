@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface UserRepository extends JpaRepository<UserVO,Long > {
+public interface UserRepository extends JpaRepository<UserVO,String > {
 
     @Query("select u from UserVO u")
     Page<UserVO> findAllWithPage(Pageable pageable);

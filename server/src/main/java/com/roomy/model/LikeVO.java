@@ -26,7 +26,7 @@ public class LikeVO { // user 와 board 에대해 외래키 관리
 
     // 좋아요 누른 회원 Seq
     @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="username")
     private UserVO user;
 
     private LocalDateTime date;

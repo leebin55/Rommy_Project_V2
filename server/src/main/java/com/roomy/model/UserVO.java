@@ -19,9 +19,9 @@ public class UserVO {
 
 
     //userId > Security 사용할때
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
-
+//    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long userId;
+    @Id
     @Column(unique = true)
     private String username;
 
@@ -40,8 +40,6 @@ public class UserVO {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    // 생년월일
-    private String birth;
 
     // 프로필 사진
     @Column(nullable = true)
@@ -62,12 +60,10 @@ public class UserVO {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<FriendVO> friendList = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<FriendVO> boardList = new ArrayList<>();
-
-
-
+    public UserVO( String username, String nickname) {
+        this.username = username;
+        this.nickname = nickname;
+    }
 
 
     // 회원 권한 user:role = N : N

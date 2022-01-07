@@ -27,7 +27,7 @@ public class GuestVO {
 
     // 글쓴 user
    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
-    private Long userId;
+    private String username;
 
 
     @Column(columnDefinition = "VARCHAR(20)",nullable = false)
@@ -46,9 +46,9 @@ public class GuestVO {
         room.getGuestList().add(this);
     }
 
-    public GuestVO(Long guestSeq, Long userId, LocalDateTime date, GuestStatus status, String content) {
+    public GuestVO(Long guestSeq, String username, LocalDateTime date, GuestStatus status, String content) {
         this.guestSeq = guestSeq;
-        this.userId = userId;
+        this.username = username;
         this.date = date;
         this.status = status;
         this.content = content;

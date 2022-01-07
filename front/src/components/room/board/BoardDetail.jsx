@@ -4,7 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useNavigate, useParams } from 'react-router';
 import BoardWrite from './BoardWrite';
 import axiosInstance from '../../../utils/AxiosInstance';
-import '../../../css/Board.css';
+import '../../../css/room/Board.css';
 
 function BoardDetail() {
   const navigate = useNavigate();

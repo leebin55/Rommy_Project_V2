@@ -39,7 +39,7 @@ public class LikeServiceImpl implements LikeService {
         Boolean existCheck = checkLike(likeDto);
         if(existCheck != null){
             // user 와 board 모두 존재
-            Optional<UserVO> user = userRepository.findById(likeDto.getUserId());
+            Optional<UserVO> user = userRepository.findById(likeDto.getUsername());
             Optional<BoardVO> board = boardRepository.findById(likeDto.getBoardSeq());
             if(existCheck == true){
                 like(user.get(), board.get());
@@ -50,7 +50,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Override @Transactional(readOnly = true)
     public Boolean checkLike(LikeDTO likeDto) {
-        Optional<UserVO> user = userRepository.findById(likeDto.getUserId());
+        Optional<UserVO> user = userRepository.findById(likeDto.getUsername());
         Optional<BoardVO> board = boardRepository.findById(likeDto.getBoardSeq());
         if(user.isPresent() == true & board.isPresent() == true){
             return likeRepository.existsByBoardAndAndUser(board.get(),user.get());

@@ -17,7 +17,7 @@ public class FriendVO {
 
     // 회원 아이디
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "username")
     private UserVO user;
 
     //  팔로우(친구맺기)를 한 회원 아이디

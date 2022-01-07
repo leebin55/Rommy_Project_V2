@@ -28,9 +28,9 @@ public class BoardVO{
     @JoinColumn(name = "room_seq")
     private RoomVO room;
 
-    // 메인페이지 피드에서 회원정보와 같이 보여주기 위해
+    // 메인페이지 피드에서 회원정보와 같이 보여주기 위해(단방향으로 설정)
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="username")
     private UserVO user;
 
     // 게시물 제목
@@ -81,6 +81,7 @@ public class BoardVO{
         this.room = room;
         room.getBoardList().add(this);
     }
+
 
     public BoardVO(Long boardSeq, UserVO user, String title, String content, String createDate, String updateDate, BoardStatus status,int boardCode) {
         this.boardSeq = boardSeq;

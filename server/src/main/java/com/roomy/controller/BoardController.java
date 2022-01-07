@@ -25,13 +25,13 @@ public class BoardController {
     }
 
     // 글 조회
-    @GetMapping("/{userId}/board")
-    public ResponseEntity<?> list(@PathVariable String userId) {
-        log.debug("board list 컨트롤러 실행 {}", userId);
+    @GetMapping("/{username}/board")
+    public ResponseEntity<?> list(@PathVariable String username) {
+        log.debug("board list 컨트롤러 실행 {}", username);
         /**
          * 주의 >  BoardVO 자체를 리턴하면 여러 쿼리 실행 : 연관관계 때문에
          */
-        Page<BoardDTO> boardList = boardService.selectAllByUserId(userId);
+        Page<BoardDTO> boardList = boardService.selectAllByUsername(username);
         log.debug(boardList.toString());
         return ResponseEntity.ok(boardList);
     }
@@ -48,7 +48,7 @@ public class BoardController {
     @GetMapping("/{userId}/board/{board_seq}")
     public ResponseEntity<?> detail(@PathVariable Long board_seq) {
         log.debug("board detail 컨트롤러 실행 {}",board_seq);
-        BoardDTO boardDTO =  boardService.findById(board_seq);
+        BoardDTO boardDTO =  boardService.getBoardBySeq(board_seq);
 
         return ResponseEntity.ok(boardDTO);
     }

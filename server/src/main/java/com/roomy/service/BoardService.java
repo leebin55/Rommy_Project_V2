@@ -15,12 +15,12 @@ public interface BoardService {
 
     public  void deleteBoard(Long boardSeq);
 
-    public BoardDTO findById(Long boardSeq);
+    public BoardDTO getBoardBySeq(Long boardSeq);
 
-    public Page<BoardDTO> getBoardList();
+    public Page<BoardDTO> getAllBoardList();
 
     public Page<BoardDTO> search(String select, String query);
 
-    public Page<BoardDTO> selectAllByUserId(String userId);
+    public Page<BoardDTO> selectAllByUsername(String username);
 
 }

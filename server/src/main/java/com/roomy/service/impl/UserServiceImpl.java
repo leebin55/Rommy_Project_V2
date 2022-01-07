@@ -1,7 +1,6 @@
 package com.roomy.service.impl;
 
-import com.roomy.dto.user.UserDTO;
-import com.roomy.dto.user.UserSimpleDTO;
+import com.roomy.dto.UserDTO;
 import com.roomy.model.RoomVO;
 import com.roomy.model.UserVO;
 import com.roomy.repository.RoomRepository;
@@ -18,8 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Slf4j
 @Service @Transactional
@@ -52,35 +49,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public Page<UserSimpleDTO> getAllUserList() {
+    public Page<UserDTO> getAllUserList() {
 
         PageRequest pageReq = PageRequest.of(0,15,
-                Sort.by(Sort.Direction.DESC,"userId"));
+                Sort.by(Sort.Direction.DESC,"username"));
         Page<UserVO> userVOPage = userRepository.findAllWithPage(pageReq);
 
-        Page<UserSimpleDTO> userPage = userVOPage.map(user -> new UserSimpleDTO(user.getUserId(),user.getUsername(),user.getEmail(),user.getNickname()));
+        Page<UserDTO> userPage = userVOPage.map(user -> new UserDTO(user.getUsername(),user.getNickname(),user.getProfile(),user.getEmail()));
 
         return userPage;
     }
 
-    @Override
-    public UserDTO findById(Long userId) {
-
-        UserVO userVO = userRepository.findById(userId).orElse(null);
-        if(userVO != null){
-            return toUserDTO(userVO);
-        }
-        return null;
-    }
 
     @Override
-    public UserSimpleDTO findByUsername(String username) {
+    public UserDTO findByUsername(String username) {
         UserVO findUser = userRepository.findByUsername(username);
         if(findUser==null){
             return null;
         }
-        return new UserSimpleDTO(findUser.getUserId(), findUser.getUsername()
-                , findUser.getEmail(), findUser.getNickname());
+        return new UserDTO(findUser.getUsername(), findUser.getEmail(), findUser.getProfile(), findUser.getNickname());
     }
 
     @Override
@@ -113,7 +100,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void updateUser(UserDTO userDTO) {
 
-        UserVO userVO = userRepository.findById(userDTO.getUserId()).orElse(null);
+        UserVO userVO = userRepository.findById(userDTO.getUsername()).orElse(null);
         if(userVO != null){
          // update 할수 있는 칼럼은  nickname , email , password, profile
             userVO.setNickname(userDTO.getNickname());
@@ -131,18 +118,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
+    public void deleteUser(String username) {
+        userRepository.deleteById(username);
     }
 
 
 
-    // UserVO 클래스에 메소드를 만드는게 나을지 고민..
-    private UserDTO toUserDTO(UserVO VO){
-        return new UserDTO(VO.getUsername(),
-                VO.getEmail(), VO.getBirth(),
-                VO.getProfile(),VO.getGender(),VO.getNickname());
-    }
 
     private String makeIntro(String nickname){
         return "여기는 "+ nickname + "님의 ROOM 입니다.";

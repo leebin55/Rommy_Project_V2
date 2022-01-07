@@ -1,6 +1,7 @@
 package com.roomy.repository;
 
 import com.roomy.model.BoardVO;
+import com.roomy.model.UserVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,8 +19,8 @@ public interface BoardRepository extends JpaRepository<BoardVO,Long > {
 
     // 보드 코드와 유저 아이디를 받아 해당 유저의 미니홈피에서 게시글 조회
    // Page<BoardVO> findAllByBoardCodeAndUserIdOrderByBoardSeqDesc(int boardCode, String userId,Pageable pageable);
-    @Query("select b from BoardVO b where b.boardCode=:boardCode and b.username=:username")
-    Page<BoardVO> getUserBoardList(@Param("boardCode") int boardCode , @Param("username") String username,Pageable pageable);
+    @Query("select b from BoardVO b where b.boardCode=:boardCode and b.user =:user")
+    Page<BoardVO> getUserBoardList(@Param("boardCode") int boardCode , @Param("user") UserVO user , Pageable pageable);
 
 
 //

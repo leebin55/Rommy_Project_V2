@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter@ToString
 public class LikeDTO {
 
-    private Long userId;
+    private String username;
     private Long boardSeq;
     private boolean likeCheck;
     private int likeNum;

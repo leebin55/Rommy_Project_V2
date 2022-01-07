@@ -1,7 +1,6 @@
 package com.roomy.controller;
 
-import com.roomy.dto.user.UserDTO;
-import com.roomy.dto.user.UserSimpleDTO;
+import com.roomy.dto.UserDTO;
 import com.roomy.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -41,7 +40,7 @@ public class UserController {
     @GetMapping({"/",""})
     public ResponseEntity<?> list() {
         log.debug("user list 컨트롤러 실행 ");
-        Page<UserSimpleDTO> userList = userService.getAllUserList();
+        Page<UserDTO> userList = userService.getAllUserList();
         return ResponseEntity.ok(userList);
     }
 
@@ -51,7 +50,7 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<?> detail(@PathVariable String username) {
         log.debug("user detail 컨트롤러 실행 {}",username);
-        UserSimpleDTO user = userService.findByUsername(username);
+        UserDTO user = userService.findByUsername(username);
         if(user == null){
             return ResponseEntity.badRequest().body("해당 회원이 존재하지 않습니다.");
         }
