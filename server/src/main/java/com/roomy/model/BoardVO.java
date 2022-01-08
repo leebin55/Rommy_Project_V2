@@ -93,4 +93,15 @@ public class BoardVO{
         this.status = status;
         this.boardCode = boardCode;
     }
+
+    public BoardVO(Long boardSeq, String title, String content, String createDate, String updateDate, BoardStatus status,int boardCode) {
+        this.boardSeq = boardSeq;
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.status = status;
+        this.boardCode = boardCode;
+    }
 }

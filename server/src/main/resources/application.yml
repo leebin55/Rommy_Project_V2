@@ -8,7 +8,8 @@ spring:
       static-locations: classpath:static/
       add-mappings: true
 
-
+  config:
+    import: "optional:classpath:jwt.yml"
 
 
 

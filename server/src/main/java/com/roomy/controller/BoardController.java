@@ -28,11 +28,7 @@ public class BoardController {
     @GetMapping("/{username}/board")
     public ResponseEntity<?> list(@PathVariable String username) {
         log.debug("board list 컨트롤러 실행 {}", username);
-        /**
-         * 주의 >  BoardVO 자체를 리턴하면 여러 쿼리 실행 : 연관관계 때문에
-         */
         Page<BoardDTO> boardList = boardService.selectAllByUsername(username);
-        log.debug(boardList.toString());
         return ResponseEntity.ok(boardList);
     }
 

@@ -42,6 +42,7 @@ public class BoardServiceImpl implements BoardService {
         // 만약 해당 username 이없다면 회원이 아닌것 > 처리해주기
        UserVO user = userRepository.findByUsername(username);
         if(user == null){
+            log.info("selectAllByUsername user없음");
             return null;
         }
         Page<BoardVO> boardVOList
@@ -80,9 +81,14 @@ public class BoardServiceImpl implements BoardService {
 
         log.debug("board insert 메서드 {}", board.toString());
         board.setCreateDate(nowDateAndTime());
-        // 일반 게시글 등록일때
+        UserVO user = userRepository.findById(board.getUsername()).orElse(null);
+        if(user == null){
+            return null;
+        }// 일반 게시글 등록일때
         BoardVO boardVO = board.toEntity();
+        boardVO.setUser(user);
         boardRepository.save(boardVO);
+
 
         return boardVO.getBoardSeq();
     }
@@ -133,12 +139,13 @@ public class BoardServiceImpl implements BoardService {
 
     // Page<VO> => Page<DTO > 로 변환
     private Page<BoardDTO> toPageDTO(Page<BoardVO> VO){
-//        Page<BoardDTO> toDto = VO.map(board -> new BoardDTO(board.getBoardSeq(),
-//                board.getTitle(), board.getContent(), board.getCreateDate()
-//                , board.getLikeList().size(), board.getStatus()));
+        Page<BoardDTO> toDto = VO.map(board -> new BoardDTO(board.getBoardSeq(),
+                board.getUser().getUsername(), board.getUser().getNickname(),
+                board.getTitle(),board.getContent(),board.getCreateDate(),board.getUpdateDate(),
+                board.getLikeList().size(),board.getStatus()));
 
-       // return toDto;
-        return  null;
+        return toDto;
+//        return  null;
     }
 
     private BoardVO findVOById(Long boardSeq){

@@ -52,12 +52,12 @@ public class UserVO {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user",fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<LikeVO> likeList = new ArrayList<>();
 
 
     // 해당 유저가 팔로우와 팔로워 리스트
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user",fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<FriendVO> friendList = new ArrayList<>();
 
     public UserVO( String username, String nickname) {

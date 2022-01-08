@@ -1,0 +1,8 @@
+#jwt setting
+jwt:
+  header: Authorization
+  # some String convert to base64
+  # Using HS512 algorithm >> should use secret key (more than 512bit(64byte))
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWN
+  # token expire time 86400sec
+  token-validity-in-seconds: 86400

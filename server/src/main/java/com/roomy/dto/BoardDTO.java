@@ -1,7 +1,6 @@
 package com.roomy.dto;
 
 import com.roomy.model.BoardVO;
-import com.roomy.model.UserVO;
 import com.roomy.model.othertype.BoardStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +10,8 @@ import lombok.ToString;
 public class BoardDTO {
 
     private Long boardSeq;
-     private UserDTO userDTO;
+     private String username;
+     private String nickname;
     private String title;
     private String content;
     private String createDate;
@@ -23,9 +23,10 @@ public class BoardDTO {
      protected BoardDTO() {
     }
 
-    public BoardDTO(Long boardSeq, UserDTO userDTO, String title, String content, String createDate, String updateDate, int likeCount, BoardStatus status) {
+    public BoardDTO(Long boardSeq,String username,String nickname, String title, String content, String createDate, String updateDate, int likeCount, BoardStatus status) {
         this.boardSeq = boardSeq;
-        this.userDTO = userDTO;
+        this.username = username;
+        this.nickname = nickname;
         this.title = title;
         this.content = content;
         this.createDate = createDate;
@@ -38,8 +39,7 @@ public class BoardDTO {
 
 
     public BoardVO toEntity(){
-        UserVO user = new UserVO(userDTO.getUsername(),userDTO.getNickname());
-        BoardVO board = new BoardVO(boardSeq,user,title,content,createDate,updateDate,status,2);
+        BoardVO board = new BoardVO(boardSeq,title,content,createDate,updateDate,status,2);
         return board;
 
     }
