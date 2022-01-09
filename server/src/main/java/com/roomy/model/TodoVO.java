@@ -6,8 +6,10 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
-@Getter@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+@Getter
 @Entity
 @Table(name = "tbl_todo")
 public class TodoVO {
@@ -33,6 +35,8 @@ public class TodoVO {
 
     @Column(name = "todo_user_id", columnDefinition = "VARCHAR(20)")
     private String userId;
+
+
 
 //    @Builder
 //    public Todo(String content, LocalDateTime createdAt) {

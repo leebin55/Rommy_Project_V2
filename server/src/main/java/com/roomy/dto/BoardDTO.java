@@ -2,11 +2,14 @@ package com.roomy.dto;
 
 import com.roomy.model.BoardVO;
 import com.roomy.model.othertype.BoardStatus;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter@Setter@ToString
+import java.time.LocalDateTime;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter @Builder(toBuilder = true)
+@ToString
 public class BoardDTO {
 
     private Long boardSeq;
@@ -14,33 +17,23 @@ public class BoardDTO {
      private String nickname;
     private String title;
     private String content;
-    private String createDate;
-    private String updateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
     private int likeCount;
     private BoardStatus status;
     private int boardCode;
 
-     protected BoardDTO() {
+
+
+    public BoardVO createBoard(){
+        return BoardVO.builder().boardSeq(boardSeq)
+                .title(title).content(content).createDate(LocalDateTime.now())
+                .status(status).boardCode(2).build();
     }
 
-    public BoardDTO(Long boardSeq,String username,String nickname, String title, String content, String createDate, String updateDate, int likeCount, BoardStatus status) {
-        this.boardSeq = boardSeq;
-        this.username = username;
-        this.nickname = nickname;
-        this.title = title;
-        this.content = content;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.likeCount = likeCount;
-        this.status = status;
-        this.boardCode = 2;
-    }
-
-
-
-    public BoardVO toEntity(){
-        BoardVO board = new BoardVO(boardSeq,title,content,createDate,updateDate,status,2);
-        return board;
-
+    public BoardVO updateBoard(){
+        return BoardVO.builder().boardSeq(boardSeq).title(title).content(content)
+                .updateDate(LocalDateTime.now())
+                .status(status).build();
     }
 }

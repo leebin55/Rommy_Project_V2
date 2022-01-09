@@ -10,10 +10,11 @@ import java.util.*;
 import static javax.persistence.FetchType.LAZY;
 
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Getter
-@Setter
+@Builder(toBuilder = true)
 @Table(name ="tbl_user" , schema = "roomyDB")
 public class UserVO {
 
@@ -52,12 +53,12 @@ public class UserVO {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user",fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<LikeVO> likeList = new ArrayList<>();
 
 
     // 해당 유저가 팔로우와 팔로워 리스트
-    @OneToMany(mappedBy = "user",fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<FriendVO> friendList = new ArrayList<>();
 
     public UserVO( String username, String nickname) {

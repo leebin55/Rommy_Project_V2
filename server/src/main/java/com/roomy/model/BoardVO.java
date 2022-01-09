@@ -11,9 +11,10 @@ import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Setter
+@Builder(toBuilder = true)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "tbl_board", schema="roomyDB")
 public class BoardVO{
@@ -42,10 +43,10 @@ public class BoardVO{
 
     // 게시물 작성 시간
     // LocalDateTime : hibernates 가 알아서 세팅
-    private String createDate;
+    private LocalDateTime createDate;
 
     // 게시물 수정 시간
-    private String  updateDate;
+    private LocalDateTime  updateDate;
 
     // 게시물 공개 여부(전체 공개 / 비공개 / 나를 팔로우한 친구공개 )
     @Enumerated(EnumType.STRING)
@@ -55,14 +56,14 @@ public class BoardVO{
     /** 컬렉션을 필드에서 바로 초기화한 이유
      * -> 하이버네이트는 엔티티를 컬렉션을 한번 감싸서 하이버네이트가 제공하는 내장 컬렉션(class org.hibernate.collection.internal.PersistentBag)으로 변경
      * -> new 초기화 하지 않고 사용할때 new (class java.util.ArrayList)를 하면 하이버네이트가 관리할 수 없음*/
-    @OneToMany(mappedBy = "board", fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "board",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<LikeVO> likeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CommentVO> commentList = new ArrayList<>();
 
     //BoardImg 테이블에 있는 board 필드에 의해 매칭
-    @OneToMany(mappedBy = "board", fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<BoardImageVO>  imgList = new ArrayList<>();
 
 // likeCount 칼럼으로 넣을지 아님 likeList 에서 count 할지 고민중
@@ -83,25 +84,5 @@ public class BoardVO{
     }
 
 
-    public BoardVO(Long boardSeq, UserVO user, String title, String content, String createDate, String updateDate, BoardStatus status,int boardCode) {
-        this.boardSeq = boardSeq;
-        this.user = user;
-        this.title = title;
-        this.content = content;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.status = status;
-        this.boardCode = boardCode;
-    }
 
-    public BoardVO(Long boardSeq, String title, String content, String createDate, String updateDate, BoardStatus status,int boardCode) {
-        this.boardSeq = boardSeq;
-        this.user = user;
-        this.title = title;
-        this.content = content;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.status = status;
-        this.boardCode = boardCode;
-    }
 }

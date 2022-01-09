@@ -28,14 +28,20 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
+        /** username과 password를 얻어오고 그 값으로
+         * UsernamePasswordAuthenticationToken(Authentication)을 생성
+         *  UsernamePasswordAuthenticationToken 은
+         * Authentication 인터페이스의 구현체*/
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
        log.info("username :{}, pw : {}", username, password);
-       // 아호인증 토큰 생성하고 authenticationManager 에게 넘겨줌
+       // 인증 토큰 생성하고 authenticationManager 에게 넘겨줌
         UsernamePasswordAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(username, password);
         // authenticationManager 호출 > authentication
         // 인증이 성공하면? successfulAuthentication()  실행
+        //AuthenticationManager(구현체인 ProviderManager)에게 인증을 진행하도록 위임
         return authenticationManager.authenticate(authenticationToken);
     }
 

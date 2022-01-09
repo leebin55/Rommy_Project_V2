@@ -87,8 +87,7 @@ public class FileServiceImpl implements FileService {
 
     public void insertImages (List<String> imgURLs,Long board_seq){
         for(String image:imgURLs){
-            BoardImageVO imageVO = new BoardImageVO();
-            imageVO.setImgUrl(image);
+            BoardImageVO imageVO=BoardImageVO.builder().imgUrl(image).build();
           //  imageVO.setImgBoardSeq(board_seq);
             fileRepository.save(imageVO);
         }

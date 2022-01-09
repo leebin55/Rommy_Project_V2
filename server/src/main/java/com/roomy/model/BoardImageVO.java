@@ -8,9 +8,10 @@ import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
-@ToString
 @Entity
 @Table(name="tbl_board_image")
 public class BoardImageVO {

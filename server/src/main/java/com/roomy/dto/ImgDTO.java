@@ -1,10 +1,11 @@
 package com.roomy.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
+@Builder
 public class ImgDTO {
     private Long imgSeq;
     private String imgUrl;

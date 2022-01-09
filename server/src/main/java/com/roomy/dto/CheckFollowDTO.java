@@ -1,10 +1,10 @@
 package com.roomy.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter@Setter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter @Builder
 public class CheckFollowDTO {
 
         private Boolean checkFollow;

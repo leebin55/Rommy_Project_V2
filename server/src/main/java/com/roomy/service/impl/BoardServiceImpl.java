@@ -80,13 +80,12 @@ public class BoardServiceImpl implements BoardService {
     public Long saveBoard(BoardDTO board) {
 
         log.debug("board insert 메서드 {}", board.toString());
-        board.setCreateDate(nowDateAndTime());
         UserVO user = userRepository.findById(board.getUsername()).orElse(null);
         if(user == null){
             return null;
         }// 일반 게시글 등록일때
-        BoardVO boardVO = board.toEntity();
-        boardVO.setUser(user);
+        BoardVO boardVO = board.createBoard();
+        boardVO.toBuilder().user(user).build();
         boardRepository.save(boardVO);
 
 
@@ -98,10 +97,8 @@ public class BoardServiceImpl implements BoardService {
         BoardVO findBoard = boardRepository.findById(board.getBoardSeq()).orElse(null);
         if(findBoard != null){
             // 게시물 수정될 때는 title, content, updateDate , status 만 변경됨
-            findBoard.setTitle(board.getTitle());
-            findBoard.setContent(board.getContent());
-            findBoard.setUpdateDate(nowDateAndTime());
-            findBoard.setStatus(board.getStatus());
+            findBoard.toBuilder().title(board.getTitle()).content(board.getContent())
+                            .updateDate(LocalDateTime.now()).status(board.getStatus()).build();
 
             boardRepository.save(findBoard);
             return board.getBoardSeq();
@@ -122,13 +119,6 @@ public class BoardServiceImpl implements BoardService {
 
     //-------------------------------private method --------------------------------------------------
 
-    //현재 시간 리턴하는 메서드
-    private String nowDateAndTime(){
-        LocalDateTime localDateTime = LocalDateTime.now();
-        String dateTime = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        return dateTime;
-    }
-
  // PageRequest return
     private PageRequest setPageRequest(){
 
@@ -139,10 +129,10 @@ public class BoardServiceImpl implements BoardService {
 
     // Page<VO> => Page<DTO > 로 변환
     private Page<BoardDTO> toPageDTO(Page<BoardVO> VO){
-        Page<BoardDTO> toDto = VO.map(board -> new BoardDTO(board.getBoardSeq(),
-                board.getUser().getUsername(), board.getUser().getNickname(),
-                board.getTitle(),board.getContent(),board.getCreateDate(),board.getUpdateDate(),
-                board.getLikeList().size(),board.getStatus()));
+        Page<BoardDTO> toDto = VO.map(board -> BoardDTO.builder().boardSeq(board.getBoardSeq())
+                .username(board.getUser().getUsername()).nickname(board.getUser().getNickname())
+                .title(board.getTitle()).content(board.getContent()).createDate(board.getCreateDate())
+                .likeCount(board.getLikeList().size()).status(board.getStatus()).build());
 
         return toDto;
 //        return  null;

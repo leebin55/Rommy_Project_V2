@@ -1,10 +1,10 @@
 package com.roomy.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter@ToString
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter@ToString @Builder
 public class LikeDTO {
 
     private String username;

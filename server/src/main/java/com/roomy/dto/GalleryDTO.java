@@ -1,10 +1,9 @@
 package com.roomy.dto;
 
 import com.roomy.model.othertype.BoardStatus;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -15,7 +14,11 @@ import java.util.List;
  * 해당 dto를 보면 요청에 필요한 요구사항을 알수 있음
  * 또한 엔티티는 서로 양방향관계이기 때문에 무한루프가 발생할 수 있어
  * 다른 처리를 해줘야 한다. > 서로다른 요청이 들어올때마다 엔티티를 변경해야됨*/
-@Getter@Setter@ToString
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter @Builder
+@ToString
 public class GalleryDTO {
 
 
@@ -23,8 +26,8 @@ public class GalleryDTO {
     private String username;
     private String title;
     private String content;
-    private String createDate;
-    private String updateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
     private int likeCount;
     private BoardStatus status;
     private List<ImgDTO> imgs;

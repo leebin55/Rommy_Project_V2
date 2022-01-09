@@ -11,6 +11,9 @@ import java.util.List;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 @Entity
 //@ToString(of={"roomSeq","roomname","intro","total"})
@@ -36,10 +39,10 @@ public class RoomVO {
     // room 소개글
     private String intro;
 
-    @OneToMany(mappedBy = "room",fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "room",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<BoardVO> boardList= new ArrayList<>();
 
-    @OneToMany(mappedBy = "room",fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "room",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<GuestVO> guestList= new ArrayList<>();
 
 
@@ -54,8 +57,7 @@ public class RoomVO {
         this.roomname = roomname;
         this.intro = intro;
     }
-    protected RoomVO() {
-    }
+
 
     // 두개를 원자적으로 묶음
     //== 연관관계 메서드 ==// : 컨트롤 하는 쪽이 연관관계 메서드를 가지고 있는 것이 좋음
@@ -65,7 +67,7 @@ public class RoomVO {
         // user.setRoom(room);
         // room.setUser(user)
         this.user = user;
-        user.setRoom(this);
+        user.builder().room(this).build();
     }
 
 

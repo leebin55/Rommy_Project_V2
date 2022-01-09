@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             RoomVO room = new RoomVO(user.getNickname() + " 님",makeIntro(user.getNickname()));
             // 양뱡향 이므로 room 에 user 세팅
             room.setUser(user);
-            user.setRoom(room);
+            user.toBuilder().room(room).build();
             // room 도 insert
             userRepository.save(user);
 
@@ -102,12 +102,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         UserVO userVO = userRepository.findById(userDTO.getUsername()).orElse(null);
         if(userVO != null){
-         // update 할수 있는 칼럼은  nickname , email , password, profile
-            userVO.setNickname(userDTO.getNickname());
-            userVO.setEmail(userDTO.getEmail());
-            userVO.setProfile(userDTO.getProfile());
-            userVO.setPassword(userDTO.getPassword());
-
+         // update 할수 있는 칼럼은  nickname , email, profile\
+            // password  는 따로 수정
+            userVO.toBuilder().nickname(userDTO.getNickname()).
+                    email(userDTO.getEmail()).profile(userDTO.getProfile())
+                            .build();
             // room도 수정해주기
             RoomVO room =userVO.getRoom();
             room.setUser(userVO);

@@ -2,10 +2,10 @@ package com.roomy.dto;
 
 import com.roomy.model.UserVO;
 import com.roomy.model.othertype.Gender;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter @ToString
+@Getter @ToString @Builder
+
 public class UserDTO {
 
     private String username;
@@ -46,14 +46,9 @@ public class UserDTO {
     }
 
     public UserVO toEntity(){
-        UserVO user = new UserVO();
-        user.setUsername(username);
-        user.setGender(gender);
-        user.setEmail(email);
-        user.setProfile(profile);
-        user.setNickname(nickname);
-        user.setPassword(password);
-       return user;
+        return UserVO.builder().username(username).gender(gender)
+                .email(email).profile(profile).nickname(nickname).password(password).build();
+
     }
 
 }

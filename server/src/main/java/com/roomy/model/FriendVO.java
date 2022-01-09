@@ -4,10 +4,11 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Setter
+@Builder
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "tbl_follow" ,schema="roomyDB")
 public class FriendVO {
 

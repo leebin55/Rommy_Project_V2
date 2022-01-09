@@ -2,12 +2,12 @@ package com.roomy.dto;
 
 import com.roomy.model.GuestVO;
 import com.roomy.model.othertype.GuestStatus;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @ToString @Builder
 public class GuestDTO {
 
     private Long guestSeq;

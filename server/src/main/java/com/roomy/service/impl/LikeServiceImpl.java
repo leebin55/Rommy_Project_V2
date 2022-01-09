@@ -61,9 +61,7 @@ public class LikeServiceImpl implements LikeService {
 
     private Long like(UserVO user, BoardVO board){
 // tbl_like 에 Insert
-            LikeVO like = new LikeVO();
-            like.setBoard(board);
-            like.setUser(user);
+        LikeVO like=LikeVO.builder().board(board).user(user).build();
             likeRepository.save(like);
             return likeRepository.countByBoard(board);
     }

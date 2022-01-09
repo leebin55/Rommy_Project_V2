@@ -6,10 +6,10 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Setter
+@Builder
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name="tbl_comment")
 public class CommentVO {
@@ -23,7 +23,7 @@ public class CommentVO {
     private BoardVO board;
 
     // 댓글 단 날짜 시간
-    private String date;
+    private LocalDateTime date;
 
     private Long userId;
     
