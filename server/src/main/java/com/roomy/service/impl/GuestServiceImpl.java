@@ -1,8 +1,8 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.GuestDTO;
-import com.roomy.model.GuestVO;
-import com.roomy.model.RoomVO;
+import com.roomy.model.Guest;
+import com.roomy.model.Room;
 import com.roomy.repository.GuestRepository;
 import com.roomy.repository.RoomRepository;
 import com.roomy.service.GuestService;
@@ -27,8 +27,8 @@ public class GuestServiceImpl implements GuestService {
     @Override
     public Long saveGuest(GuestDTO guestDto) {
 
-        GuestVO guestVO = guestDto.toEntity();
-        Optional<RoomVO> room = Optional.ofNullable(roomRepository.findById(guestDto.getRoomSeq()).orElse(null));
+        Guest guestVO = guestDto.toEntity();
+        Optional<Room> room = Optional.ofNullable(roomRepository.findById(guestDto.getRoomSeq()).orElse(null));
         if(room.isPresent() == true){
             guestVO.setRoom(room.get());
             guestRepository.save(guestVO);
@@ -55,7 +55,7 @@ public class GuestServiceImpl implements GuestService {
     }
 
     @Override
-    public Slice<GuestDTO> getRoomGuestList(RoomVO room) {
+    public Slice<GuestDTO> getRoomGuestList(Room room) {
         return null;
     }
 }

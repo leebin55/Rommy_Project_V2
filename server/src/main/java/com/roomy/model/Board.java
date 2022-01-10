@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "tbl_board", schema="roomyDB")
-public class BoardVO{
+public class Board {
 
     // 게시물 번호 PK
     @Id
@@ -27,12 +27,12 @@ public class BoardVO{
     /** room : board = 1 : N*/
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "room_seq")
-    private RoomVO room;
+    private Room room;
 
     // 메인페이지 피드에서 회원정보와 같이 보여주기 위해(단방향으로 설정)
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="username")
-    private UserVO user;
+    private User user;
 
     // 게시물 제목
     private String title;
@@ -57,14 +57,14 @@ public class BoardVO{
      * -> 하이버네이트는 엔티티를 컬렉션을 한번 감싸서 하이버네이트가 제공하는 내장 컬렉션(class org.hibernate.collection.internal.PersistentBag)으로 변경
      * -> new 초기화 하지 않고 사용할때 new (class java.util.ArrayList)를 하면 하이버네이트가 관리할 수 없음*/
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<LikeVO> likeList = new ArrayList<>();
+    private List<Like> likeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<CommentVO> commentList = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
 
     //BoardImg 테이블에 있는 board 필드에 의해 매칭
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<BoardImageVO>  imgList = new ArrayList<>();
+    private List<BoardImage>  imgList = new ArrayList<>();
 
 // likeCount 칼럼으로 넣을지 아님 likeList 에서 count 할지 고민중
   //  private Long likeCount;
@@ -78,7 +78,7 @@ public class BoardVO{
 
 
     // == 연관관계 method ==// 연관관계 주인 아닌 곳에서도 까먹지 않고 값을 입력해 주기 위해
-    public void setRoom(RoomVO room){
+    public void setRoom(Room room){
         this.room = room;
         room.getBoardList().add(this);
     }

@@ -2,14 +2,13 @@ package com.roomy.service;
 
 
 import com.roomy.dto.LikeDTO;
-import com.roomy.model.BoardVO;
-import com.roomy.model.LikeVO;
+import com.roomy.model.Like;
 import org.springframework.data.domain.Slice;
 
 public interface LikeService {
 
     // userSeq 로 조회> 자신이 좋아요한 게시물 볼수 있게
-    Slice<LikeVO> getUserLikeSlice(Long userId);
+    Slice<Like> getUserLikeSlice(Long userId);
 
     void likeOrUnLike(LikeDTO likeDto);
 

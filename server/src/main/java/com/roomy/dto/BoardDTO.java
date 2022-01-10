@@ -1,6 +1,6 @@
 package com.roomy.dto;
 
-import com.roomy.model.BoardVO;
+import com.roomy.model.Board;
 import com.roomy.model.othertype.BoardStatus;
 import lombok.*;
 
@@ -25,14 +25,14 @@ public class BoardDTO {
 
 
 
-    public BoardVO createBoard(){
-        return BoardVO.builder().boardSeq(boardSeq)
+    public Board createBoard(){
+        return Board.builder().boardSeq(boardSeq)
                 .title(title).content(content).createDate(LocalDateTime.now())
                 .status(status).boardCode(2).build();
     }
 
-    public BoardVO updateBoard(){
-        return BoardVO.builder().boardSeq(boardSeq).title(title).content(content)
+    public Board updateBoard(){
+        return Board.builder().boardSeq(boardSeq).title(title).content(content)
                 .updateDate(LocalDateTime.now())
                 .status(status).build();
     }

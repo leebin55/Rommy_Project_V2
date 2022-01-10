@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Builder(toBuilder = true)
 @Table(name ="tbl_user" , schema = "roomyDB")
-public class UserVO {
+public class User {
 
 
     //userId > Security 사용할때
@@ -29,7 +29,7 @@ public class UserVO {
     // RoomVO user 에 의해 매핑
     // User 가 등록 될때 Room 도 같이 등록 되기 위해서 두 연관관계 영속성 전이 설정
     @OneToOne(mappedBy = "user", fetch = LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
-    private RoomVO room;
+    private Room room;
 
     // 비밀번호
     private String password;
@@ -54,14 +54,14 @@ public class UserVO {
     private UserRole role;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<LikeVO> likeList = new ArrayList<>();
+    private List<Like> likeList = new ArrayList<>();
 
 
     // 해당 유저가 팔로우와 팔로워 리스트
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<FriendVO> friendList = new ArrayList<>();
+    private List<Friend> friendList = new ArrayList<>();
 
-    public UserVO( String username, String nickname) {
+    public User(String username, String nickname) {
         this.username = username;
         this.nickname = nickname;
     }

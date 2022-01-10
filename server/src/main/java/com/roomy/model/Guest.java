@@ -2,9 +2,6 @@ package com.roomy.model;
 
 import com.roomy.model.othertype.GuestStatus;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name="tbl_guest", schema="roomyDB")
-public class GuestVO {
+public class Guest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long guestSeq;
@@ -24,7 +21,7 @@ public class GuestVO {
 //    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "room_seq")
-    private RoomVO room;
+    private Room room;
 
     // 글쓴 user
    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
@@ -42,12 +39,12 @@ public class GuestVO {
     private String content;
 
 // == 연관관계 메서드
-    public void setRoom(RoomVO room){
+    public void setRoom(Room room){
         this.room = room;
         room.getGuestList().add(this);
     }
 
-    public GuestVO(Long guestSeq, String username, LocalDateTime date, GuestStatus status, String content) {
+    public Guest(Long guestSeq, String username, LocalDateTime date, GuestStatus status, String content) {
         this.guestSeq = guestSeq;
         this.username = username;
         this.date = date;

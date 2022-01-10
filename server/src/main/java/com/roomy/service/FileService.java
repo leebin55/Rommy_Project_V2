@@ -1,10 +1,9 @@
 package com.roomy.service;
 
-import com.roomy.model.BoardImageVO;
-import com.roomy.model.BoardVO;
+import com.roomy.model.BoardImage;
+import com.roomy.model.Board;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -16,9 +15,9 @@ public interface FileService {
 
     //public List<String> uploadMultiFiles(MultipartHttpServletRequest files);
 
-    List<BoardVO> selectAllWithImage(List<BoardVO> boardList);
+    List<Board> selectAllWithImage(List<Board> boardList);
 
     public Resource loadFileAsResource(String fileName);
 
-    void insert(BoardImageVO imageVO);
+    void insert(BoardImage imageVO);
 }

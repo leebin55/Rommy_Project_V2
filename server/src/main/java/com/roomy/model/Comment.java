@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name="tbl_comment")
-public class CommentVO {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long commentSeq;
@@ -20,7 +20,7 @@ public class CommentVO {
     // 댓글 쓴 게시물 번호
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_seq")
-    private BoardVO board;
+    private Board board;
 
     // 댓글 단 날짜 시간
     private LocalDateTime date;
@@ -39,7 +39,7 @@ public class CommentVO {
 
 
 
-    public void setBoard(BoardVO board){
+    public void setBoard(Board board){
         this.board = board;
         board.getCommentList().add(this);
     }

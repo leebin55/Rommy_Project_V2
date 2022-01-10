@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "tbl_follow" ,schema="roomyDB")
-public class FriendVO {
+public class Friend {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
@@ -19,7 +19,7 @@ public class FriendVO {
     // 회원 아이디
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
-    private UserVO user;
+    private User user;
 
     //  팔로우(친구맺기)를 한 회원 아이디
     private Long followUser;

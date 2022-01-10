@@ -14,7 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Entity
 @Table(name="tbl_board_image")
-public class BoardImageVO {
+public class BoardImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long imgSeq;
@@ -24,9 +24,9 @@ public class BoardImageVO {
     // board : imgs = 1 : N join
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="board_seq") // FK
-    private BoardVO board;
+    private Board board;
 
-    public void setBoard(BoardVO board){
+    public void setBoard(Board board){
         this.board = board;
         board.getImgList().add(this);
     }

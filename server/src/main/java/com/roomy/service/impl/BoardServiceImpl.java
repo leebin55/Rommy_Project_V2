@@ -1,8 +1,8 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.BoardDTO;
-import com.roomy.model.BoardVO;
-import com.roomy.model.UserVO;
+import com.roomy.model.Board;
+import com.roomy.model.User;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.BoardService;
@@ -10,13 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Slf4j
 @Service("boardService") @Transactional
@@ -40,12 +37,12 @@ public class BoardServiceImpl implements BoardService {
     @Override @Transactional(readOnly = true)
     public Page<BoardDTO> selectAllByUsername(String username) {
         // 만약 해당 username 이없다면 회원이 아닌것 > 처리해주기
-       UserVO user = userRepository.findByUsername(username);
+       User user = userRepository.findByUsername(username);
         if(user == null){
             log.info("selectAllByUsername user없음");
             return null;
         }
-        Page<BoardVO> boardVOList
+        Page<Board> boardVOList
                 = boardRepository.getUserBoardList(2,user,
                setPageRequest());
         return toPageDTO(boardVOList);
@@ -57,7 +54,7 @@ public class BoardServiceImpl implements BoardService {
     @Override @Transactional(readOnly = true)
     public Page<BoardDTO> getAllBoardList() {
         // Page<BoardVO> 는 엔티티 자체를 그냥 넘기는 것 > 엔티티는 노출하지 않는 것이 좋으므로
-        Page<BoardVO> boardVOList=boardRepository.findAllByBoardCode(2, setPageRequest());
+        Page<Board> boardVOList=boardRepository.findAllByBoardCode(2, setPageRequest());
         // DTO 로 변환
 
 
@@ -66,7 +63,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override @Transactional(readOnly = true)
     public BoardDTO getBoardBySeq(Long boardSeq) {
-        BoardVO board = findVOById(boardSeq);
+        Board board = findVOById(boardSeq);
 //        log.debug("findById 나와라 {}",boardVO.toString());
 //        BoardDTO boardDTO = new BoardDTO(board.getBoardSeq(),
 //                board.getContent(), board.getTitle(), board.getCreateDate(), board.getLikeList().size()
@@ -80,11 +77,11 @@ public class BoardServiceImpl implements BoardService {
     public Long saveBoard(BoardDTO board) {
 
         log.debug("board insert 메서드 {}", board.toString());
-        UserVO user = userRepository.findById(board.getUsername()).orElse(null);
+        User user = userRepository.findById(board.getUsername()).orElse(null);
         if(user == null){
             return null;
         }// 일반 게시글 등록일때
-        BoardVO boardVO = board.createBoard();
+        Board boardVO = board.createBoard();
         boardVO.toBuilder().user(user).build();
         boardRepository.save(boardVO);
 
@@ -94,7 +91,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Long updateBoard(BoardDTO board) {
-        BoardVO findBoard = boardRepository.findById(board.getBoardSeq()).orElse(null);
+        Board findBoard = boardRepository.findById(board.getBoardSeq()).orElse(null);
         if(findBoard != null){
             // 게시물 수정될 때는 title, content, updateDate , status 만 변경됨
             findBoard.toBuilder().title(board.getTitle()).content(board.getContent())
@@ -128,7 +125,7 @@ public class BoardServiceImpl implements BoardService {
 
 
     // Page<VO> => Page<DTO > 로 변환
-    private Page<BoardDTO> toPageDTO(Page<BoardVO> VO){
+    private Page<BoardDTO> toPageDTO(Page<Board> VO){
         Page<BoardDTO> toDto = VO.map(board -> BoardDTO.builder().boardSeq(board.getBoardSeq())
                 .username(board.getUser().getUsername()).nickname(board.getUser().getNickname())
                 .title(board.getTitle()).content(board.getContent()).createDate(board.getCreateDate())
@@ -138,7 +135,7 @@ public class BoardServiceImpl implements BoardService {
 //        return  null;
     }
 
-    private BoardVO findVOById(Long boardSeq){
+    private Board findVOById(Long boardSeq){
         return  boardRepository.findById(boardSeq).orElse(null);
     }
 }

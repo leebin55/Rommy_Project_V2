@@ -1,7 +1,7 @@
 package com.roomy.service.impl;
 
-import com.roomy.model.BoardImageVO;
-import com.roomy.model.BoardVO;
+import com.roomy.model.BoardImage;
+import com.roomy.model.Board;
 import com.roomy.repository.FileRepository;
 import com.roomy.service.FileService;
 import lombok.extern.slf4j.Slf4j;
@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,16 +85,16 @@ public class FileServiceImpl implements FileService {
 
     public void insertImages (List<String> imgURLs,Long board_seq){
         for(String image:imgURLs){
-            BoardImageVO imageVO=BoardImageVO.builder().imgUrl(image).build();
+            BoardImage imageVO= BoardImage.builder().imgUrl(image).build();
           //  imageVO.setImgBoardSeq(board_seq);
             fileRepository.save(imageVO);
         }
     }
     @Override
-    public List<BoardVO> selectAllWithImage(List<BoardVO> boardList){
+    public List<Board> selectAllWithImage(List<Board> boardList){
         // 새로운 리스트를 생성 => tbl_board 에는 이미지에 관한 정보가 없기 때문에
-        List<BoardVO> boardWithImgList = new ArrayList<>();
-        for(BoardVO board:boardList){
+        List<Board> boardWithImgList = new ArrayList<>();
+        for(Board board:boardList){
             // board_seq 를 뽑아와서
             Long board_seq =board.getBoardSeq();
             // 해당 개시물에 있는 image 를 tbl_board_image 테이블에서 imgURL들을 받아온다
@@ -116,7 +114,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void insert(BoardImageVO imageVO) {
+    public void insert(BoardImage imageVO) {
         fileRepository.save(imageVO);
     }
 }

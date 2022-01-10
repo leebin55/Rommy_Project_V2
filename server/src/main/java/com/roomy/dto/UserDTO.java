@@ -1,6 +1,6 @@
 package com.roomy.dto;
 
-import com.roomy.model.UserVO;
+import com.roomy.model.User;
 import com.roomy.model.othertype.Gender;
 import lombok.*;
 
@@ -45,8 +45,8 @@ public class UserDTO {
         this.nickname = nickname;
     }
 
-    public UserVO toEntity(){
-        return UserVO.builder().username(username).gender(gender)
+    public User toEntity(){
+        return User.builder().username(username).gender(gender)
                 .email(email).profile(profile).nickname(nickname).password(password).build();
 
     }

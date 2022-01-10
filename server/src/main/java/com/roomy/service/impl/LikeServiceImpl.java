@@ -1,9 +1,9 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.LikeDTO;
-import com.roomy.model.BoardVO;
-import com.roomy.model.LikeVO;
-import com.roomy.model.UserVO;
+import com.roomy.model.Board;
+import com.roomy.model.Like;
+import com.roomy.model.User;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.LikeRepository;
 import com.roomy.repository.UserRepository;
@@ -30,7 +30,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override @Transactional(readOnly = true)
-    public Slice<LikeVO> getUserLikeSlice(Long userId) {
+    public Slice<Like> getUserLikeSlice(Long userId) {
         return null;
     }
 
@@ -39,8 +39,8 @@ public class LikeServiceImpl implements LikeService {
         Boolean existCheck = checkLike(likeDto);
         if(existCheck != null){
             // user 와 board 모두 존재
-            Optional<UserVO> user = userRepository.findById(likeDto.getUsername());
-            Optional<BoardVO> board = boardRepository.findById(likeDto.getBoardSeq());
+            Optional<User> user = userRepository.findById(likeDto.getUsername());
+            Optional<Board> board = boardRepository.findById(likeDto.getBoardSeq());
             if(existCheck == true){
                 like(user.get(), board.get());
             }
@@ -50,8 +50,8 @@ public class LikeServiceImpl implements LikeService {
 
     @Override @Transactional(readOnly = true)
     public Boolean checkLike(LikeDTO likeDto) {
-        Optional<UserVO> user = userRepository.findById(likeDto.getUsername());
-        Optional<BoardVO> board = boardRepository.findById(likeDto.getBoardSeq());
+        Optional<User> user = userRepository.findById(likeDto.getUsername());
+        Optional<Board> board = boardRepository.findById(likeDto.getBoardSeq());
         if(user.isPresent() == true & board.isPresent() == true){
             return likeRepository.existsByBoardAndAndUser(board.get(),user.get());
         }
@@ -59,14 +59,14 @@ public class LikeServiceImpl implements LikeService {
         return null;
     }
 
-    private Long like(UserVO user, BoardVO board){
+    private Long like(User user, Board board){
 // tbl_like 에 Insert
-        LikeVO like=LikeVO.builder().board(board).user(user).build();
+        Like like= Like.builder().board(board).user(user).build();
             likeRepository.save(like);
             return likeRepository.countByBoard(board);
     }
 
-    private Long unLike(UserVO user, BoardVO board){
+    private Long unLike(User user, Board board){
 
         return null;
     }

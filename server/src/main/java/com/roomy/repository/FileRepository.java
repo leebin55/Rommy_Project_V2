@@ -1,6 +1,6 @@
 package com.roomy.repository;
 
-import com.roomy.model.BoardImageVO;
+import com.roomy.model.BoardImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,10 +8,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 
-public interface FileRepository extends JpaRepository<BoardImageVO,Long> {
+public interface FileRepository extends JpaRepository<BoardImage,Long> {
 
     // boardSeq 를 받아서 imageURL return
-    @Query(value = "SELECT imgUrl FROM BoardImageVO " +
+    @Query(value = "SELECT imgUrl FROM BoardImage " +
             "WHERE board = :boardSeq " )
     List<String> findByImgBoardSeq(@Param(value="boardSeq") Long boardSeq);
 

@@ -2,7 +2,7 @@ package com.roomy.service;
 
 import com.roomy.dto.BoardDTO;
 import com.roomy.dto.GalleryDTO;
-import com.roomy.model.BoardVO;
+import com.roomy.model.Board;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ public interface GalleryService {
 
     public List<BoardDTO> getBoardList();
 
-    public List<BoardVO> search(String select, String query);
+    public List<Board> search(String select, String query);
 
-    public List<BoardVO> selectAllByUserId(String userId);
+    public List<Board> selectAllByUserId(String userId);
 
 }

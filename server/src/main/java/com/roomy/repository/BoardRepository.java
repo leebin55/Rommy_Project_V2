@@ -1,26 +1,24 @@
 package com.roomy.repository;
 
-import com.roomy.model.BoardVO;
-import com.roomy.model.UserVO;
+import com.roomy.model.Board;
+import com.roomy.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 //BoardRepository만 사용해도 일반 board, gallery 를 모두 가져올 수 있다. (type casting 사용해서)
 
-public interface BoardRepository extends JpaRepository<BoardVO,Long > {
+public interface BoardRepository extends JpaRepository<Board,Long > {
 
 
-    Page<BoardVO> findAllByBoardCode(int boardCode, Pageable pageable);
+    Page<Board> findAllByBoardCode(int boardCode, Pageable pageable);
 
     // 보드 코드와 유저 아이디를 받아 해당 유저의 미니홈피에서 게시글 조회
    // Page<BoardVO> findAllByBoardCodeAndUserIdOrderByBoardSeqDesc(int boardCode, String userId,Pageable pageable);
-    @Query("select b from BoardVO b where b.boardCode=:boardCode and b.user =:user")
-    Page<BoardVO> getUserBoardList(@Param("boardCode") int boardCode , @Param("user") UserVO user , Pageable pageable);
+    @Query("select b from Board b where b.boardCode=:boardCode and b.user =:user")
+    Page<Board> getUserBoardList(@Param("boardCode") int boardCode , @Param("user") User user , Pageable pageable);
 
 
 //

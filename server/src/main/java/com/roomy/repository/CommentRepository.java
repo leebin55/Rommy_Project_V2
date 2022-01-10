@@ -1,7 +1,7 @@
 package com.roomy.repository;
 
-import com.roomy.model.CommentVO;
+import com.roomy.model.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CommentRepository extends JpaRepository<CommentVO,Long> {
+public interface CommentRepository extends JpaRepository<Comment,Long> {
 }

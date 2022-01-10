@@ -1,6 +1,6 @@
 package com.roomy.dto;
 
-import com.roomy.model.GuestVO;
+import com.roomy.model.Guest;
 import com.roomy.model.othertype.GuestStatus;
 import lombok.*;
 
@@ -36,7 +36,7 @@ public class GuestDTO {
         this.status = status;
         this.content = content;
     }
-    public GuestVO toEntity(){
-         return new GuestVO(guestSeq,username,date,status,content);
+    public Guest toEntity(){
+         return new Guest(guestSeq,username,date,status,content);
     }
 }

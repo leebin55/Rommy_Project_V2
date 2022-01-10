@@ -1,8 +1,8 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.UserDTO;
-import com.roomy.model.RoomVO;
-import com.roomy.model.UserVO;
+import com.roomy.model.Room;
+import com.roomy.model.User;
 import com.roomy.repository.RoomRepository;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.UserService;
@@ -32,9 +32,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.roomRepository = roomRepository;
     }
 
+    /**
+                AuthenticationFilter 에서 username 을사용하여 현재 저장되어 있는 user(Account)를
+     *      *  UserDetailsService에 요청한다.
+     *      *  유저를 받아온 후 password일치 여부등, 유저를 검증하여 성공했다면
+     *      *  Authentication 객체를 반환하고 실패했다면 예외를 발생
+     *      *  . Provider가 요청한 user를 받아오기 위해 loadByUsername 메서드가 호출됩니다
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserVO user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if(user == null){
             log.debug("해당 유저를 찾을 수 없습니다.");
             throw new UsernameNotFoundException("User notfound in the DB");
@@ -53,7 +60,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         PageRequest pageReq = PageRequest.of(0,15,
                 Sort.by(Sort.Direction.DESC,"username"));
-        Page<UserVO> userVOPage = userRepository.findAllWithPage(pageReq);
+        Page<User> userVOPage = userRepository.findAllWithPage(pageReq);
 
         Page<UserDTO> userPage = userVOPage.map(user -> new UserDTO(user.getUsername(),user.getNickname(),user.getProfile(),user.getEmail()));
 
@@ -63,7 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDTO findByUsername(String username) {
-        UserVO findUser = userRepository.findByUsername(username);
+        User findUser = userRepository.findByUsername(username);
         if(findUser==null){
             return null;
         }
@@ -83,9 +90,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Boolean existCheck = validateDuplicateUser(userDTO.getUsername());
         if(existCheck == false){
             // 우선 UserDTO 를 UserVO 로 변환
-            UserVO user = userDTO.toEntity();
+            User user = userDTO.toEntity();
             // user 가 생성되면  room 도 같이 생성되게
-            RoomVO room = new RoomVO(user.getNickname() + " 님",makeIntro(user.getNickname()));
+            Room room = new Room(user.getNickname() + " 님",makeIntro(user.getNickname()));
             // 양뱡향 이므로 room 에 user 세팅
             room.setUser(user);
             user.toBuilder().room(room).build();
@@ -100,7 +107,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void updateUser(UserDTO userDTO) {
 
-        UserVO userVO = userRepository.findById(userDTO.getUsername()).orElse(null);
+        User userVO = userRepository.findById(userDTO.getUsername()).orElse(null);
         if(userVO != null){
          // update 할수 있는 칼럼은  nickname , email, profile\
             // password  는 따로 수정
@@ -108,7 +115,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     email(userDTO.getEmail()).profile(userDTO.getProfile())
                             .build();
             // room도 수정해주기
-            RoomVO room =userVO.getRoom();
+            Room room =userVO.getRoom();
             room.setUser(userVO);
 
             userRepository.save(userVO);
