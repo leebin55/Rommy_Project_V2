@@ -67,7 +67,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
 
     }
-
     // 로그인 실패할때 > 로그인 실패 횟수 초과 등 실패시 추가 작업
 //    @Override
 //    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {

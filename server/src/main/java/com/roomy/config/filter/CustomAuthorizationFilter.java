@@ -12,13 +12,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 
-import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-
+// OncePerRequestFilter : a request passes through the filter only once in the filter chain,
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
 
