@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service @Transactional
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService{
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -39,20 +39,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      *      *  Authentication 객체를 반환하고 실패했다면 예외를 발생
      *      *  . Provider가 요청한 user를 받아오기 위해 loadByUsername 메서드가 호출됩니다
      */
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            log.debug("해당 유저를 찾을 수 없습니다.");
-            throw new UsernameNotFoundException("User notfound in the DB");
-        }else{
-            log.debug("DB에서 user를 찾았습니다. {}", username);
-        }
-        String userRole = user.getRole().toString();
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole);
-
-        return null;
-    }
 
 
     @Override
