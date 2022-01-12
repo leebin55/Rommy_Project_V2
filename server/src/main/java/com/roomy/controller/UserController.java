@@ -19,7 +19,7 @@ public class UserController {
     }
 
     // user 등록 : 회원가입
-    @PostMapping({"/",""})
+    @PostMapping("/")
     public ResponseEntity<?> join(@RequestBody UserDTO userDto) {
         log.debug("User join 컨트롤러 실행 {}",userDto.toString());
        String username =userService.joinUser(userDto);

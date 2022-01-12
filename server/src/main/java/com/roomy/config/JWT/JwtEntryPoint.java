@@ -18,8 +18,8 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         //포워딩 처리
-    response.sendRedirect("/exception/jwt");
+    //response.sendRedirect("/exception/jwt");
     // 유효한 자격증명을 제공하지 않고 접근하려 할때 401 Unauthorized 에러를 리턴할 클래스
-        //    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

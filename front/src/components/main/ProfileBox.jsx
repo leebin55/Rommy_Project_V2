@@ -7,8 +7,7 @@ import { Button } from '@mui/material';
 
 function ProfileBox() {
   const navigate = useNavigate();
-  // user 부분 다 완성되면 false 를 기본값으로 변경하기
-  const [checkLogin, setCheckLogin] = useState(true);
+  const [checkLogin, setCheckLogin] = useState(false);
   // modal 을 로그인 할때
 
   // 우선 testid 로  username 지정 > 나중에 변경해주기!~~~~~!!!

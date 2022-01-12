@@ -18,15 +18,21 @@ export default function LoginModal() {
 
   const loginBtnClick = async () => {
     if (username.trim() !== '' && password.trim() !== '') {
-      await axiosInstance
-        .post('/user/login', {
-          username,
-          password,
-        })
-        .then((res) => {
-          console.log(res.data);
-          window.location.reload();
-        });
+      try {
+        await axiosInstance
+          .post('/user/login', {
+            username,
+            password,
+          })
+          .then((res) => {
+            console.log(res.data);
+            window.location.reload();
+          });
+      } catch (error) {
+        alert('해당정보가 없습니다. 회원가입해주세요');
+
+        return;
+      }
     }
     alert('ID 또는 비밀번호를 입력해주세요');
   };

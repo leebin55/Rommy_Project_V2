@@ -1,7 +1,6 @@
 package com.roomy.config;
 
 
-
 import com.roomy.config.JWT.TokenProvider;
 import com.roomy.config.filter.CustomAuthenticationFilter;
 import com.roomy.config.filter.CustomJwtFilter;
@@ -18,6 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 
 @Configuration
@@ -54,12 +56,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         CustomAuthenticationFilter authenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         authenticationFilter.setFilterProcessesUrl("/user/login"); // url 변경
         //토큰이 없는 상태로 들어올때는 permit 해주기
-       http
-               .authorizeRequests() // HttpServletRequest 를 사용하는 요청들에대한 접근제한을 설정하겠다
-               .antMatchers("/*").permitAll();
 
-//                .anyRequest() // 나머지 요청들에 대해서는
-//                .authenticated();// 인증받아야 한다.
+        http.cors().configurationSource(request -> {
+            CorsConfiguration cors = new CorsConfiguration();
+            cors.setAllowedOrigins(List.of("http://localhost:3000"));
+            cors.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
+            cors.setAllowCredentials(true);
+            cors.setAllowedHeaders(List.of("*"));
+            return cors;
+        });
         // token을 사용하는 방식이기 때문에 csrf를 disable
         http
                 .csrf().disable();
@@ -69,8 +74,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().
-                antMatchers("/user/login/**","/token/refresh/**")
-                .permitAll();// login 부분
+                antMatchers("/user/login/**","/user/refresh/**","/user/",
+                        "/room/gallery")
+                .permitAll()
+                .anyRequest() // 나머지 요청들에 대해서는
+                .authenticated();// 인증받아야 한다.;
 //----------------------------------------------------------------------------
         // filter 추가 > authentication filter 사용자 확인 (로그인 할때마다 알림)
         // customizing 한 filter 사용

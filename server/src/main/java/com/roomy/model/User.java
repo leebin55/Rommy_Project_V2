@@ -1,6 +1,5 @@
 package com.roomy.model;
 
-import com.roomy.model.othertype.Gender;
 import com.roomy.model.othertype.UserRole;
 import lombok.*;
 
@@ -37,10 +36,6 @@ public class User {
     // 이메일
     private String email;
 
-    // 성별
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
 
     // 프로필 사진
     @Column(nullable = true)
@@ -64,6 +59,10 @@ public class User {
     public User(String username, String nickname) {
         this.username = username;
         this.nickname = nickname;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
 

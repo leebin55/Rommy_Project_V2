@@ -48,7 +48,9 @@ public class UserServiceImpl implements UserService{
                 Sort.by(Sort.Direction.DESC,"username"));
         Page<User> userVOPage = userRepository.findAllWithPage(pageReq);
 
-        Page<UserDTO> userPage = userVOPage.map(user -> new UserDTO(user.getUsername(),user.getNickname(),user.getProfile(),user.getEmail()));
+        Page<UserDTO> userPage = userVOPage.map(user -> UserDTO.builder().username(user.getUsername())
+                .nickname(user.getNickname()).profile(user.getProfile()).email(user.getEmail())
+                .build());
 
         return userPage;
     }
@@ -56,15 +58,19 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO findByUsername(String username) {
+
         User findUser = userRepository.findByUsername(username);
         if(findUser==null){
             return null;
         }
-        return new UserDTO(findUser.getUsername(), findUser.getEmail(), findUser.getProfile(), findUser.getNickname());
+        return UserDTO.builder().username(findUser.getUsername())
+                .nickname(findUser.getNickname()).profile(findUser.getProfile())
+                .email(findUser.getEmail()).build();
     }
 
     @Override
     public Boolean validateDuplicateUser(String username) {
+        log.info("user existByUsername ");
       Boolean existCheck = userRepository.existsByUsername(username);
       return existCheck;
     }
@@ -78,13 +84,12 @@ public class UserServiceImpl implements UserService{
             // 우선 UserDTO 를 UserVO 로 변환
             User user = userDTO.toEntity();
             // user 가 생성되면  room 도 같이 생성되게
-            Room room = new Room(user.getNickname() + " 님",makeIntro(user.getNickname()));
+            Room room = Room.builder().roomname(user.getNickname()+" 님")
+                    .intro(makeIntro(user.getNickname()))
+                    .build();
             // 양뱡향 이므로 room 에 user 세팅
-            room.setUser(user);
-            user.toBuilder().room(room).build();
-            // room 도 insert
+           room.setUser(user);
             userRepository.save(user);
-
             return user.getUsername();
         }
         return null;

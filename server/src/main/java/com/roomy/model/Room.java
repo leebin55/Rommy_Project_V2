@@ -1,6 +1,7 @@
 package com.roomy.model;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -11,9 +12,10 @@ import java.util.List;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Entity
 //@ToString(of={"roomSeq","roomname","intro","total"})
@@ -25,7 +27,7 @@ public class Room {
     private Long roomSeq;
 
     // room 과 User 관계에서 Room 이 연관관계 주인 으로 설정 (외래키를 관리 할 곳)
-    @OneToOne( fetch = LAZY)
+    @OneToOne( fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="username") //fk 참조할 곳 지정
     private User user;
 
@@ -51,12 +53,6 @@ public class Room {
         this.total= total;
     }
 
-    // == 생성자 ==//
-    // roomSeq 도 같이 생성?????
-    public Room(String roomname, String intro) {
-        this.roomname = roomname;
-        this.intro = intro;
-    }
 
 
     // 두개를 원자적으로 묶음
@@ -67,7 +63,7 @@ public class Room {
         // user.setRoom(room);
         // room.setUser(user)
         this.user = user;
-        user.builder().room(this).build();
+        user.setRoom(this);
     }
 
 
