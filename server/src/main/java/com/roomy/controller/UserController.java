@@ -1,11 +1,20 @@
 package com.roomy.controller;
 
+import com.roomy.config.JWT.TokenProvider;
+import com.roomy.dto.LoginDTO;
 import com.roomy.dto.UserDTO;
 import com.roomy.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
 @RestController
@@ -14,8 +23,11 @@ public class UserController {
 
     private final UserService userService;
 
+
+
     public UserController(UserService userService) {
         this.userService = userService;
+
     }
 
     // user 등록 : 회원가입
@@ -29,12 +41,6 @@ public class UserController {
         return ResponseEntity.badRequest().body("회원가입 실패");
     }
 
-    // 로그인
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserDTO userDto){
-        log.debug("login dto {} ",userDto.toString());
-        return null;
-    }
 
     // user 조회
     @GetMapping({"/",""})

@@ -1,5 +1,5 @@
 package com.roomy.model.othertype;
 
 public enum UserRole {
-   ADMIN , USER
+   ROLE_ADMIN , ROLE_USER
 }

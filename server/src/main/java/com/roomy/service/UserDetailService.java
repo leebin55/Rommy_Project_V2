@@ -9,12 +9,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.List;
+
 @Slf4j
 @Component
 public class UserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
 
     public UserDetailService(UserRepository userRepository) {
+
         this.userRepository = userRepository;
     }
 
@@ -28,10 +32,14 @@ public class UserDetailService implements UserDetailsService {
         }else{
             log.debug("DB에서 user를 찾았습니다. {}", username);
         }
-        String userRole = user.getRole().toString();
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole);
 
-        return null;
+        String userRole = user.getRole().toString();
+        log.info("userdetail service 해당 유저 찾음 role: {}" , userRole);
+        // 우선 회원가입을 하면 ROLE_USER 으로만 세팅을 해줄거기 때문에
+        List<SimpleGrantedAuthority> authority = Collections.singletonList(new SimpleGrantedAuthority(userRole));
+
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                user.getPassword(),authority);
     }
 
 }

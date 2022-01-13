@@ -98,18 +98,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateUser(UserDTO userDTO) {
 
-        User userVO = userRepository.findById(userDTO.getUsername()).orElse(null);
-        if(userVO != null){
+        User user = userRepository.findById(userDTO.getUsername()).orElse(null);
+        if(user != null){
          // update 할수 있는 칼럼은  nickname , email, profile\
             // password  는 따로 수정
-            userVO.toBuilder().nickname(userDTO.getNickname()).
+            user.builder().nickname(userDTO.getNickname()).
                     email(userDTO.getEmail()).profile(userDTO.getProfile())
                             .build();
             // room도 수정해주기
-            Room room =userVO.getRoom();
-            room.setUser(userVO);
+            Room room =user.getRoom();
+            room.setUser(user);
 
-            userRepository.save(userVO);
+            userRepository.save(user);
             roomRepository.save(room);
         }
     }

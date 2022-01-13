@@ -1,6 +1,7 @@
 package com.roomy.dto;
 
 import com.roomy.model.User;
+import com.roomy.model.othertype.UserRole;
 import lombok.*;
 // (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
 
@@ -19,7 +20,8 @@ public class UserDTO {
 
     public User toEntity(){
         return User.builder().username(username)
-                .email(email).profile(profile).nickname(nickname).password(password).build();
+                .email(email).profile(profile).nickname(nickname)
+                .role(UserRole.ROLE_USER).password(password).build();
 
     }
 

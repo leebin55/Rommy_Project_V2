@@ -20,7 +20,7 @@ export default function LoginModal() {
     if (username.trim() !== '' && password.trim() !== '') {
       try {
         await axiosInstance
-          .post('/user/login', {
+          .post('/auth/login', {
             username,
             password,
           })
@@ -28,6 +28,7 @@ export default function LoginModal() {
             console.log(res.data);
             window.location.reload();
           });
+        return;
       } catch (error) {
         alert('해당정보가 없습니다. 회원가입해주세요');
 

@@ -1,4 +1,4 @@
-package com.roomy.config.filter;
+package com.roomy.config.JWT;
 
 import com.roomy.config.JWT.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,8 @@ import java.io.IOException;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 /**
+ *
+ * >> Login Form 으로 구현할때만.......
  * JWT 토큰을 위한 필터
  * 그래서 JwtFilter를 다음과
  * 같이 만들어서 UsernamePasswordAuthenticationFilter 이전에 등록
@@ -40,12 +42,13 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if(request.getServletPath().equals("/user/login")||
-                request.getServletPath().equals("/token/refresh")){
+        //    request.getServletPath().equals("/user/refresh") : 만약 refresh 토큰까지 있다면
+        if(request.getServletPath().equals("/auth/login")
+             ){
             // user 가 login 하게설정
-            log.debug("/user/login ");
+            log.debug("login하기 url : /auth/login  ");
 
-            filterChain.doFilter(request,response);
+//            filterChain.doFilter(request,response);
         }else{
             // 위의 url  이외일때
             //resolveToken를 통해 httpServletRequest의 Header  에서 jwt 가져오기
@@ -64,9 +67,9 @@ public class CustomJwtFilter extends OncePerRequestFilter {
             }
         }
 
-
-
         filterChain.doFilter(request,response);
+
+
     }
 
     /**

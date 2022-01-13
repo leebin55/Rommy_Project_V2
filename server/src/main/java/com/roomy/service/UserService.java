@@ -9,7 +9,6 @@ public interface UserService{
     public Page<UserDTO> getAllUserList();
 
 
-
     UserDTO findByUsername(String username);
 
     // 아이디 중복 검사

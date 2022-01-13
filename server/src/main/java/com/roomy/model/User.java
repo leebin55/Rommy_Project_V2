@@ -2,10 +2,12 @@ package com.roomy.model;
 
 import com.roomy.model.othertype.UserRole;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.*;
 
+import static com.roomy.model.othertype.UserRole.ROLE_USER;
 import static javax.persistence.FetchType.LAZY;
 
 
@@ -13,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Getter
-@Builder(toBuilder = true)
+@Builder
 @Table(name ="tbl_user" , schema = "roomyDB")
 public class User {
 
@@ -22,7 +24,6 @@ public class User {
 //    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long userId;
     @Id
-    @Column(unique = true)
     private String username;
 
     // RoomVO user 에 의해 매핑
@@ -46,6 +47,7 @@ public class User {
 
     // 권한
     @Enumerated(EnumType.STRING)
+//    @ColumnDefault("ROLE_USER")
     private UserRole role;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
