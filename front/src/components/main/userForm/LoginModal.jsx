@@ -26,11 +26,11 @@ export default function LoginModal() {
           })
           .then((res) => {
             console.log(res.data);
-            window.location.reload();
+            // window.location.reload();
           });
         return;
       } catch (error) {
-        alert('해당정보가 없습니다. 회원가입해주세요');
+        alert('로그인 실패');
 
         return;
       }

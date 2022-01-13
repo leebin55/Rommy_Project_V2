@@ -48,6 +48,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         // 그 인중 정보를 이용해서 jwt 토큰 생성
         String token = tokenProvider.createToken(authentication);
+        log.info("login 후 토킁 생성 : {}", token);
         //Header 에 토큰을 넣고
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(AUTHORIZATION, "Bearer " + token);

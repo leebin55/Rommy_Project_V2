@@ -82,7 +82,9 @@ public class UserServiceImpl implements UserService{
         Boolean existCheck = validateDuplicateUser(userDTO.getUsername());
         if(existCheck == false){
             // 우선 UserDTO 를 UserVO 로 변환
-            User user = userDTO.toEntity();
+            UserDTO encodedUser = userDTO.toBuilder().password(passwordEncoder.encode(userDTO.getPassword())).build();
+            log.info("join user to builder 사용 : {}",encodedUser.toString());
+            User user = encodedUser.toEntity();
             // user 가 생성되면  room 도 같이 생성되게
             Room room = Room.builder().roomname(user.getNickname()+" 님")
                     .intro(makeIntro(user.getNickname()))
