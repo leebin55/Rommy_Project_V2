@@ -19,7 +19,6 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name ="tbl_user" , schema = "roomyDB")
 public class User {
 
-
     //userId > Security 사용할때
 //    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long userId;
@@ -58,13 +57,14 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Friend> friendList = new ArrayList<>();
 
-    public User(String username, String nickname) {
-        this.username = username;
-        this.nickname = nickname;
-    }
+    // 연관관계로 다른 엔티티에서 참조될때 사용하기 위해
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public void setFriend(Friend friend){
+        this.friendList.add(friend);
     }
 
 

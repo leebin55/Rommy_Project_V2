@@ -1,4 +1,4 @@
-package com.roomy.dto;
+package com.roomy.dto.user;
 
 import lombok.*;
 
@@ -10,8 +10,11 @@ public class LoginDTO {
     private String username;
     private String password;
 
-    @Builder
-    public LoginDTO(String username, String password) {
+    public static LoginDTO createLoginDTO(String username, String password){
+        return new LoginDTO(username,password);
+    }
+
+    private LoginDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }

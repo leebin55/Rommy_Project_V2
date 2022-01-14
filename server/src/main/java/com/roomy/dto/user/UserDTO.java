@@ -1,4 +1,4 @@
-package com.roomy.dto;
+package com.roomy.dto.user;
 
 import com.roomy.model.User;
 import com.roomy.model.othertype.UserRole;

@@ -4,12 +4,14 @@ package com.roomy.controller;
 import com.roomy.dto.BoardDTO;
 import com.roomy.service.BoardService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("/room")
@@ -17,12 +19,6 @@ public class BoardController {
 
     @Qualifier("boardService")
     private final BoardService boardService;
-
-
-    public BoardController(BoardService boardService ){
-        this.boardService = boardService;
-
-    }
 
     // 글 조회
     @GetMapping("/{username}/board")

@@ -5,6 +5,9 @@ import axiosInstance from '../../utils/AxiosInstance';
 import RoomNav from '../../components/room/RoomNav';
 import '../../css/room/Room.css';
 
+/**
+ * 미니홈페이지(Room)의 메인 레이아웃 우측 메뉴 클릭 시 <Outlet> 부분만 변함
+ */
 function Room() {
   // 현재 접속해있는 미니홈피 주인회원id URL에서 잘라오기
   const { userId } = useParams();
@@ -15,7 +18,7 @@ function Room() {
   const [showFollowBtn, setShowFollowBtn] = useState(true);
 
   //------------------------------------------------------------------
-  // axios 여러개 한번에 받아오기
+  // 이전에는 axios 를 이용하여 3번 요청(user, room, friend 정보) >  join 을 이용해서 한번의 요청으로 불러오기
   // 유저 프로필 불러오기
   const getUserProfile = () => axiosInstance.get(`/user/${userId}`);
 
@@ -39,7 +42,6 @@ function Room() {
         console.log(res[2].data);
         // 로그인한 유저와 room주인의 아이디가 다를때
         if (res[2].data.sameUser) {
-          //
           setShowFollowBtn(false);
           return;
         }
@@ -49,7 +51,7 @@ function Room() {
   }, []);
   //-----------------------------------------------------------------
 
-  const buttonClick = () => {
+  const followBtnEvent = () => {
     if (checkFollow) {
       // true일때 > follow한 상태일때
       setCheckFollow(false);
@@ -86,13 +88,10 @@ function Room() {
           <div className="room-right-header">
             <p className="room-name">{roomData.roomName}</p>
             {showFollowBtn && (
-              <>
-                {checkFollow ? (
-                  <button onClick={buttonClick}>✖ UNFOLLOW</button>
-                ) : (
-                  <button onClick={buttonClick}>➕ FOLLOW </button>
-                )}
-              </>
+              <button onClick={followBtnEvent}>
+                {' '}
+                {checkFollow ? <>✖ UNFOLLOW</> : <>➕ FOLLOW </>}
+              </button>
             )}
           </div>
           <div className="room-right-2">

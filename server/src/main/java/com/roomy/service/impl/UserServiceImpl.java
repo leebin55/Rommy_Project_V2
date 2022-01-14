@@ -1,23 +1,21 @@
 package com.roomy.service.impl;
 
-import com.roomy.dto.UserDTO;
+import com.roomy.dto.user.UserDTO;
 import com.roomy.model.Room;
 import com.roomy.model.User;
 import com.roomy.repository.RoomRepository;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service @Transactional
 public class UserServiceImpl implements UserService{
@@ -25,21 +23,6 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
-
-    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, RoomRepository roomRepository) {
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.roomRepository = roomRepository;
-    }
-
-    /**
-                AuthenticationFilter 에서 username 을사용하여 현재 저장되어 있는 user(Account)를
-     *      *  UserDetailsService에 요청한다.
-     *      *  유저를 받아온 후 password일치 여부등, 유저를 검증하여 성공했다면
-     *      *  Authentication 객체를 반환하고 실패했다면 예외를 발생
-     *      *  . Provider가 요청한 user를 받아오기 위해 loadByUsername 메서드가 호출됩니다
-     */
-
 
     @Override
     public Page<UserDTO> getAllUserList() {

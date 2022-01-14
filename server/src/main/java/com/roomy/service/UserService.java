@@ -1,6 +1,6 @@
 package com.roomy.service;
 
-import com.roomy.dto.UserDTO;
+import com.roomy.dto.user.UserDTO;
 import org.springframework.data.domain.Page;
 
 public interface UserService{
@@ -20,4 +20,5 @@ public interface UserService{
 
 
     void deleteUser(String username);
+
 }

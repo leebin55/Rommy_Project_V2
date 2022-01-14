@@ -24,6 +24,7 @@ function Feeds() {
         }
       }); //end then
     } catch (error) {
+      console.log(error);
       // end try
       throw error;
     } //end catch

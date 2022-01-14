@@ -1,20 +1,13 @@
 package com.roomy.controller;
 
-import com.roomy.config.JWT.TokenProvider;
-import com.roomy.dto.LoginDTO;
-import com.roomy.dto.UserDTO;
+import com.roomy.dto.user.UserDTO;
 import com.roomy.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -42,10 +35,13 @@ public class UserController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<?> loadUserDetailByToken(){
-        log.info("user login 후 정보 불러오기");
-
-        return null;
+    public ResponseEntity<?> loadUserDetailByToken(Principal principal){
+        log.info("user login 후 정보 불러오기 : {}", principal.toString());
+        if(principal != null){
+            UserDTO loggedUser = userService.findByUsername(principal.getName());
+            return ResponseEntity.ok(loggedUser);
+        }
+        return ResponseEntity.badRequest().body("로그인 정보 없음");
     }
 
     // 모든 user 조회

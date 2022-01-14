@@ -2,23 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
 
+/**
+ * Room 의 레이아웃 중 오른쪽 부분(메인, 갤러리, 게시판,세팅 등등으로 )
+ * Room 의 메인 화면
+ */
 function RoomMain() {
   const [content, setContent] = useState(''); // 입력한 방명록 작성 내용
-  const [pp, setPp] = useState(false); // 입력한 방명록 공개여부
-  const [guest_list, setGuest_list] = useState([]);
+  const [guestStatus, setGuestStatus] = useState(false); // 입력한 방명록 공개여부
+  const [guestList, setGuestList] = useState([]);
   const { userId } = useParams();
 
   // 미니홈피 메인화면에서 방명록을 보여주기 위함
-  const fetchGuest = async () => {
-    const res = await fetch(
-      `http://localhost:8080/room/${userId}/guest?limit=4`
-    );
-    const data = await res.json();
-    setGuest_list(data);
+  const loadGuest = async () => {
+    const res = await axiosInstance(`/room/${userId}/guest?limit=4`);
+    const data = await res.data;
+    setGuestList(data);
   };
 
   const guestPrivate = () => {
-    setPp((pp) => !pp);
+    setGuestStatus((pp) => !pp);
   };
 
   const onChange = (e) => {
@@ -40,16 +42,17 @@ function RoomMain() {
       },
       body: JSON.stringify({
         guestContent: content,
-        guestPrivate: pp,
+        // guestPrivate: pp,
       }),
     });
-    setPp(false);
+    setGuestStatus(false);
     setContent('');
-    fetchGuest();
+    loadGuest();
   };
-
+  // 화면이 랜더링 되면 우선 localStorage 에 토큰있나 확인 하고
+  // 토큰의 정보와 홈페이지 주인의 정보가 일치하는 확인
   useEffect(() => {
-    fetchGuest();
+    loadGuest();
   }, []);
 
   return (
@@ -60,8 +63,8 @@ function RoomMain() {
       </section>
       <section className="main-bottom">
         <div className="main-guest">
-          {guest_list.length > 0 ? (
-            guest_list.map((item) => (
+          {guestList.length > 0 ? (
+            guestList.map((item) => (
               <div className="main-guest-box">
                 <img src="/img/postit.png" alt="" />
                 <p>{item.guestContent}</p>
@@ -75,7 +78,7 @@ function RoomMain() {
         </div>
         <div className="guest-write">
           <div className="guest-write-private" onClick={() => guestPrivate()}>
-            {pp ? '비공개' : '공개'}
+            {guestStatus ? '비공개' : '공개'}
           </div>
           <textarea
             name="guest-write-content"

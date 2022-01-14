@@ -1,8 +1,9 @@
 package com.roomy.controller;
 
 import com.roomy.config.JWT.TokenProvider;
-import com.roomy.dto.LoginDTO;
-import com.roomy.dto.TokenDTO;
+import com.roomy.dto.user.LoginDTO;
+import com.roomy.dto.user.TokenDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+@RequiredArgsConstructor
 @RestController @Slf4j
 @RequestMapping("/auth")
 public class AuthController {
@@ -23,10 +25,7 @@ public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AuthController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
-        this.tokenProvider = tokenProvider;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-    }
+
 
     //    // 로그인
     @PostMapping("/login")
@@ -50,7 +49,8 @@ public class AuthController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(AUTHORIZATION, "Bearer " + token);
 
-        return new ResponseEntity<>(new TokenDTO(token),httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(TokenDTO.tokenInfo(token),
+                httpHeaders, HttpStatus.OK);
     }
 // 로그아웃
     @DeleteMapping("/logout")

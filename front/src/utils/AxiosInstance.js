@@ -49,9 +49,11 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error);
     // http status 가 200 이 아닌 경우 응답 에러 직전 호출
     // .catch() 실행
+    console.log('res 에러', error.response.data);
+    // 여기서 토큰 만료등 과같은 에러 핸들링하기
+    // localStorage.removeItem('token');
     return Promise.reject(error);
   }
 );
