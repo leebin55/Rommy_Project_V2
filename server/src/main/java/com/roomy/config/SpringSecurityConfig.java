@@ -8,6 +8,7 @@ import com.roomy.config.JWT.CustomJwtFilter;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +23,8 @@ import org.springframework.web.filter.CorsFilter; // 다른 패키지로 import 
 
 //@Configuration : @EnableWebSecurity  에 포함되어있음
  @EnableWebSecurity
+ @EnableGlobalMethodSecurity(prePostEnabled = true)// Controller에서 특정 페이지에 특정 권한이 있는 유저만 접근을 허용할 경우
+ // @PreAuthorize 어노테이션을 사용하는데, 해당 어노테이션에 대한 설정을 활성화시키는 어노테이션이다
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * SecurityContextPersistenceFilter는 이후의 필터동작들이 끝난 후,

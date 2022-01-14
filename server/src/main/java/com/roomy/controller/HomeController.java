@@ -20,6 +20,7 @@ public class HomeController {
     public ResponseEntity<?> feed(){
         // 로그인 전이면 공개 갤러리 게시물
         // 로그인 후면 친구 게시물
+        log.info("feed 실행");
         return null;
     }
 }

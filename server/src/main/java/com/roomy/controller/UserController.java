@@ -41,8 +41,14 @@ public class UserController {
         return ResponseEntity.badRequest().body("회원가입 실패");
     }
 
+    @GetMapping("/detail")
+    public ResponseEntity<?> loadUserDetailByToken(){
+        log.info("user login 후 정보 불러오기");
 
-    // user 조회
+        return null;
+    }
+
+    // 모든 user 조회
     @GetMapping({"/",""})
     public ResponseEntity<?> list() {
         log.debug("user list 컨트롤러 실행 ");

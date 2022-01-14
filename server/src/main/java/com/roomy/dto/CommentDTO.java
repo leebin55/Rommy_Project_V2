@@ -3,6 +3,6 @@ package com.roomy.dto;
 import lombok.*;
 
 
-@Builder @Getter
+@Getter
 public class CommentDTO {
 }

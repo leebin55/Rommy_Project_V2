@@ -68,7 +68,7 @@ export default function MainModal({ btnType, setCheckLogin }) {
             )}
             {btnType === '회원가입' && (
               <>
-                <JoinModal />
+                <JoinModal handleClose={handleClose} />
               </>
             )}
             {btnType === '수정하기' && (

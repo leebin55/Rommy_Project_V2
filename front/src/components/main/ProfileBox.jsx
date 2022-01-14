@@ -13,12 +13,18 @@ function ProfileBox() {
   // 우선 testid 로  username 지정 > 나중에 변경해주기!~~~~~!!!
   const username = 'testid';
 
-  const checkLoggedUser = async () => {
-    await axiosInstance.get(``);
+  const loadUserDetail = async () => {
+    await axiosInstance.get(`/user/detail`).then((res) => console.log(res));
   };
 
-  // 로그인 했는지 확인> JWT 를 사용할 예정이기 때문에 cookie 에 토큰이 있는지 확인하고 있으면 토큰이 유효한지 서버에 보내서 확인하기
-  useEffect(() => {}, []);
+  // 로그인 했는지 확인> JWT 를 사용할 예정이기 때문에 localstorage 에 토큰이 있는지 확인하고 있으면 토큰이 유효한지 서버에 보내서 확인하기
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      console.log('loadUserDetail() 실행');
+      loadUserDetail();
+      setCheckLogin(true);
+    }
+  }, [checkLogin]);
 
   return (
     <>

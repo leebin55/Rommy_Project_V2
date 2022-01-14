@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axiosInstance from '../../../utils/AxiosInstance';
 
-export default function JoinModal() {
+export default function JoinModal({ handleClose }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');

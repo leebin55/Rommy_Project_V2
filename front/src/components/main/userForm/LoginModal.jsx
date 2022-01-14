@@ -26,12 +26,12 @@ export default function LoginModal() {
           })
           .then((res) => {
             console.log(res.data);
-            // window.location.reload();
+            localStorage.setItem('token', res.data.token);
+            window.location.reload();
           });
         return;
       } catch (error) {
         alert('로그인 실패');
-
         return;
       }
     }

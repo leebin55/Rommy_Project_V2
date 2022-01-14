@@ -1,3 +1,4 @@
+import { Iron } from '@mui/icons-material';
 import axios from 'axios';
 
 // axios 에 관한 옵션 공통 처리
@@ -24,7 +25,11 @@ axiosInstance.interceptors.request.use(
   // axios  설정값을 넣음
   (config) => {
     // 만약 토큰이 있으면 여기서 토큰 리턴
-    //
+    const token = localStorage.getItem('token');
+    if (token) {
+      console.log('header 에 token 정보 담기', token);
+      config.headers['Authorization'] = 'Bearer ' + token;
+    }
     return config;
   },
 

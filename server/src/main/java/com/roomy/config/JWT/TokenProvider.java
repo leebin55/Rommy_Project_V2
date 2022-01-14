@@ -7,17 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
+import static java.lang.System.err;
+import static java.util.stream.Collectors.toList;
 
 
 /**
@@ -93,8 +96,33 @@ public class TokenProvider implements InitializingBean {
     }
     // Token 을 parameter로 받아 담겨있는 권한정보를
     // 이용해 authentication 객체를 리턴하는 메서드
-    public Authentication getAuthentication(String jwt) {
-        return null;
+
+    /**
+     *  jwtFilter에서 사용되는데, 사용자 인증에 성공할 경우
+     *  이 메서드를 통해 토큰에서 인증권한을 추출하고,
+     *  Authentication 객체를 만들어서 그것을 SecurityContext에 저장합니다.
+     *  => Controller 에서 @AuthenticationPrincipal 어노테이션으로 SecurityContext
+     *  에 담긴 유저정보 가져올 수 있음
+    */
+    public Authentication getAuthentication(String token) {
+        // token 을 이용해 claim 생성
+        // claim 은 payload 부분의 정보 한 '조각' name , value 한쌍으로
+        Claims claims = Jwts
+                .parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        // claim 에서 권한 정보를 얻기 (이 프로젝트에서는 권한이 우선 하나 )
+        // 원래는 여러개 가능 > 기본이 Collection 으로해야되서
+        Collection<SimpleGrantedAuthority> authorities = Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(toList());
+
+        // 위의 정보를 이용해서 User 객체 생성(spring security 의 User )
+        User principal = new User(claims.getSubject(),"",authorities);
+        //Authentication 객체 리턴
+        return new UsernamePasswordAuthenticationToken(principal,token,authorities );
     }
 
     // 토큰을 받아  유효성 검사

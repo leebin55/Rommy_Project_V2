@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class TokenDTO {
 
-    private String access_token;
+    private String token;
 
     public TokenDTO(String token) {
-        this.access_token = token;
+        this.token = token;
     }
 }
