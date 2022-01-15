@@ -5,5 +5,5 @@ import com.roomy.dto.FriendDTO;
 public interface FriendService {
 
 
-    void followOrUnfollow(FriendDTO friendDTO);
+    void followOrUnfollow(String roomUser , String loggedInUser);
 }

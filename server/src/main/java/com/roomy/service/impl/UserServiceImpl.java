@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService{
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final RoomRepository roomRepository;
 
     @Override
     public Page<UserDTO> getAllUserList() {
@@ -95,7 +94,7 @@ public class UserServiceImpl implements UserService{
             room.setUser(user);
 
             userRepository.save(user);
-            roomRepository.save(room);
+
         }
     }
 
@@ -103,8 +102,6 @@ public class UserServiceImpl implements UserService{
     public void deleteUser(String username) {
         userRepository.deleteById(username);
     }
-
-
 
 
     private String makeIntro(String nickname){

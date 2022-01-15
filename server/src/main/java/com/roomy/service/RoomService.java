@@ -1,7 +1,7 @@
 package com.roomy.service;
 
-import com.roomy.dto.RoomWithUserAndFriendsDTO;
+import com.roomy.dto.RoomMainDTO;
 
 public interface RoomService {
-    RoomWithUserAndFriendsDTO loadRoomMainInfo(String username);
+    RoomMainDTO loadRoomMainInfo(String roomUser , String loggedInUser);
 }

@@ -6,9 +6,9 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import JoinModal from './JoinModal';
-import LoginModal from './LoginModal';
 import Cancel from '@mui/icons-material/Cancel';
 import UpdateModal from './UpdateModal';
+import Login from '../../../pages/Login';
 
 const style = {
   position: 'absolute',
@@ -63,7 +63,7 @@ export default function MainModal({ btnType, setCheckLogin }) {
             </Box>
             {btnType === '로그인' && (
               <>
-                <LoginModal />
+                <Login />
               </>
             )}
             {btnType === '회원가입' && (

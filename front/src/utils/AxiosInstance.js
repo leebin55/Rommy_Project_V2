@@ -1,4 +1,3 @@
-import { Iron } from '@mui/icons-material';
 import axios from 'axios';
 
 // axios 에 관한 옵션 공통 처리
@@ -27,7 +26,7 @@ axiosInstance.interceptors.request.use(
     // 만약 토큰이 있으면 여기서 토큰 리턴
     const token = localStorage.getItem('token');
     if (token) {
-      console.log('header 에 token 정보 담기', token);
+      console.log('header 에 token 정보 담기');
       config.headers['Authorization'] = 'Bearer ' + token;
     }
     return config;
@@ -51,7 +50,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // http status 가 200 이 아닌 경우 응답 에러 직전 호출
     // .catch() 실행
-    console.log('res 에러', error.response.data);
+    console.log('res 에러', error.response);
     // 여기서 토큰 만료등 과같은 에러 핸들링하기
     // localStorage.removeItem('token');
     return Promise.reject(error);

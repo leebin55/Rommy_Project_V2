@@ -54,7 +54,6 @@ public class Room {
     }
 
 
-
     // 두개를 원자적으로 묶음
     //== 연관관계 메서드 ==// : 컨트롤 하는 쪽이 연관관계 메서드를 가지고 있는 것이 좋음
     public void setUser(User user){
@@ -65,8 +64,4 @@ public class Room {
         this.user = user;
         user.setRoom(this);
     }
-
-
-
-
 }

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
 import MainModal from './userForm/MainModal';
 import { Button } from '@mui/material';
+
 /**
  * 메인 화면에서 프로필 박스 부분
  */

@@ -4,50 +4,41 @@ import LeftSide from '../../components/room/LeftSide';
 import axiosInstance from '../../utils/AxiosInstance';
 import RoomNav from '../../components/room/RoomNav';
 import '../../css/room/Room.css';
+import { JwtDecoder, JwtValidate } from '../../utils/JwtUtils';
 
 /**
  * 미니홈페이지(Room)의 메인 레이아웃 우측 메뉴 클릭 시 <Outlet> 부분만 변함
  */
 function Room() {
   // 현재 접속해있는 미니홈피 주인회원id URL에서 잘라오기
-  const { userId } = useParams();
+  const { roomUser } = useParams();
   const [roomData, setRoomData] = useState({});
   const [userInfo, setUserInfo] = useState('');
   const [checkFollow, setCheckFollow] = useState(false);
-  // 맨위 follow버튼 보이기 (기본값 true) > 로그인한 user와 room 주인이 같을때만 false
-  const [showFollowBtn, setShowFollowBtn] = useState(true);
+  const [showFollowBtn, setShoFollowBtn] = useState(true);
+  let tokenUser = null; // token 이 존재할 때 토큰에서 username(sub) 를 가져옴 > 본인의 room 인지 확인 하기 위해
 
   //------------------------------------------------------------------
   // 이전에는 axios 를 이용하여 3번 요청(user, room, friend 정보) >  join 을 이용해서 한번의 요청으로 불러오기
-  // 유저 프로필 불러오기
-  const getUserProfile = () => axiosInstance.get(`/user/${userId}`);
 
-  // 미니홈피 정보들 불러오기
-  const getRoomInfo = () => axiosInstance.get(`/room/${userId}`);
-
-  // Follow / Unfollow => 로그인한 아이디가 room의 주인이 아닐때 follow 했는지 안했는지 확인
-  // server의 session 에서 로그인한 아이디 확인
-  const checkFollowInfo = () =>
-    axiosInstance.get(`/friend/${userId}/checkfollow`);
-
+  const loadRoomInfo = async () => {
+    await axiosInstance.get(`/room/${roomUser}/friend`).then((res) => {
+      console.log('room res : ', res);
+    });
+  };
   useEffect(() => {
-    // multiple concurrent requests
-    Promise.all([getUserProfile(), getRoomInfo(), checkFollowInfo()]).then(
-      (res) => {
-        // 변수에 넣으면 먼저 실행되는게 아니라서 setRoomData 에 값이 안들어감
-        //   const userInfo = res[0].data;
-        //   const roomInfo = res[1].data;
-        setUserInfo(res[0].data);
-        setRoomData(res[1].data);
-        console.log(res[2].data);
-        // 로그인한 유저와 room주인의 아이디가 다를때
-        if (res[2].data.sameUser) {
-          setShowFollowBtn(false);
-          return;
-        }
-        setCheckFollow(res[2].data.checkFollow); // follow 했는지 확인 true: follow 한상태
+    // JwtValidate 는 토큰이 localStorage 에 있나 확인하고
+    // 있으면 exp 이 지낫는지 확인 > 모두 Ok 이면 true 리턴
+    // 토큰이 없거나 만료 기간이 지나면 토큰 지우고 false 리턴
+    if (JwtValidate()) {
+      const tokenDe = JwtDecoder(localStorage.getItem('token'));
+      tokenUser = tokenDe.sub;
+      console.log('JwtValidate 통과  tokenUser : ', tokenUser);
+      loadRoomInfo();
+      if (tokenUser === roomUser) {
+        setShoFollowBtn(false);
       }
-    );
+    }
   }, []);
   //-----------------------------------------------------------------
 
@@ -59,7 +50,7 @@ function Room() {
       axiosInstance.delete(`/friend/unfollow`, {
         data: {
           // userId: 'testId', // 로그인한 유저
-          followUserId: userId, // 미니홈피 주인
+          followUserId: roomUser, // 미니홈피 주인
         },
       });
       return;
@@ -68,7 +59,7 @@ function Room() {
     // follow 실행
     axiosInstance.post(`/friend/follow`, {
       //  userId: 'testId', // 로그인한 유저
-      followUserId: userId, // 미니홈피 주인
+      followUserId: roomUser, // 미니홈피 주인
     });
   };
   return (
@@ -99,7 +90,7 @@ function Room() {
               <Outlet />
             </section>
             <section className="room-main-nav">
-              <RoomNav userId={userId} />
+              <RoomNav userId={roomUser} />
             </section>
           </div>
         </div>

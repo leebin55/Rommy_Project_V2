@@ -54,8 +54,11 @@ public class User {
 
 
     // 해당 유저가 팔로우와 팔로워 리스트
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Friend> friendList = new ArrayList<>();
+    @OneToMany(mappedBy = "following",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Friend> followingList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "follower",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Friend> followerList = new ArrayList<>();
 
     // 연관관계로 다른 엔티티에서 참조될때 사용하기 위해
 
@@ -63,9 +66,7 @@ public class User {
         this.room = room;
     }
 
-    public void setFriend(Friend friend){
-        this.friendList.add(friend);
-    }
+
 
 
     // 회원 권한 user:role = N : N

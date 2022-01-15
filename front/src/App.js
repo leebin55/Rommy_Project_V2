@@ -9,18 +9,18 @@ import RoomPage from './pages/room/RoomPage';
 import * as Room from './pages/room/RoomComps';
 import GalleryDetail from './components/room/gallery/GalleryDetail';
 import BoardDetail from './components/room/board/BoardDetail';
+import Login from './pages/Login';
 
 function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path="login" element={<Login />} />
         <Route path="/" element={<MainPage />}>
           <Route index element={<Feeds />} />
           <Route path="search" element={<Search />} />
-
-          <Route path="news" element={<News />} />
         </Route>
-        <Route path="/room/:userId" element={<RoomPage />}>
+        <Route path="/room/:roomUser" element={<RoomPage />}>
           <Route index element={<Room.Main />} />
           <Route path="board/*" element={<Room.Board />} />
           <Route path="board/:board_seq" element={<BoardDetail />} />
