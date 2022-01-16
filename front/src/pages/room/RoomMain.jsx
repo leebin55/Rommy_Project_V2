@@ -32,28 +32,16 @@ function RoomMain() {
       alert('방명록을 입력하세요');
       return;
     }
-    await fetch(`http://localhost:8080/room/${userId}/guest`, {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        guestContent: content,
-        // guestPrivate: pp,
-      }),
+    await axiosInstance.post(`/room/${userId}/guest`, {
+      content,
+      status: guestStatus,
     });
-    setGuestStatus(false);
     setContent('');
     loadGuest();
   };
   // 화면이 랜더링 되면 우선 localStorage 에 토큰있나 확인 하고
   // 토큰의 정보와 홈페이지 주인의 정보가 일치하는 확인
-  useEffect(() => {
-    loadGuest();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -63,10 +51,10 @@ function RoomMain() {
       </section>
       <section className="main-bottom">
         <div className="main-guest">
-          {guestList.length > 0 ? (
+          {guestList ? (
             guestList.map((item) => (
               <div className="main-guest-box">
-                <img src="/img/postit.png" alt="" />
+                <img src="/img/postit.png" alt="guest-post" />
                 <p>{item.guestContent}</p>
               </div>
             ))

@@ -19,7 +19,6 @@ function Friend() {
     axiosInstance.get(`/friend/follower/userInfo/${userId}`);
 
   useEffect(() => {
-    // 랜더링 할때 followList,follower List 부름 > 친구 추가는 데이터 가 많이 바뀌지 않기때문에 처음에 한번만 부름
     Promise.all([getFollowUserList(), getFollowerUserList()]).then((res) => {
       setFollowList(res[0].data);
       setFollowerList(res[1].data);
