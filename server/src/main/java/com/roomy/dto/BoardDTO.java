@@ -27,13 +27,12 @@ public class BoardDTO {
 
     public Board createBoard(){
         return Board.builder().boardSeq(boardSeq)
-                .title(title).content(content).createDate(LocalDateTime.now())
+                .title(title).content(content)
                 .status(status).boardCode(2).build();
     }
 
     public Board updateBoard(){
         return Board.builder().boardSeq(boardSeq).title(title).content(content)
-                .updateDate(LocalDateTime.now())
                 .status(status).build();
     }
 }

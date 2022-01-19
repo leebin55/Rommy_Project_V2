@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
 
         PageRequest pageReq = PageRequest.of(0,15,
                 Sort.by(Sort.Direction.DESC,"username"));
-        Page<User> userVOPage = userRepository.findAllWithPage(pageReq);
+        Page<User> userVOPage = userRepository.findAll(pageReq);
 
         Page<UserDTO> userPage = userVOPage.map(user -> UserDTO.builder().username(user.getUsername())
                 .nickname(user.getNickname()).profile(user.getProfile()).email(user.getEmail())

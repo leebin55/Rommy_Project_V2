@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Builder
 @Table(name ="tbl_user" , schema = "roomyDB")
-public class User {
+public class User extends BaseEntity{
 
     //userId > Security 사용할때
 //    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -37,6 +37,6 @@ public class GuestDTO {
         this.content = content;
     }
     public Guest toEntity(){
-         return new Guest(guestSeq,username,date,status,content);
+      return   Guest.builder().build();
     }
 }

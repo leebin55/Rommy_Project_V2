@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "tbl_todo")
-public class Todo {
+public class Todo extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +28,6 @@ public class Todo {
     @Column(name = "todo_important", columnDefinition = "int")
     @ColumnDefault("0")
     private Integer important;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
     @Column(name = "todo_user_id", columnDefinition = "VARCHAR(20)")
     private String userId;

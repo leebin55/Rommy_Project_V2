@@ -1,5 +1,3 @@
-import React from 'react';
-
 const baseUrl = 'http://localhost:3000';
 const JwtDecoder = (token) => {
   // [0]:  header , [1] : payload , [2] : Signature

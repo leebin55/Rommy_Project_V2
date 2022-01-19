@@ -27,7 +27,7 @@ public class RoomServiceImpl implements RoomService {
         // 로그인한 유저가 해당 룸 유저를 팔로우 했는지 확인
         User roomUser = userRepository.findByUsername(roomUsername);
         User loggedInUser = userRepository.findByUsername(loggedInUsername);
-
+        userRepository.loadRoomMain(roomUsername);
         return null;
     }
 

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name="tbl_comment")
-public class Comment {
+public class Comment extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long commentSeq;
@@ -21,9 +21,6 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_seq")
     private Board board;
-
-    // 댓글 단 날짜 시간
-    private LocalDateTime date;
 
     private Long userId;
     

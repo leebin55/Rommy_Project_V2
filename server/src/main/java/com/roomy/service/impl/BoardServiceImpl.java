@@ -6,6 +6,7 @@ import com.roomy.model.User;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.BoardService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,16 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 @Slf4j
-@Service("boardService") @Transactional
+@Service(value = "boardService") @Transactional
+@RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
-
-    public BoardServiceImpl(BoardRepository boardRepository, UserRepository userRepository) {
-        this.boardRepository = boardRepository;
-        this.userRepository = userRepository;
-    }
 
 //------------------------------ 조회 ---------------------------------------------------
     @Override @Transactional(readOnly = true)
@@ -95,7 +92,7 @@ public class BoardServiceImpl implements BoardService {
         if(findBoard != null){
             // 게시물 수정될 때는 title, content, updateDate , status 만 변경됨
             findBoard.toBuilder().title(board.getTitle()).content(board.getContent())
-                            .updateDate(LocalDateTime.now()).status(board.getStatus()).build();
+                            .status(board.getStatus()).build();
 
             boardRepository.save(findBoard);
             return board.getBoardSeq();

@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "tbl_board", schema="roomyDB")
-public class Board {
+public class Board extends BaseEntity{
 
     // 게시물 번호 PK
     @Id
@@ -40,14 +40,7 @@ public class Board {
     // 게시물 내용
     @Column(columnDefinition = "VARCHAR(4000)")
     private String content;
-
-    // 게시물 작성 시간
-    // LocalDateTime : hibernates 가 알아서 세팅
-    private LocalDateTime createDate;
-
-    // 게시물 수정 시간
-    private LocalDateTime  updateDate;
-
+    
     // 게시물 공개 여부(전체 공개 / 비공개 / 나를 팔로우한 친구공개 )
     @Enumerated(EnumType.STRING)
     private BoardStatus status;

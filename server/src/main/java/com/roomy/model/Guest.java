@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name="tbl_guest", schema="roomyDB")
-public class Guest {
+public class Guest extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long guestSeq;
@@ -27,10 +27,6 @@ public class Guest {
    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String username;
 
-
-    @Column(columnDefinition = "VARCHAR(20)",nullable = false)
-    private LocalDateTime date;
-
     @Column(columnDefinition = "VARCHAR(7)", nullable = false)
     @Enumerated(EnumType.STRING)
     private GuestStatus status;
@@ -44,11 +40,4 @@ public class Guest {
         room.getGuestList().add(this);
     }
 
-    public Guest(Long guestSeq, String username, LocalDateTime date, GuestStatus status, String content) {
-        this.guestSeq = guestSeq;
-        this.username = username;
-        this.date = date;
-        this.status = status;
-        this.content = content;
-    }
 }
