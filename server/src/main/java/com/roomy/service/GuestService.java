@@ -1,8 +1,9 @@
 package com.roomy.service;
 
 import com.roomy.dto.GuestDTO;
-import com.roomy.model.Room;
 import org.springframework.data.domain.Slice;
+
+import java.util.List;
 
 public interface GuestService {
 
@@ -14,5 +15,7 @@ public interface GuestService {
 
     GuestDTO findByGuestSeq(Long guestSeq);
 
-    Slice<GuestDTO> getRoomGuestList(Room room);
+    List<GuestDTO> getRoomMainGuest(String username);
+
+    List<GuestDTO> getGuestByUsername(String username);
 }

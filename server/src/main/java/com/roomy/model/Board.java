@@ -11,10 +11,8 @@ import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Builder(toBuilder = true)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "tbl_board", schema="roomyDB")
 public class Board extends BaseEntity{
@@ -45,17 +43,12 @@ public class Board extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private BoardStatus status;
 
-
-    /** 컬렉션을 필드에서 바로 초기화한 이유
-     * -> 하이버네이트는 엔티티를 컬렉션을 한번 감싸서 하이버네이트가 제공하는 내장 컬렉션(class org.hibernate.collection.internal.PersistentBag)으로 변경
-     * -> new 초기화 하지 않고 사용할때 new (class java.util.ArrayList)를 하면 하이버네이트가 관리할 수 없음*/
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Like> likeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
-    //BoardImg 테이블에 있는 board 필드에 의해 매칭
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<BoardImage>  imgList = new ArrayList<>();
 
@@ -69,6 +62,20 @@ public class Board extends BaseEntity{
     @ColumnDefault("0")
     private int boardHit=0;
 
+    @Builder(toBuilder = true)
+    public Board(Long boardSeq, Room room, User user, String title, String content, BoardStatus status, List<Like> likeList, List<Comment> commentList, List<BoardImage> imgList, int boardCode, int boardHit) {
+        this.boardSeq = boardSeq;
+        this.room = room;
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.status = status;
+        this.likeList = likeList;
+        this.commentList = commentList;
+        this.imgList = imgList;
+        this.boardCode = boardCode;
+        this.boardHit = boardHit;
+    }
 
     // == 연관관계 method ==// 연관관계 주인 아닌 곳에서도 까먹지 않고 값을 입력해 주기 위해
     public void setRoom(Room room){

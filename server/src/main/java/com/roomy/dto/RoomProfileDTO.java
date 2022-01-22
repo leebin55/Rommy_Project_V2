@@ -7,7 +7,7 @@ import org.springframework.data.domain.Slice;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter @Builder
-public class RoomMainDTO {
+public class RoomProfileDTO {
 
     private String profile;
 

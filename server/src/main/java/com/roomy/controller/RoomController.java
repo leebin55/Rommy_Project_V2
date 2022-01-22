@@ -1,6 +1,6 @@
 package com.roomy.controller;
 
-import com.roomy.dto.RoomMainDTO;
+import com.roomy.dto.RoomProfileDTO;
 import com.roomy.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +19,21 @@ public class RoomController {
 
     private final RoomService roomService;
 
-
-    @GetMapping("/{roomUser}")
-    public ResponseEntity<?> loadRoomMainInfo(@PathVariable("roomUser") String roomUsername
+    // Room 의 왼쪽 layout 부분 : 프로필과 total 친구목록등이있는 곳
+    @GetMapping("/{username}")
+    public ResponseEntity<?> loadRoomLayout(@PathVariable("username") String roomUsername
     , Principal principal){
+        log.info("roomLayout");
         String loggedInUsername = principal.getName();
-        // front 에서 두 username이 같으면 버튼 안보이게 했지만 여기에서도 처리
-        if(roomUsername != loggedInUsername){
-            RoomMainDTO roomInfo = roomService.loadRoomMainInfo(roomUsername, loggedInUsername);
-        }
+            RoomProfileDTO roomInfo = roomService.loadRoomLayoutInfo(roomUsername, loggedInUsername);
     return null;
+    }
+
+    //Room 의 메인페이지 : 최근 게시물 목록들과 최근 방명록4개 보여줌
+    @GetMapping("/{username}/list")
+    public ResponseEntity<?> loadRoomMain(@PathVariable("username") String username){
+        log.info("roomMain");
+        roomService.loadRoomMainList(username);
+        return null;
     }
 }

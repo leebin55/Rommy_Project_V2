@@ -2,22 +2,19 @@ package com.roomy.model;
 
 import com.roomy.model.othertype.UserRole;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.util.*;
 
-import static com.roomy.model.othertype.UserRole.ROLE_USER;
 import static javax.persistence.FetchType.LAZY;
 
-
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity @Builder
 @Getter
-@Builder
 @Table(name ="tbl_user" , schema = "roomyDB")
-public class User extends BaseEntity{
+public class User extends BaseEntity implements Persistable<String> {
 
     //userId > Security 사용할때
 //    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,23 +46,32 @@ public class User extends BaseEntity{
 //    @ColumnDefault("ROLE_USER")
     private UserRole role;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Like> likeList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "fromUser",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Follow> followingList = new HashSet<>();
 
-    // 해당 유저가 팔로우와 팔로워 리스트
-    @OneToMany(mappedBy = "following",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Friend> followingList = new ArrayList<>();
+    @Builder.Default
+    @OneToMany(mappedBy = "toUser",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Follow> followerList = new HashSet<>();
 
-    @OneToMany(mappedBy = "follower",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Friend> followerList = new ArrayList<>();
+    @Override    // Persistable 관련
+    public String getId() {
+        return username;
+    }
+
+    @Override // Persistable 관련
+    public boolean isNew() {
+        return createDate == null;
+    }
 
     // 연관관계로 다른 엔티티에서 참조될때 사용하기 위해
-
     public void setRoom(Room room) {
         this.room = room;
     }
-
 
 
 

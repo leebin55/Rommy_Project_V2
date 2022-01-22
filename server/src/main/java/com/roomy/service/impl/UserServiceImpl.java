@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    @Override
+    @Override // 모든 user 불러오기
     public Page<UserDTO> getAllUserList() {
 
         PageRequest pageReq = PageRequest.of(0,15,
@@ -38,9 +38,8 @@ public class UserServiceImpl implements UserService{
     }
 
 
-    @Override
+    @Override //username 으로 찾기
     public UserDTO findByUsername(String username) {
-
         User findUser = userRepository.findByUsername(username);
         if(findUser==null){
             return null;
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService{
                 .email(findUser.getEmail()).build();
     }
 
-    @Override
+    @Override // username 중복 검사
     public Boolean validateDuplicateUser(String username) {
         log.info("user existByUsername ");
       Boolean existCheck = userRepository.existsByUsername(username);
@@ -68,7 +67,7 @@ public class UserServiceImpl implements UserService{
             log.info("join user to builder 사용 : {}",encodedUser.toString());
             User user = encodedUser.toEntity();
             // user 가 생성되면  room 도 같이 생성되게
-            Room room = Room.builder().roomname(user.getNickname()+" 님")
+            Room room = Room.builder().roomName(user.getNickname()+" 님")
                     .intro(makeIntro(user.getNickname()))
                     .build();
             // 양뱡향 이므로 room 에 user 세팅
@@ -102,7 +101,6 @@ public class UserServiceImpl implements UserService{
     public void deleteUser(String username) {
         userRepository.deleteById(username);
     }
-
 
     private String makeIntro(String nickname){
         return "여기는 "+ nickname + "님의 ROOM 입니다.";

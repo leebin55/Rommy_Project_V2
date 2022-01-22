@@ -11,6 +11,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service @Slf4j @Transactional
@@ -26,14 +27,7 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public Long saveGuest(GuestDTO guestDto) {
-
-        Guest guestVO = guestDto.toEntity();
-        Optional<Room> room = Optional.ofNullable(roomRepository.findById(guestDto.getRoomSeq()).orElse(null));
-        if(room.isPresent() == true){
-            guestVO.setRoom(room.get());
-            guestRepository.save(guestVO);
-            return guestVO.getGuestSeq();
-        }
+        Guest guest = guestDto.toEntity();
         return null;
     }
 
@@ -55,7 +49,13 @@ public class GuestServiceImpl implements GuestService {
     }
 
     @Override
-    public Slice<GuestDTO> getRoomGuestList(Room room) {
+    public List<GuestDTO> getRoomMainGuest(String username) {
         return null;
     }
+
+    @Override
+    public List<GuestDTO> getGuestByUsername(String username) {
+        return null;
+    }
+
 }

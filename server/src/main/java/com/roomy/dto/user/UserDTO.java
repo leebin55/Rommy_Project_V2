@@ -16,13 +16,10 @@ public class UserDTO {
     private String password;
     private String nickname;
 
-
-
     public User toEntity(){
         return User.builder().username(username)
                 .email(email).profile(profile).nickname(nickname)
                 .role(UserRole.ROLE_USER).password(password).build();
-
     }
 
 }

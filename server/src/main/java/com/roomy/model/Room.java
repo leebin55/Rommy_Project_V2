@@ -14,14 +14,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(toBuilder = true)
 @Getter
 @Entity
 //@ToString(of={"roomSeq","roomname","intro","total"})
 @Table(name="tbl_room", schema="roomyDB")
 public class Room {
-
 
     @Id @GeneratedValue(strategy = IDENTITY)
     private Long roomSeq;
@@ -32,7 +29,7 @@ public class Room {
     private User user;
 
     // room 이름
-    private String roomname;
+    private String roomName;
 
     // room 방문자수
     @ColumnDefault("0")
@@ -47,12 +44,21 @@ public class Room {
     @OneToMany(mappedBy = "room",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Guest> guestList= new ArrayList<>();
 
-
-    // Room을 방문할 때마다 total 만 1씩 증가하기때문에
-    public void setTotal(Long total){
-        this.total= total;
+    @Builder(toBuilder = true)
+    public Room(Long roomSeq, User user, String roomName, Long total, String intro, List<Board> boardList, List<Guest> guestList) {
+        this.roomSeq = roomSeq;
+        this.user = user;
+        this.roomName = roomName;
+        this.total = total;
+        this.intro = intro;
+        this.boardList = boardList;
+        this.guestList = guestList;
     }
 
+    // Room을 방문할 때마다 total 만 1씩 증가하기때문에
+    public void setPlusTotal(Long total){
+        this.total= total+1;
+    }
 
     // 두개를 원자적으로 묶음
     //== 연관관계 메서드 ==// : 컨트롤 하는 쪽이 연관관계 메서드를 가지고 있는 것이 좋음
