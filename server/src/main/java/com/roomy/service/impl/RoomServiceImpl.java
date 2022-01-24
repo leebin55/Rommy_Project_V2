@@ -1,14 +1,12 @@
 package com.roomy.service.impl;
 
-import com.roomy.dto.RoomMainListDTO;
-import com.roomy.dto.RoomProfileDTO;
-import com.roomy.dto.user.UserWithRoomDTO;
-import com.roomy.model.User;
+import com.roomy.dto.RecentBoardAndGuestDTO;
+import com.roomy.dto.room.RoomProfileDTO;
+import com.roomy.entity.User;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.GuestRepository;
 import com.roomy.repository.RoomRepository;
 import com.roomy.repository.UserRepository;
-import com.roomy.service.GuestService;
 import com.roomy.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,10 +36,10 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomMainListDTO loadRoomMainList(String username) {
-        //hibernate 에서 List 여러개 join 해서 불러올 수 없어서 따로따로 부름(multipleBags..)
-        UserWithRoomDTO userWithRoom = userRepository.userWithRoomByUsername(username);
-        log.info("loadRoomMain room : {}", userWithRoom.toString());
+    public RecentBoardAndGuestDTO loadRoomMainList(String username) {
+        // 일단 갤러리 , 일반게시물 5개씩불러오기
+        // 그리고 게스트 4개
+        log.info("loadRoomMain room : {}");
         return null;
     }
 

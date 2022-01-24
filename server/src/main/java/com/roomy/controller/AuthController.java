@@ -25,9 +25,7 @@ public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-
-
-    //    // 로그인
+    // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
         log.debug("login dto {} ",loginDTO.toString());

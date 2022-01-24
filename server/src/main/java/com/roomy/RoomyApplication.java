@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.Optional;
 import java.util.UUID;
 
+@EnableJpaAuditing
 @SpringBootApplication
 public class RoomyApplication {
 

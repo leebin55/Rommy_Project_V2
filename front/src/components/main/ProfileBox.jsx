@@ -15,13 +15,15 @@ function ProfileBox() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [profile, setProfile] = useState('');
+  const [roomId, setRoomId] = useState('');
 
   // 로그인한 유저 정보 불러오기 : 프로필 박스에 표기하기 위해
   const loadUserDetail = async () => {
-    await axiosInstance.get(`/user/detail`).then((res) => {
+    await axiosInstance.get(`/users/detail`).then((res) => {
       console.log(res.data);
       setUsername(res.data.username);
       setEmail(res.data.email);
+      setRoomId(res.data.roomId);
       if (res.data.profile) {
         setProfile(res.data.profile);
       }
@@ -59,12 +61,11 @@ function ProfileBox() {
             <div className="profilebox-btns">
               <MainModal btnType="수정하기" />
               <Button onClick={logoutEvent}>로그아웃</Button>
-              {/* <button onClick={() => setCheckLogin(false)}> 로그아웃</button> */}
             </div>
             <button
               className="profilebox-room-btn"
               onClick={() => {
-                navigate(`/room/${username}`);
+                navigate(`/rooms/${username}/${roomId}`);
               }}
             >
               나의 ROOM 가기

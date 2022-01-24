@@ -1,4 +1,4 @@
-package com.roomy.model;
+package com.roomy.entity;
 
 import lombok.*;
 
@@ -20,7 +20,7 @@ public class Like { // user 와 board 에대해 외래키 관리
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private Long likeSeq;
+    private Long likeId;
 
     // 좋아요 게시물 seq FK
     @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)

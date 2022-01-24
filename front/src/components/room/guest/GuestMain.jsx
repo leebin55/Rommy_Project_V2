@@ -1,29 +1,32 @@
 import { React, useState, useEffect } from 'react';
 import GuestItem from './GuestItem';
 import { useParams } from 'react-router-dom';
+import axiosInstance from '../../../utils/AxiosInstance';
 
 function GuestMain() {
-  const [guest_list, setGuest_list] = useState([]);
-  const { userId } = useParams();
+  const [guestList, setGuestList] = useState([]);
+  const { roomUser, roomId } = useParams();
 
   useEffect(() => {
     fetchList();
   }, []);
 
   const fetchList = async () => {
-    const response = await fetch(`http://localhost:8080/room/${userId}/guest`);
+    const response = await fetch(
+      `http://localhost:8080/room/${roomUser}/guest`
+    );
     const data = await response.json();
-    setGuest_list(data);
+    setGuestList(data);
   };
 
   // No 표시 하기 위해 리스트 개수 세기
-  let list_length = guest_list.length;
+  let list_length = guestList.length;
 
   return (
     <div className="guest-container">
       <section className="guest-list">
-        {guest_list.length > 0 ? (
-          guest_list.map((item) => {
+        {guestList.length > 0 ? (
+          guestList.map((item) => {
             return (
               <GuestItem
                 data={item}

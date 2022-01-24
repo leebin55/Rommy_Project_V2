@@ -17,7 +17,7 @@ function Feeds() {
   // server 에서 gallery 리스트를 가져옴
   const viewGalleryList = async () => {
     try {
-      await axiosInstance.get(`http://localhost:8080/feed`).then((res) => {
+      await axiosInstance.get(`http://localhost:8080/feeds`).then((res) => {
         console.log(' feed 받은 데이터 : ', res.data);
         if (res.data !== '') {
           setGalleryList(res.data);

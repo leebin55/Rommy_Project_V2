@@ -1,10 +1,9 @@
-package com.roomy.model;
+package com.roomy.entity;
 
-import com.roomy.model.othertype.GuestStatus;
+import com.roomy.entity.othertype.GuestStatus;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -17,21 +16,20 @@ public class Guest extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long guestSeq;
 
-    // 해당 Room
-//    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "room_seq")
     private Room room;
 
     // 글쓴 user
-   @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     private String username;
+
+    private String nickname;
 
     @Column(columnDefinition = "VARCHAR(7)", nullable = false)
     @Enumerated(EnumType.STRING)
     private GuestStatus status;
 
-    @Column(columnDefinition = "VARCHAR(4000)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(200)", nullable = false)
     private String content;
 
 // == 연관관계 메서드

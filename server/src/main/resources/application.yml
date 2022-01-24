@@ -12,7 +12,6 @@ spring:
     import: "optional:classpath:jwt.yml"
 
 
-
   ########  JPA Setting
   jpa:
     hibernate:

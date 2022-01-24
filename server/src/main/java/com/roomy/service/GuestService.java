@@ -15,7 +15,9 @@ public interface GuestService {
 
     GuestDTO findByGuestSeq(Long guestSeq);
 
-    List<GuestDTO> getRoomMainGuest(String username);
+    List<GuestDTO> getRecentGuest(Long roomId);
+
+    List<GuestDTO> getAllGuestByRoom(Long roomId);
 
     List<GuestDTO> getGuestByUsername(String username);
 }

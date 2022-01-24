@@ -1,6 +1,6 @@
 package com.roomy.service.impl;
 
-import com.roomy.model.User;
+import com.roomy.entity.User;
 import com.roomy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

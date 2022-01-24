@@ -7,7 +7,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter @Builder
-public class RoomMainListDTO {
+public class RecentBoardAndGuestDTO {
 
     private List<BoardDTO> boardList;
     private List<GalleryDTO> galleryList;

@@ -55,8 +55,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().
                 antMatchers("/auth/login").permitAll()
-                .antMatchers("/user/").permitAll()
-                .antMatchers("/room/gallery").permitAll()
+                .antMatchers("/users/sign_up").permitAll()
+                .antMatchers("/feeds").permitAll()
                 .anyRequest() // 나머지 요청들에 대해서는
                 .authenticated();// 인증받아야 한다.;
 

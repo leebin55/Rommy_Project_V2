@@ -1,4 +1,4 @@
-package com.roomy.model;
+package com.roomy.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

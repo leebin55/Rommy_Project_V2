@@ -11,7 +11,7 @@ import { JwtDecoder, JwtValidate } from '../../utils/JwtUtils';
  */
 function Room() {
   // 현재 접속해있는 미니홈피 주인회원id URL에서 잘라오기
-  const { roomUser } = useParams();
+  const { roomUser, roomId } = useParams();
   const [roomData, setRoomData] = useState({});
   const [userInfo, setUserInfo] = useState('');
   const [checkFollow, setCheckFollow] = useState(false);
@@ -22,9 +22,11 @@ function Room() {
   // 이전에는 axios 를 이용하여 3번 요청(user, room, friend 정보) >  join 을 이용해서 한번의 요청으로 불러오기
 
   const loadRoomInfo = async () => {
-    await axiosInstance.get(`/room/${roomUser}/friend`).then((res) => {
-      console.log('room res : ', res);
-    });
+    await axiosInstance
+      .get(`/rooms/${roomUser}/${roomId}/friend`)
+      .then((res) => {
+        console.log('room res : ', res);
+      });
   };
   useEffect(() => {
     // JwtValidate 는 토큰이 localStorage 에 있나 확인하고
@@ -90,7 +92,7 @@ function Room() {
               <Outlet />
             </section>
             <section className="room-main-nav">
-              <RoomNav userId={roomUser} />
+              <RoomNav roomUser={roomUser} roomId={roomId} />
             </section>
           </div>
         </div>

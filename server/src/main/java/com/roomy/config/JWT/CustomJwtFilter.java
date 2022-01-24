@@ -47,7 +47,6 @@ public class CustomJwtFilter extends OncePerRequestFilter {
              ){
             // user 가 login 하게설정
             log.debug("login하기 url : /auth/login  ");
-
 //            filterChain.doFilter(request,response);
         }else{
             // 위의 url  이외일때

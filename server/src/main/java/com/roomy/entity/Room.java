@@ -1,4 +1,4 @@
-package com.roomy.model;
+package com.roomy.entity;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +12,8 @@ import java.util.List;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder(toBuilder = true)
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -21,7 +23,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Room {
 
     @Id @GeneratedValue(strategy = IDENTITY)
-    private Long roomSeq;
+    private Long roomId;
 
     // room 과 User 관계에서 Room 이 연관관계 주인 으로 설정 (외래키를 관리 할 곳)
     @OneToOne( fetch = LAZY,cascade = CascadeType.ALL)
@@ -38,22 +40,13 @@ public class Room {
     // room 소개글
     private String intro;
 
+    @Builder.Default
     @OneToMany(mappedBy = "room",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Board> boardList= new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "room",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Guest> guestList= new ArrayList<>();
-
-    @Builder(toBuilder = true)
-    public Room(Long roomSeq, User user, String roomName, Long total, String intro, List<Board> boardList, List<Guest> guestList) {
-        this.roomSeq = roomSeq;
-        this.user = user;
-        this.roomName = roomName;
-        this.total = total;
-        this.intro = intro;
-        this.boardList = boardList;
-        this.guestList = guestList;
-    }
 
     // Room을 방문할 때마다 total 만 1씩 증가하기때문에
     public void setPlusTotal(Long total){

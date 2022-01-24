@@ -1,42 +1,46 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.GuestDTO;
-import com.roomy.model.Guest;
-import com.roomy.model.Room;
+import com.roomy.entity.Guest;
+import com.roomy.entity.Room;
 import com.roomy.repository.GuestRepository;
 import com.roomy.repository.RoomRepository;
 import com.roomy.service.GuestService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service @Slf4j @Transactional
+@RequiredArgsConstructor
+@Service @Slf4j @Transactional(readOnly = true)
 public class GuestServiceImpl implements GuestService {
 
     private final RoomRepository roomRepository;
     private final GuestRepository guestRepository;
 
-    public GuestServiceImpl(RoomRepository roomRepository, GuestRepository guestRepository) {
-        this.roomRepository = roomRepository;
-        this.guestRepository = guestRepository;
-    }
 
-    @Override
+    @Override @Transactional
     public Long saveGuest(GuestDTO guestDto) {
+        Room room = roomRepository.findById(guestDto.getRoomId()).orElse(null);
+        if(room == null){
+            // room 이 없을 때 exception처리
+            new IllegalStateException("해당 room  이 존재하지 않습니다.");
+        }
         Guest guest = guestDto.toEntity();
-        return null;
+        guest.setRoom(room);
+        guestRepository.save(guest);
+        return guest.getGuestSeq();
     }
 
-    @Override
+    @Override @Transactional
     public Long updateGuest(GuestDTO guestDto) {
         return null;
     }
 
-    @Override
+    @Override @Transactional
     public Long deleteGuest(Long guestSeq) {
 
         guestRepository.deleteById(guestSeq);
@@ -49,7 +53,14 @@ public class GuestServiceImpl implements GuestService {
     }
 
     @Override
-    public List<GuestDTO> getRoomMainGuest(String username) {
+    public List<GuestDTO> getRecentGuest(Long roomId) {
+        List<GuestDTO> guestList = roomRepository.loadRecent4Guest(roomId);
+        log.info("recentGuest service : {}", guestList.toString());
+        return guestList;
+    }
+
+    @Override
+    public List<GuestDTO> getAllGuestByRoom(Long roomId) {
         return null;
     }
 

@@ -2,7 +2,7 @@ package com.roomy.service;
 
 
 import com.roomy.dto.LikeDTO;
-import com.roomy.model.Like;
+import com.roomy.entity.Like;
 import org.springframework.data.domain.Slice;
 
 public interface LikeService {

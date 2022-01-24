@@ -1,4 +1,4 @@
-package com.roomy.model;
+package com.roomy.entity;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;

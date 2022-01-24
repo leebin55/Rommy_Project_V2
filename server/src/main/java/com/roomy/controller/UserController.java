@@ -1,7 +1,9 @@
 package com.roomy.controller;
 
 import com.roomy.dto.user.UserDTO;
+import com.roomy.dto.user.UserWithRoomDTO;
 import com.roomy.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -9,22 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+@RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
-
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-
-    }
-
     // user 등록 : 회원가입
-    @PostMapping("/")
+    @PostMapping("/sign_up")
     public ResponseEntity<?> join(@RequestBody UserDTO userDto) {
         log.debug("User join 컨트롤러 실행 {}",userDto.toString());
        String username =userService.joinUser(userDto);
@@ -34,12 +30,14 @@ public class UserController {
         return ResponseEntity.badRequest().body("회원가입 실패");
     }
 
+    // user 정보 + roomId
     @GetMapping("/detail")
     public ResponseEntity<?> loadUserDetailByToken(Principal principal){
         log.info("user login 후 정보 불러오기 : {}", principal.toString());
         if(principal != null){
-            UserDTO loggedUser = userService.findByUsername(principal.getName());
-            return ResponseEntity.ok(loggedUser);
+//            UserDTO loggedUser = userService.findByUsername(principal.getName());
+            UserWithRoomDTO userWithRoom = userService.loadUserAndRoom(principal.getName());
+            return ResponseEntity.ok(userWithRoom);
         }
         return ResponseEntity.badRequest().body("로그인 정보 없음");
     }

@@ -1,9 +1,9 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.LikeDTO;
-import com.roomy.model.Board;
-import com.roomy.model.Like;
-import com.roomy.model.User;
+import com.roomy.entity.Board;
+import com.roomy.entity.Like;
+import com.roomy.entity.User;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.LikeRepository;
 import com.roomy.repository.UserRepository;

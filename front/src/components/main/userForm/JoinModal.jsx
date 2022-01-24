@@ -21,7 +21,7 @@ export default function JoinModal({ handleClose }) {
     const result = joinFormValidation();
     if (result === 'ok') {
       await axiosInstance
-        .post('/user/', {
+        .post('/users/sign_up', {
           username,
           password,
           email,
@@ -34,7 +34,6 @@ export default function JoinModal({ handleClose }) {
     }
   };
   const joinFormValidation = () => {
-    console.log(`왜?? ${username}`);
     if (username === null || username.trim() === '') {
       alert(`ID 를 다시 입력해 주세요`);
       return;

@@ -22,7 +22,7 @@ export default function Feed({ gallery, index }) {
     setHeartClicked(!heartClicked);
     try {
       axiosInstance
-        .post(`/room/${gallery.boardUserId}/gallery/like`, {
+        .post(`/rooms/${gallery.boardUserId}/gallery/like`, {
           userId: gallery.boardUserId,
           boardSeq: gallery.boardSeq,
         })

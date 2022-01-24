@@ -1,10 +1,9 @@
-package com.roomy.model;
+package com.roomy.entity;
 
-import com.roomy.model.othertype.GuestStatus;
+import com.roomy.entity.othertype.GuestStatus;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -22,8 +21,8 @@ public class Comment extends BaseEntity{
     @JoinColumn(name = "board_seq")
     private Board board;
 
-    private Long userId;
-    
+    private String username;
+
     // 댓글 단 회원 nickname
     private String nickname;
 

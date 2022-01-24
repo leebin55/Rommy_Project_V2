@@ -2,7 +2,7 @@ package com.roomy.service;
 
 import com.roomy.dto.BoardDTO;
 import com.roomy.dto.GalleryDTO;
-import com.roomy.model.Board;
+import com.roomy.entity.Board;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ public interface GalleryService {
 
 
     public Long saveGallery(GalleryDTO gallery);
+
     public Long updateGallry(GalleryDTO gallery);
 
     public  void deleteBoard(Long boardSeq);

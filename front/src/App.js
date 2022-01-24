@@ -20,14 +20,14 @@ function App() {
           <Route index element={<Feeds />} />
           <Route path="search" element={<Search />} />
         </Route>
-        <Route path="/room/:roomUser" element={<RoomPage />}>
+        <Route path="/rooms/:roomUser/:roomId" element={<RoomPage />}>
           <Route index element={<Room.Main />} />
-          <Route path="board/*" element={<Room.Board />} />
-          <Route path="board/:board_seq" element={<BoardDetail />} />
-          <Route path="gallery" element={<Room.Gallery />} />
-          <Route path="gallery/:board_seq" element={<GalleryDetail />} />
-          <Route path="guest" element={<Room.Guest />} />
-          <Route path="friends" element={<Room.Friend />} />
+          <Route path="boards/*" element={<Room.Board />} />
+          <Route path="boards/:boardSeq" element={<BoardDetail />} />
+          <Route path="galleries" element={<Room.Gallery />} />
+          <Route path="galleries/:boardSeq" element={<GalleryDetail />} />
+          <Route path="guests" element={<Room.Guest />} />
+          <Route path="follow" element={<Room.Friend />} />
           <Route path="setting" element={<Room.Setting />} />
         </Route>
       </Routes>

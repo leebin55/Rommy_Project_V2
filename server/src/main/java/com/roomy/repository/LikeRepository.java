@@ -1,8 +1,8 @@
 package com.roomy.repository;
 
-import com.roomy.model.Board;
-import com.roomy.model.Like;
-import com.roomy.model.User;
+import com.roomy.entity.Board;
+import com.roomy.entity.Like;
+import com.roomy.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,8 +1,8 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.BoardDTO;
-import com.roomy.model.Board;
-import com.roomy.model.User;
+import com.roomy.entity.Board;
+import com.roomy.entity.User;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.BoardService;
@@ -13,8 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service(value = "boardService") @Transactional

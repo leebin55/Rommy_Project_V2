@@ -1,7 +1,7 @@
 package com.roomy.dto.user;
 
-import com.roomy.model.User;
-import com.roomy.model.othertype.UserRole;
+import com.roomy.entity.User;
+import com.roomy.entity.othertype.UserRole;
 import lombok.*;
 // (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
 

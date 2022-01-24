@@ -1,4 +1,4 @@
-package com.roomy.dto;
+package com.roomy.dto.room;
 
 import lombok.*;
 import org.springframework.data.domain.Slice;
@@ -11,7 +11,7 @@ public class RoomProfileDTO {
 
     private String profile;
 
-    private String roomname;
+    private String roomName;
     private Long total;
     private String intro;
 

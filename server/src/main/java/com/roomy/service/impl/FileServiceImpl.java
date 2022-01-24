@@ -1,7 +1,7 @@
 package com.roomy.service.impl;
 
-import com.roomy.model.BoardImage;
-import com.roomy.model.Board;
+import com.roomy.entity.BoardImage;
+import com.roomy.entity.Board;
 import com.roomy.repository.FileRepository;
 import com.roomy.service.FileService;
 import lombok.extern.slf4j.Slf4j;

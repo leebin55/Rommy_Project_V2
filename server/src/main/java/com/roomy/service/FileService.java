@@ -1,7 +1,7 @@
 package com.roomy.service;
 
-import com.roomy.model.BoardImage;
-import com.roomy.model.Board;
+import com.roomy.entity.BoardImage;
+import com.roomy.entity.Board;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 

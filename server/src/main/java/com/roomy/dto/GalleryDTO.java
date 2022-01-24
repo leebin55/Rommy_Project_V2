@@ -1,6 +1,6 @@
 package com.roomy.dto;
 
-import com.roomy.model.othertype.BoardStatus;
+import com.roomy.entity.othertype.BoardStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;

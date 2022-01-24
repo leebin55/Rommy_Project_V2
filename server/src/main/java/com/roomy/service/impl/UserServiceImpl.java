@@ -1,9 +1,9 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.user.UserDTO;
-import com.roomy.model.Room;
-import com.roomy.model.User;
-import com.roomy.repository.RoomRepository;
+import com.roomy.dto.user.UserWithRoomDTO;
+import com.roomy.entity.Room;
+import com.roomy.entity.User;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +47,11 @@ public class UserServiceImpl implements UserService{
         return UserDTO.builder().username(findUser.getUsername())
                 .nickname(findUser.getNickname()).profile(findUser.getProfile())
                 .email(findUser.getEmail()).build();
+    }
+
+    @Override
+    public UserWithRoomDTO loadUserAndRoom(String username) {
+        return userRepository.userWithRoomByUsername(username);
     }
 
     @Override // username 중복 검사

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("/room")
+@RequestMapping("/rooms")
 public class GalleryController {
 
 

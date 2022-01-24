@@ -1,6 +1,6 @@
-package com.roomy.model;
+package com.roomy.entity;
 
-import com.roomy.model.othertype.UserRole;
+import com.roomy.entity.othertype.UserRole;
 import lombok.*;
 import org.springframework.data.domain.Persistable;
 
@@ -48,7 +48,11 @@ public class User extends BaseEntity implements Persistable<String> {
 
     @Builder.Default
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Like> likeList = new ArrayList<>();
+    private Set<Like> likeList = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Board> boardList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "fromUser",cascade = CascadeType.ALL,orphanRemoval = true)

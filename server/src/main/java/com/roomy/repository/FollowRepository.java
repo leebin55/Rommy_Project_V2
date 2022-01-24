@@ -1,7 +1,7 @@
 package com.roomy.repository;
 
-import com.roomy.model.Follow;
-import com.roomy.model.User;
+import com.roomy.entity.Follow;
+import com.roomy.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

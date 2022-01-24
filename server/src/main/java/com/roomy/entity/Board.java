@@ -1,17 +1,18 @@
-package com.roomy.model;
+package com.roomy.entity;
 
-import com.roomy.model.othertype.BoardStatus;
+import com.roomy.entity.othertype.BoardStatus;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
+@Builder(toBuilder = true)
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tbl_board", schema="roomyDB")
@@ -27,7 +28,6 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "room_seq")
     private Room room;
 
-    // 메인페이지 피드에서 회원정보와 같이 보여주기 위해(단방향으로 설정)
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="username")
     private User user;
@@ -43,12 +43,15 @@ public class Board extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private BoardStatus status;
 
+    @Builder.Default
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Like> likeList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<BoardImage>  imgList = new ArrayList<>();
 
@@ -62,20 +65,6 @@ public class Board extends BaseEntity{
     @ColumnDefault("0")
     private int boardHit=0;
 
-    @Builder(toBuilder = true)
-    public Board(Long boardSeq, Room room, User user, String title, String content, BoardStatus status, List<Like> likeList, List<Comment> commentList, List<BoardImage> imgList, int boardCode, int boardHit) {
-        this.boardSeq = boardSeq;
-        this.room = room;
-        this.user = user;
-        this.title = title;
-        this.content = content;
-        this.status = status;
-        this.likeList = likeList;
-        this.commentList = commentList;
-        this.imgList = imgList;
-        this.boardCode = boardCode;
-        this.boardHit = boardHit;
-    }
 
     // == 연관관계 method ==// 연관관계 주인 아닌 곳에서도 까먹지 않고 값을 입력해 주기 위해
     public void setRoom(Room room){

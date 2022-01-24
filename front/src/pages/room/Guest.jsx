@@ -5,5 +5,4 @@ import GuestMain from '../../components/room/guest/GuestMain';
 function Guest() {
   return <GuestMain />;
 }
-
 export default Guest;

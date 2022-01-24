@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
+import { JwtValidate } from '../../utils/JwtUtils';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Room 의 레이아웃 중 오른쪽 부분(메인, 갤러리, 게시판,세팅 등등으로 )
@@ -10,38 +12,58 @@ function RoomMain() {
   const [content, setContent] = useState(''); // 입력한 방명록 작성 내용
   const [guestStatus, setGuestStatus] = useState(false); // 입력한 방명록 공개여부
   const [guestList, setGuestList] = useState([]);
-  const { userId } = useParams();
+  const { roomUser, roomId } = useParams();
+  const navigate = useNavigate();
 
-  // 미니홈피 메인화면에서 방명록을 보여주기 위함
+  // 방명록을 등록하면 바로 보여주기
   const loadGuest = async () => {
-    const res = await axiosInstance(`/room/${userId}/guest?limit=4`);
-    const data = await res.data;
-    setGuestList(data);
+    await axiosInstance(`/rooms/${roomId}/guest_recent`).then((res) => {
+      setGuestList(res.data);
+    });
   };
 
   const guestPrivate = () => {
-    setGuestStatus((pp) => !pp);
+    setGuestStatus((status) => !status);
   };
 
   const onChange = (e) => {
     setContent(e.target.value);
   };
 
-  const guestInsert = async () => {
+  // 방명록 등록
+  const guestResister = async () => {
     if (content.trim() === '') {
       alert('방명록을 입력하세요');
       return;
     }
-    await axiosInstance.post(`/room/${userId}/guest`, {
-      content,
-      status: guestStatus,
-    });
-    setContent('');
-    loadGuest();
+    await axiosInstance
+      .post(`/rooms/guest`, {
+        roomId,
+        content,
+        status: guestStatus ? 'PRIVATE' : 'PUBLIC',
+      })
+      .then((res) => {
+        setContent('');
+        loadGuest();
+      });
+  };
+
+  const loadRoomMain = async () => {
+    const result = JwtValidate(); // token이 없거나 유효하지 않으면 false , 유효하면 username 반환
+    if (result) {
+      console.log('token user : ' + result);
+      await axiosInstance.get(`/rooms/${roomId}/main_list`).then((res) => {
+        console.log(' room main res : ', res);
+      });
+    } else {
+      navigate('/login');
+    }
   };
   // 화면이 랜더링 되면 우선 localStorage 에 토큰있나 확인 하고
   // 토큰의 정보와 홈페이지 주인의 정보가 일치하는 확인
-  useEffect(() => {}, []);
+  useEffect(() => {
+    loadRoomMain();
+  }, []);
 
   return (
     <>
@@ -51,11 +73,11 @@ function RoomMain() {
       </section>
       <section className="main-bottom">
         <div className="main-guest">
-          {guestList ? (
+          {guestList.length > 0 ? (
             guestList.map((item) => (
               <div className="main-guest-box">
                 <img src="/img/postit.png" alt="guest-post" />
-                <p>{item.guestContent}</p>
+                <p>{item.content}</p>
               </div>
             ))
           ) : (
@@ -73,7 +95,7 @@ function RoomMain() {
             value={content}
             onChange={onChange}
           />
-          <button onClick={() => guestInsert()}>등록</button>
+          <button onClick={() => guestResister()}>등록</button>
         </div>
       </section>
     </>

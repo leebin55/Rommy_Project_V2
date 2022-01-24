@@ -1,5 +1,5 @@
 .profilebox-container {
-  border: 1px solid black;
+  border: 1px solid #ddd;
   width: 100%;
   height: 500px;
 }
@@ -10,7 +10,7 @@
 .profilebox-img img {
   width: 80%;
   height: 250px;
-  border: 1px solid black;
+  border: 1px solid #ddd;
 }
 .profilebox-body {
   display: flex;

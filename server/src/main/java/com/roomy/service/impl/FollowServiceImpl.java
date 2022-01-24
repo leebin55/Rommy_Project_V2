@@ -1,7 +1,7 @@
 package com.roomy.service.impl;
 
-import com.roomy.model.Follow;
-import com.roomy.model.User;
+import com.roomy.entity.Follow;
+import com.roomy.entity.User;
 import com.roomy.repository.FollowRepository;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.FollowService;
