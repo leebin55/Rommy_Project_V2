@@ -1,7 +1,11 @@
 package com.roomy.service;
 
 import com.roomy.dto.BoardDTO;
+import com.roomy.dto.user.UserWithBoardDTO;
+import com.roomy.entity.Room;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 //public interface BoardService<T extends Board> extends GenericService<T, Long> {
 public interface BoardService {
@@ -15,7 +19,7 @@ public interface BoardService {
 
     public  void deleteBoard(Long boardSeq);
 
-    public BoardDTO getBoardBySeq(Long boardSeq);
+    public UserWithBoardDTO getBoardBySeq(Long boardSeq);
 
     public Page<BoardDTO> getAllBoardList();
 
@@ -23,4 +27,5 @@ public interface BoardService {
 
     public Page<BoardDTO> selectAllByUsername(String username);
 
+    Slice<BoardDTO> loadBoardByRoom(Room room, Pageable pageable);
 }

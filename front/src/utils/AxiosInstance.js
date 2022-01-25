@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { JwtDecoder, JwtValidate } from './JwtUtils';
 
 // axios 에 관한 옵션 공통 처리
 
@@ -25,8 +26,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     // 만약 토큰이 있으면 여기서 토큰 리턴
     const token = localStorage.getItem('token');
-    if (token) {
-      console.log('header 에 token 정보 담기');
+    if (token && JwtValidate(token)) {
       config.headers['Authorization'] = 'Bearer ' + token;
     }
     return config;

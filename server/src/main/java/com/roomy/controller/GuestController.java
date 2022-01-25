@@ -35,8 +35,7 @@ public class GuestController {
     public ResponseEntity<?> register(@RequestBody GuestDTO guestDTO,
             Principal principal){
         log.info("방명록 등록 : {} , user : {}",guestDTO.toString(),principal.toString());
-        GuestDTO guest = guestDTO.toBuilder().username(principal.getName()).build();
-        Long guestSeq = guestService.saveGuest(guest);
+        Long guestSeq = guestService.saveGuest(guestDTO,principal.getName());
         return ResponseEntity.ok(guestSeq);
     }
 

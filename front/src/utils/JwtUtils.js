@@ -13,9 +13,8 @@ const JwtDecoder = (token) => {
 
 const JwtValidate = () => {
   const token = localStorage.getItem('token');
-  console.log('validate token 없음');
   if (token) {
-    const { sub, exp } = JwtDecoder(token);
+    const { exp } = JwtDecoder(token);
     const now = (new Date().getTime() + 100) / 1000;
     console.log('now : ', now, ' exp ', exp);
     if (exp < now) {
@@ -23,7 +22,7 @@ const JwtValidate = () => {
       window.location.href = baseUrl + '/login';
       return false;
     }
-    return sub; // exp 이 now  보다 클때
+    return true; // exp 이 now  보다 클때
   }
   window.location.href = baseUrl + '/login';
   return false; // token 없을때

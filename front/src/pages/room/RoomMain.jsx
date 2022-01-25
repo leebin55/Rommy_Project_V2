@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
-import { JwtValidate } from '../../utils/JwtUtils';
 import { useNavigate } from 'react-router-dom';
+import GuestPost from '../../components/room/guest/GuestPost';
 
 /**
  * Room 의 레이아웃 중 오른쪽 부분(메인, 갤러리, 게시판,세팅 등등으로 )
@@ -49,15 +49,9 @@ function RoomMain() {
   };
 
   const loadRoomMain = async () => {
-    const result = JwtValidate(); // token이 없거나 유효하지 않으면 false , 유효하면 username 반환
-    if (result) {
-      console.log('token user : ' + result);
-      await axiosInstance.get(`/rooms/${roomId}/main_list`).then((res) => {
-        console.log(' room main res : ', res);
-      });
-    } else {
-      navigate('/login');
-    }
+    await axiosInstance.get(`/rooms/${roomId}/main_list`).then((res) => {
+      console.log(' room main res : ', res);
+    });
   };
   // 화면이 랜더링 되면 우선 localStorage 에 토큰있나 확인 하고
   // 토큰의 정보와 홈페이지 주인의 정보가 일치하는 확인
@@ -74,12 +68,7 @@ function RoomMain() {
       <section className="main-bottom">
         <div className="main-guest">
           {guestList.length > 0 ? (
-            guestList.map((item) => (
-              <div className="main-guest-box">
-                <img src="/img/postit.png" alt="guest-post" />
-                <p>{item.content}</p>
-              </div>
-            ))
+            guestList.map((item) => <GuestPost item={item} />)
           ) : (
             <div className="main-guest-empty">
               💬 첫번째 방명록을 남겨보세요 ! 💖

@@ -71,7 +71,7 @@ public class TokenProvider implements InitializingBean {
 
     /** Authentication 객체의 권한정보를 이용해서 토큰을 생성하는 method*/
     public String createToken(Authentication authentication) {
-        // role 을 여러개 가질 수 있지만 현재 프로젝트에서는 한가만 가짐
+        // role 을 여러개 가질 수 있지만 현재 프로젝트에서는 한개만 가짐
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));

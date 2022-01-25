@@ -23,7 +23,7 @@ function Room() {
 
   const loadRoomInfo = async () => {
     await axiosInstance
-      .get(`/rooms/${roomUser}/${roomId}/friend`)
+      .get(`/rooms/${roomUser}/${roomId}/follow`)
       .then((res) => {
         console.log('room res : ', res);
       });

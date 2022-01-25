@@ -1,24 +1,24 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import BoardSearch from '../commonComp/BoardSearch';
 import BoardSingle from './BoardSingle';
 import axiosInstance from '../../../utils/AxiosInstance';
 
 function BoardList({ setBoardState }) {
-  const navigate = useNavigate();
   const [boardList, setBoardList] = useState([]); // 화면에 출력될 일반 게시판 글 list
   const [select, setSelect] = useState('0'); // 검색 select box 선택한 것
   const [search, setSearch] = useState(''); // 검색 input box 에 입력한 내용
   // const [start_page, setStart_page] = useState("1");
   // const [end_page, setEnd_page] = useState("1");
-  const { userId } = useParams();
+  const { roomUser, roomId } = useParams();
 
-  const fetchList = async () => {
-    const res = await axiosInstance(`/room/${userId}/board`);
-    const result = await res.data;
-    // if (result?.content?.length > 0) setBoard_list(result?.content);
-    console.log(result);
-    setBoardList(result);
+  const loadBoardList = async () => {
+    const res = await axiosInstance
+      .get(`/rooms/${roomId}/boards?size=20,sort=roomId,desc`)
+      .then((res) => {
+        console.log(res.data.content);
+        setBoardList(res.data.content);
+      });
   };
 
   // 검색 select box 선택하면 실행
@@ -38,16 +38,16 @@ function BoardList({ setBoardState }) {
       return;
     }
     const res = await axiosInstance(
-      `/room/${userId}/board/search?query=${search}&select=${select}`
+      `/room/${roomId}/board/search?query=${search}&select=${select}`
     );
-    const result = await res.json();
+    const result = await res;
     setBoardList(result);
     setSelect('0');
     setSearch('');
   });
 
   useEffect(() => {
-    fetchList();
+    loadBoardList();
   }, []);
 
   return (
@@ -74,14 +74,16 @@ function BoardList({ setBoardState }) {
           </thead>
           <tbody>
             {boardList.length > 0 ? (
-              boardList.map((item) => BoardSingle)
+              boardList.map((item) => (
+                <BoardSingle item={item} roomUser={roomUser} roomId={roomId} />
+              ))
             ) : (
               <td colSpan="5">게시물이 없습니다</td>
             )}
           </tbody>
         </table>
       </div>
-      <BoardSearch userId={userId} boardType="board" />
+      <BoardSearch roomUser={roomUser} boardType="board" />
     </div>
   );
 }

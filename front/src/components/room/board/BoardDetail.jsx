@@ -8,23 +8,24 @@ import '../../../css/room/Board.css';
 
 function BoardDetail() {
   const navigate = useNavigate();
-  const { board_seq } = useParams();
-  const { userId } = useParams();
+  const { roomUser, roomId, boardSeq } = useParams();
 
-  const [detail, setDetail] = useState([]);
+  const [detail, setDetail] = useState({});
   const [isDetail, setIsDetail] = useState(true);
 
   const [heart, setHeart] = useState(false); // 하트 눌렀었는지. 비회원이면 false 모양이 기본값으로 들어가도록 false로 초기값 지정
-  const [heart_num, setHeart_num] = useState(''); // 이 글의 하트수
+  const [heartNum, setHeartNum] = useState(''); // 이 글의 하트수
 
   const fetchDetail = async () => {
-    const res = await axiosInstance.get(`/room/${userId}/board/${board_seq}`);
-    const data = await res.json();
-    // console.log(data);
-    setDetail(data);
-    setHeart(data.checkLike);
-    // [위] 사용자가 하트를 눌렀었는지 표시하기 위함
-    setHeart_num(data.boardLike);
+    await axiosInstance
+      .get(`/rooms/${roomId}/boards/${boardSeq}`)
+      .then((res) => {
+        console.log(res.data);
+        setDetail(res.data);
+        setHeart(res.data.checkLike);
+        // [위] 사용자가 하트를 눌렀었는지 표시하기 위함
+        setHeartNum(res.data.likeCount);
+      });
   };
 
   const clickUpdate = async () => {
@@ -36,11 +37,11 @@ function BoardDetail() {
   const fetchDelete = async () => {
     if (window.confirm('글을 삭제하시겠습니까?')) {
       await axiosInstance
-        .delete(`/room/${userId}/board/${board_seq}`)
+        .delete(`/rooms/${roomUser}/${roomId}/boards/${boardSeq}`)
         .then((res) => {
           if (res?.ok) {
             alert('삭제되었습니다');
-            navigate(`/room/${userId}/board`);
+            navigate(`/rooms/${roomUser}/${roomId}/boards`);
           }
         });
     }
@@ -52,11 +53,11 @@ function BoardDetail() {
   };
 
   const fetchHeart = async () => {
-    const res = await axiosInstance.post(`/room/${userId}/board/like`, {
+    const res = await axiosInstance.post(`/room/${roomId}/board/like`, {
       boardSeq: detail.boardSeq,
     });
     const data = await res.json();
-    setHeart_num(data);
+    setHeartNum(data);
   };
 
   useEffect(() => {
@@ -68,17 +69,21 @@ function BoardDetail() {
       {isDetail ? (
         <div>
           <div className="board-detail-title">
+            <p>
+              {detail.profile} {detail.nickname}
+            </p>
             <p>{detail.boardTitle}</p>
             <button onClick={() => clickUpdate()}>수정</button>
             <button onClick={() => fetchDelete()}>삭제</button>
           </div>
           <div className="board-detail-head-box">
-            <p className="board-detail-head-date">{detail.boardCreateAt}</p>
+            <p>{detail.title}</p>
+            <p className="board-detail-head-date">{detail.createDate}</p>
           </div>
 
           <div
             className="board-detail-content"
-            dangerouslySetInnerHTML={{ __html: detail.boardContent }}
+            dangerouslySetInnerHTML={{ __html: detail.content }}
           />
           <div className="board-heart-box">
             {heart ? (
@@ -92,7 +97,7 @@ function BoardDetail() {
                 onClick={() => clickHeart()}
               />
             )}
-            <p>{heart_num}</p>
+            <p>{heartNum}</p>
           </div>
           {/* 정확히 하트를 눌러야 클릭되게 할 수 있게 아이콘에 onClick */}
         </div>

@@ -57,6 +57,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/auth/login").permitAll()
                 .antMatchers("/users/sign_up").permitAll()
                 .antMatchers("/feeds").permitAll()
+                .antMatchers("/rooms/top").permitAll()
                 .anyRequest() // 나머지 요청들에 대해서는
                 .authenticated();// 인증받아야 한다.;
 

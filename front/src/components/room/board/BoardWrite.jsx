@@ -2,21 +2,23 @@ import { React, useState, useRef, useEffect } from 'react';
 import Editor from './Editor';
 import EditorToolbar from './EditorToolbar';
 import { useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../../../utils/AxiosInstance';
 
 function BoardWrite({ upData }) {
   const navigate = useNavigate();
-  const [select, setSelect] = useState('0');
+  const [boardStatus, setBoardStatus] = useState('PUBLIC');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const boardTitle = useRef();
-  const { userId } = useParams();
+
+  const { roomUser, roomId } = useParams();
 
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
   };
 
   const selectHandler = (e) => {
-    setSelect(e.target.value);
+    setBoardStatus(e.target.value);
   };
 
   const writeSubmit = async () => {
@@ -28,53 +30,39 @@ function BoardWrite({ upData }) {
       alert('내용을 입력하세요');
       return;
     }
-
+    // update
     if (upData != null) {
-      await fetch(`http://localhost:8080/room/${userId}/board`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      await axiosInstance
+        .patch(`/rooms/${roomId}/board`, {
           boardSeq: upData.boardSeq,
           boardUserId: upData.boardUserId,
           boardTitle: title,
           boardContent: content,
-          boardCreateAt: upData.boardCreateAt,
-          boardPrivate: select,
-          boardLike: upData.boardLike,
-          boardCode: upData.boardCode,
-          boardHit: upData.boardHit,
-        }),
-      }).then((res) => {
-        if (res?.ok) {
-          navigate(`/room/${userId}/board`);
-        }
-      });
+          boardPrivate: boardStatus,
+        })
+        .then((res) => {
+          if (res?.ok) {
+            navigate(`/rooms/${roomUser}/${roomId}/boards`);
+          }
+        });
+      //register
     } else {
-      await fetch(`http://localhost:8080/room/${userId}/board`, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          boardTitle: title,
-          boardContent: content,
-          boardPrivate: select,
-          boardCode: 2,
-        }),
-      });
-      navigate(`/room/${userId}/board`);
+      await axiosInstance
+        .post(`/rooms/${roomUser}/${roomId}/boards`, {
+          title,
+          content,
+          status: boardStatus,
+        })
+        .then((res) => {
+          window.location.reload();
+        });
     }
   };
 
   const updating = () => {
     setTitle(upData.boardTitle);
     setContent(upData.boardContent);
-    setSelect(upData.boardPrivate);
+    setBoardStatus(upData.boardPrivate);
   };
 
   useEffect(() => {
@@ -89,11 +77,11 @@ function BoardWrite({ upData }) {
         <select
           className="board-write-select"
           onChange={selectHandler}
-          value={select}
+          value={boardStatus}
         >
-          <option value="0">전체공개</option>
-          <option value="2">친구공개</option>
-          <option value="1">비공개</option>
+          <option value="PUBLIC">전체공개</option>
+          <option value="FRIEND">친구공개</option>
+          <option value="PRIVATE">비공개</option>
         </select>
         <input
           className="board-write-title"

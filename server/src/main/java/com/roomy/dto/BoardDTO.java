@@ -13,13 +13,14 @@ import java.time.LocalDateTime;
 public class BoardDTO {
 
     private Long boardSeq;
-     private String username;
-     private String nickname;
+    private Long roomId;
+    private String username;
+    private String nickname;
     private String title;
     private String content;
     private LocalDateTime createDate;
-    private LocalDateTime updateDate;
-    private int likeCount;
+    private Long boardHit;
+    private Long likeCount;
     private BoardStatus status;
     private int boardCode;
 
@@ -28,11 +29,15 @@ public class BoardDTO {
     public Board createBoard(){
         return Board.builder().boardSeq(boardSeq)
                 .title(title).content(content)
-                .status(status).boardCode(2).build();
+                .status(status).boardCode(2)
+                .likeCount(0L)
+                .boardHit(0L).build();
     }
 
     public Board updateBoard(){
         return Board.builder().boardSeq(boardSeq).title(title).content(content)
                 .status(status).build();
     }
+
+
 }

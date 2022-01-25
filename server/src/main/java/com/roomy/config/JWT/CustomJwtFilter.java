@@ -37,7 +37,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     /**
      * Request 로 들어오는 Jwt Token 의 유효성을 검증하는 filter  를 filterChain에 등록
      *   실제 필터링 로직
-     *    토큰의 인증정보를 SecurityContext에 저장하는 역할 수행*/
+     *    토큰의 인증정보를 SecurityContext 에 저장하는 역할 수행*/
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -45,9 +45,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         //    request.getServletPath().equals("/user/refresh") : 만약 refresh 토큰까지 있다면
         if(request.getServletPath().equals("/auth/login")
              ){
-            // user 가 login 하게설정
-            log.debug("login하기 url : /auth/login  ");
-//            filterChain.doFilter(request,response);
+            log.debug("login 하기 url : /auth/login  ");
         }else{
             // 위의 url  이외일때
             //resolveToken를 통해 httpServletRequest의 Header  에서 jwt 가져오기
@@ -57,7 +55,6 @@ public class CustomJwtFilter extends OncePerRequestFilter {
             if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)){
                 // TokenProvider 에서 validateToken method 통과하면
                 // > authentication 받아오기
-                log.info("token 검증 끝난 후 authentication 받아오기");
                 Authentication auth = tokenProvider.getAuthentication(jwt);
                 // security context 에 set
                 SecurityContextHolder.getContext().setAuthentication(auth);
@@ -67,10 +64,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
                 log.info("token 정보 없음 uri : {}", requestURI);
             }
         }
-
         filterChain.doFilter(request,response);
-
-
     }
 
     /**

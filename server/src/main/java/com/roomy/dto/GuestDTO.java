@@ -32,6 +32,6 @@ public class GuestDTO {
 
     public Guest toEntity(){
       return
-              Guest.builder().username(username).content(content).status(status).build();
+              Guest.builder().username(username).nickname(nickname).content(content).status(status).build();
     }
 }

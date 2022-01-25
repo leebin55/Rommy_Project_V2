@@ -5,6 +5,7 @@ import com.roomy.entity.Guest;
 import com.roomy.entity.Room;
 import com.roomy.repository.GuestRepository;
 import com.roomy.repository.RoomRepository;
+import com.roomy.repository.UserRepository;
 import com.roomy.service.GuestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,17 +20,23 @@ import java.util.Optional;
 public class GuestServiceImpl implements GuestService {
 
     private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
     private final GuestRepository guestRepository;
 
 
+
     @Override @Transactional
-    public Long saveGuest(GuestDTO guestDto) {
+    public Long saveGuest(GuestDTO guestDto,String username) {
+        // username을 따로 받은 이유
+        // 글을 등록하면 nickname 으로 보여지는기 때문에 username 과 nickname 을 같이 toBuild
+        // room 의 user(room 주인) 와 username(로그인한 유저)은 다른유저
         Room room = roomRepository.findById(guestDto.getRoomId()).orElse(null);
-        if(room == null){
-            // room 이 없을 때 exception처리
+        if(room == null) {
             new IllegalStateException("해당 room  이 존재하지 않습니다.");
         }
-        Guest guest = guestDto.toEntity();
+        GuestDTO guestWithUser = guestDto.toBuilder().username(username)
+                .nickname(userRepository.nicknameByUsername(username)).build();
+        Guest guest = guestWithUser.toEntity();
         guest.setRoom(room);
         guestRepository.save(guest);
         return guest.getGuestSeq();

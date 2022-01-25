@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GuestService {
 
-    Long saveGuest(GuestDTO guestDto);
+    Long saveGuest(GuestDTO guestDto, String username);
 
     Long updateGuest(GuestDTO guestDto);
 

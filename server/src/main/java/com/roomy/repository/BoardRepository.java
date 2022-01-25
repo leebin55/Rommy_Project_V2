@@ -1,16 +1,21 @@
 package com.roomy.repository;
 
 import com.roomy.entity.Board;
+import com.roomy.entity.Room;
 import com.roomy.entity.User;
+import com.roomy.repository.qrepo.BoardRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 //BoardRepository만 사용해도 일반 board, gallery 를 모두 가져올 수 있다. (type casting 사용해서)
 
-public interface BoardRepository extends JpaRepository<Board,Long > {
+public interface BoardRepository extends JpaRepository<Board,Long >, BoardRepositoryCustom {
 
 
     Page<Board> findAllByBoardCode(int boardCode, Pageable pageable);
@@ -20,19 +25,7 @@ public interface BoardRepository extends JpaRepository<Board,Long > {
     @Query("select b from Board b where b.boardCode=:boardCode and b.user =:user")
     Page<Board> getUserBoardList(@Param("boardCode") int boardCode , @Param("user") User user , Pageable pageable);
 
-
-//
-//    @Query("SELECT b FROM BoardVO b WHERE b.title LIKE %:query%  AND b.boardCode =:boardCode ORDER BY b.boardSeq DESC")
-//    List<BoardVO> findByTitle(String query, @Param(value = "boardCode") int boardCode);
-//
-//    // 제목+내용 검색
-//    @Query("SELECT b FROM BoardVO b WHERE (b.title LIKE %:query% OR b.content LIKE %:query% AND b.boardCode =:boardCode ) ORDER BY b.boardSeq DESC")
-//    List<BoardVO> findByTitleAndContent(String query, @Param(value = "boardCode") int boardCode);
-//
-//    // 내용만 검색
-//    @Query("SELECT b FROM BoardVO b WHERE b.content LIKE %:query%   AND b.boardCode =:boardCode ORDER BY b.boardSeq DESC")
-//    List<BoardVO> findByContent(String query, @Param(value = "boardCode") int boardCode);
-
+    Slice<Board> findByRoomOrderByCreateDateDesc(Room room, Pageable pageable);
 
 
 

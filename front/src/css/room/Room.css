@@ -198,9 +198,16 @@ section.room-main-nav {
   margin: 5px;
 }
 
-.main-bottom p {
+.guest-post-nickname p {
   position: absolute;
   top: 20%;
+  left: 25%;
+}
+.guest-post-content {
+}
+.guest-post-content p {
+  position: absolute;
+  top: 30%;
   left: 25%;
 }
 

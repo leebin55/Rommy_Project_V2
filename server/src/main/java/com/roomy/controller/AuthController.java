@@ -29,7 +29,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
         log.debug("login dto {} ",loginDTO.toString());
-        // 아직 인증되기 전
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),loginDTO.getPassword());
         // 위의 토큰을 이용해서 Authentication 객체를 생성하기위해 authenticate  method가 실행될때

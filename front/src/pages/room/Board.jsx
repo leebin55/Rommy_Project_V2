@@ -22,8 +22,7 @@ function Board() {
         </>
       ) : (
         <>
-          {' '}
-          <BoardWrite />{' '}
+          <BoardWrite />
         </>
       )}
     </>

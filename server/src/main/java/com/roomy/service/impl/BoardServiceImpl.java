@@ -1,16 +1,17 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.BoardDTO;
+import com.roomy.dto.user.UserWithBoardDTO;
 import com.roomy.entity.Board;
+import com.roomy.entity.Room;
 import com.roomy.entity.User;
 import com.roomy.repository.BoardRepository;
+import com.roomy.repository.RoomRepository;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
+    private final RoomRepository roomRepository;
     private final UserRepository userRepository;
 
 //------------------------------ 조회 ---------------------------------------------------
@@ -45,43 +47,50 @@ public class BoardServiceImpl implements BoardService {
        // return list;
     }
 
+
+    @Override
+    public Slice<BoardDTO> loadBoardByRoom(Room room, Pageable pageable) {
+        if(room == null){
+            new IllegalStateException("해당 room은 존재하지않습니다.");
+        }
+        Slice<Board> boardWithPage = boardRepository.findByRoomOrderByCreateDateDesc(room, pageable);
+        return boardWithPage.map(board -> BoardDTO.builder()
+                .boardSeq(board.getBoardSeq())
+                .title(board.getTitle())
+                .boardHit(board.getBoardHit())
+                .likeCount(board.getLikeCount())
+                .createDate(board.getCreateDate()).build());
+    }
+
     // 모든 일반 게시물 조회
     @Override @Transactional(readOnly = true)
     public Page<BoardDTO> getAllBoardList() {
         // Page<BoardVO> 는 엔티티 자체를 그냥 넘기는 것 > 엔티티는 노출하지 않는 것이 좋으므로
         Page<Board> boardVOList=boardRepository.findAllByBoardCode(2, setPageRequest());
         // DTO 로 변환
-
-
         return null;
     }
 
     @Override @Transactional(readOnly = true)
-    public BoardDTO getBoardBySeq(Long boardSeq) {
-        Board board = findVOById(boardSeq);
-//        log.debug("findById 나와라 {}",boardVO.toString());
-//        BoardDTO boardDTO = new BoardDTO(board.getBoardSeq(),
-//                board.getContent(), board.getTitle(), board.getCreateDate(), board.getLikeList().size()
-//        ,board.getStatus());
-        //return boardVO;
-     //   return  boardDTO;
-        return null;
+    public UserWithBoardDTO getBoardBySeq(Long boardSeq) {
+        UserWithBoardDTO userWithBoardDTO = boardRepository.loadBoardDetail(boardSeq);
+        log.info("boardwituser : {}",userWithBoardDTO.toString());
+       return  userWithBoardDTO;
+
     }
 //------------------------------- save , delete ----------------------------------------------------
     @Override
-    public Long saveBoard(BoardDTO board) {
-
-        log.debug("board insert 메서드 {}", board.toString());
-        User user = userRepository.findById(board.getUsername()).orElse(null);
-        if(user == null){
-            return null;
-        }// 일반 게시글 등록일때
-        Board boardVO = board.createBoard();
-        boardVO.toBuilder().user(user).build();
-        boardRepository.save(boardVO);
-
-
-        return boardVO.getBoardSeq();
+    public Long saveBoard(BoardDTO boardDTO) {
+        log.debug("boardDTO insert 메서드 {}", boardDTO.toString());
+        User user = userRepository.findByUsername(boardDTO.getUsername());
+        Room room = roomRepository.findById(boardDTO.getRoomId()).orElse(null);
+        if(room == null || user == null){
+            new IllegalStateException("해당 유저가 없음");
+        }
+        Board board = boardDTO.createBoard();
+        board.setRoomAndUser(room , user);
+        boardRepository.save(board);
+        return board.getBoardSeq();
     }
 
     @Override
@@ -124,7 +133,7 @@ public class BoardServiceImpl implements BoardService {
         Page<BoardDTO> toDto = VO.map(board -> BoardDTO.builder().boardSeq(board.getBoardSeq())
                 .username(board.getUser().getUsername()).nickname(board.getUser().getNickname())
                 .title(board.getTitle()).content(board.getContent()).createDate(board.getCreateDate())
-                .likeCount(board.getLikeList().size()).status(board.getStatus()).build());
+                .likeCount(board.getLikeCount()).status(board.getStatus()).build());
 
         return toDto;
 //        return  null;
