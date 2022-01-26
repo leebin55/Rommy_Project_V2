@@ -42,7 +42,7 @@ public class BoardServiceImpl implements BoardService {
         Page<Board> boardVOList
                 = boardRepository.getUserBoardList(2,user,
                setPageRequest());
-        return toPageDTO(boardVOList);
+        return null;
        // log.debug("보드리스트 {}", list);
        // return list;
     }
@@ -54,12 +54,16 @@ public class BoardServiceImpl implements BoardService {
             new IllegalStateException("해당 room은 존재하지않습니다.");
         }
         Slice<Board> boardWithPage = boardRepository.findByRoomOrderByCreateDateDesc(room, pageable);
-        return boardWithPage.map(board -> BoardDTO.builder()
+
+        return boardWithPage.map(board -> {
+            String date = board.getCreateDate().toString().substring(0, 10);
+           return BoardDTO.builder()
                 .boardSeq(board.getBoardSeq())
                 .title(board.getTitle())
                 .boardHit(board.getBoardHit())
                 .likeCount(board.getLikeCount())
-                .createDate(board.getCreateDate()).build());
+                .createDate(date).build();
+        });
     }
 
     // 모든 일반 게시물 조회
@@ -128,16 +132,6 @@ public class BoardServiceImpl implements BoardService {
     }
 
 
-    // Page<VO> => Page<DTO > 로 변환
-    private Page<BoardDTO> toPageDTO(Page<Board> VO){
-        Page<BoardDTO> toDto = VO.map(board -> BoardDTO.builder().boardSeq(board.getBoardSeq())
-                .username(board.getUser().getUsername()).nickname(board.getUser().getNickname())
-                .title(board.getTitle()).content(board.getContent()).createDate(board.getCreateDate())
-                .likeCount(board.getLikeCount()).status(board.getStatus()).build());
-
-        return toDto;
-//        return  null;
-    }
 
     private Board findVOById(Long boardSeq){
         return  boardRepository.findById(boardSeq).orElse(null);

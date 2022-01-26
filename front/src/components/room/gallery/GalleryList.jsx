@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../../../../utils/AxiosInstance';
+import axiosInstance from '../../../utils/AxiosInstance';
 import GallerySingle from './GallerySingle';
 import ImageList from '@mui/material/ImageList';
+import ImgResister from './ImgRegisterModal';
 function GalleryList({ userId }) {
   const [galleryList, setGalleryList] = useState([]);
 
@@ -27,6 +28,7 @@ function GalleryList({ userId }) {
 
   return (
     <>
+      <ImgResister />
       <ImageList sx={{ width: 650, height: 450 }}>
         {galleryList.map((gallery, index) => {
           return <GallerySingle gallery={gallery} index={index} />;

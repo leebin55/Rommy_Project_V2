@@ -24,4 +24,14 @@ public class UserWithRoomDTO {
         this.nickname = nickname;
         this.roomId = roomId;
     }
+
+    @QueryProjection
+    public UserWithRoomDTO(String username, String profile,String nickname, Long roomId, String roomName, Long total) {
+        this.username = username;
+        this.profile = profile;
+        this.roomId = roomId;
+        this.nickname = nickname;
+        this.roomName = roomName;
+        this.total = total;
+    }
 }

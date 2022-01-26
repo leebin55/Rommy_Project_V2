@@ -4,7 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../../../utils/AxiosInstance';
+import axiosInstance from '../../../utils/AxiosInstance';
 import { useParams } from 'react-router-dom';
 
 function GallerySingle({ gallery, index }) {

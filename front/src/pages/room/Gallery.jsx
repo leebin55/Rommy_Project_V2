@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import GalleryList from '../../components/room/gallery/GalleryList';
 
 function Gallery() {
-  return <></>;
+  return (
+    <>
+      <GalleryList />
+    </>
+  );
 }
 
 export default Gallery;

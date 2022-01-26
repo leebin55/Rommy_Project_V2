@@ -2,6 +2,7 @@ package com.roomy.service.impl;
 
 import com.roomy.dto.RecentBoardAndGuestDTO;
 import com.roomy.dto.room.RoomProfileDTO;
+import com.roomy.dto.user.UserWithRoomDTO;
 import com.roomy.entity.User;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.GuestRepository;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional
 @RequiredArgsConstructor
@@ -41,6 +44,11 @@ public class RoomServiceImpl implements RoomService {
         // 그리고 게스트 4개
         log.info("loadRoomMain room : {}");
         return null;
+    }
+
+    @Override
+    public List<UserWithRoomDTO> loadTop4() {
+        return userRepository.loadTop4Room();
     }
 
 

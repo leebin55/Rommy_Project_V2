@@ -35,4 +35,11 @@ public class RoomController {
         log.info("roomMain");
         return null;
     }
+
+    //인기 미니홈피
+    @GetMapping("/top")
+    public ResponseEntity<?> popularRooms(){
+        log.info("인기미니홈피");
+        return ResponseEntity.ok(roomService.loadTop4());
+    }
 }

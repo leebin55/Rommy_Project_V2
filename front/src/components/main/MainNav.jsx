@@ -6,7 +6,6 @@ function MainNav() {
     <nav className="main-nav">
       <NavLink to="/">Home</NavLink>
       <NavLink to="/search">Search</NavLink>
-      <NavLink to="/news">News</NavLink>
     </nav>
   );
 }

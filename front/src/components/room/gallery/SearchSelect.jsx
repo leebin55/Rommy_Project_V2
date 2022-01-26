@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axiosInstance from '../../../../utils/AxiosInstance';
+import axiosInstance from '../../../utils/AxiosInstance';
 
 function SearchSelect({ userId }) {
   const [select, setSelect] = useState('0'); // 검색 select box 선택한 것

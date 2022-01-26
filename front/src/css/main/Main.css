@@ -57,3 +57,7 @@ header .logo {
   height: 100px;
   border: 1px solid #ddd;
 }
+.popular-mini-room-name:hover {
+  cursor: pointer;
+  color: blue;
+}

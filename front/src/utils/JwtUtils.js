@@ -1,5 +1,5 @@
 const baseUrl = 'http://localhost:3000';
-const JwtDecoder = (token) => {
+const jwtDecoder = (token) => {
   // [0]:  header , [1] : payload , [2] : Signature
   const base64Payload = token.split('.')[1];
   const payload = Buffer.from(base64Payload, 'base64');
@@ -11,10 +11,10 @@ const JwtDecoder = (token) => {
   return result;
 };
 
-const JwtValidate = () => {
+const jwtValidate = () => {
   const token = localStorage.getItem('token');
   if (token) {
-    const { exp } = JwtDecoder(token);
+    const { exp } = jwtDecoder(token);
     const now = (new Date().getTime() + 100) / 1000;
     console.log('now : ', now, ' exp ', exp);
     if (exp < now) {
@@ -24,8 +24,18 @@ const JwtValidate = () => {
     }
     return true; // exp 이 now  보다 클때
   }
-  window.location.href = baseUrl + '/login';
+  //   window.location.href = baseUrl + '/login';
   return false; // token 없을때
 };
 
-export { JwtDecoder, JwtValidate };
+const checkUser = (roomUser) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const { sub } = jwtDecoder(token);
+    if (roomUser.trim() === sub.trim()) {
+      return true;
+    }
+    return false;
+  }
+};
+export { jwtDecoder, jwtValidate, checkUser };

@@ -12,7 +12,6 @@ function BoardDetail() {
 
   const [detail, setDetail] = useState({});
   const [isDetail, setIsDetail] = useState(true);
-
   const [heart, setHeart] = useState(false); // 하트 눌렀었는지. 비회원이면 false 모양이 기본값으로 들어가도록 false로 초기값 지정
   const [heartNum, setHeartNum] = useState(''); // 이 글의 하트수
 
@@ -20,7 +19,6 @@ function BoardDetail() {
     await axiosInstance
       .get(`/rooms/${roomId}/boards/${boardSeq}`)
       .then((res) => {
-        console.log(res.data);
         setDetail(res.data);
         setHeart(res.data.checkLike);
         // [위] 사용자가 하트를 눌렀었는지 표시하기 위함
@@ -32,6 +30,10 @@ function BoardDetail() {
     if (window.confirm('글을 수정하시겠습니까?')) {
       setIsDetail(false);
     }
+  };
+
+  const clickBackBtn = () => {
+    navigate(`rooms/${roomUser}/${roomId}/boards`);
   };
 
   const fetchDelete = async () => {
@@ -56,8 +58,7 @@ function BoardDetail() {
     const res = await axiosInstance.post(`/room/${roomId}/board/like`, {
       boardSeq: detail.boardSeq,
     });
-    const data = await res.json();
-    setHeartNum(data);
+    setHeartNum(res.data);
   };
 
   useEffect(() => {
@@ -69,6 +70,7 @@ function BoardDetail() {
       {isDetail ? (
         <div>
           <div className="board-detail-title">
+            <button onClick={() => clickBackBtn()}>뒤로</button>
             <p>
               {detail.profile} {detail.nickname}
             </p>

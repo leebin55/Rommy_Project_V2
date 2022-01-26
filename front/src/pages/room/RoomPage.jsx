@@ -4,7 +4,7 @@ import LeftSide from '../../components/room/LeftSide';
 import axiosInstance from '../../utils/AxiosInstance';
 import RoomNav from '../../components/room/RoomNav';
 import '../../css/room/Room.css';
-import { JwtDecoder, JwtValidate } from '../../utils/JwtUtils';
+import { jwtDecoder } from '../../utils/JwtUtils';
 
 /**
  * 미니홈페이지(Room)의 메인 레이아웃 우측 메뉴 클릭 시 <Outlet> 부분만 변함
@@ -32,14 +32,13 @@ function Room() {
     // JwtValidate 는 토큰이 localStorage 에 있나 확인하고
     // 있으면 exp 이 지낫는지 확인 > 모두 Ok 이면 true 리턴
     // 토큰이 없거나 만료 기간이 지나면 토큰 지우고 false 리턴
-    if (JwtValidate()) {
-      const tokenDe = JwtDecoder(localStorage.getItem('token'));
-      tokenUser = tokenDe.sub;
-      console.log('JwtValidate 통과  tokenUser : ', tokenUser);
-      loadRoomInfo();
-      if (tokenUser === roomUser) {
-        setShoFollowBtn(false);
-      }
+
+    const tokenDe = jwtDecoder(localStorage.getItem('token'));
+    tokenUser = tokenDe.sub;
+    console.log('JwtValidate 통과  tokenUser : ', tokenUser);
+    loadRoomInfo();
+    if (tokenUser === roomUser) {
+      setShoFollowBtn(false);
     }
   }, []);
   //-----------------------------------------------------------------

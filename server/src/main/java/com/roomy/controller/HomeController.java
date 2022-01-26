@@ -9,12 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class HomeController {
 
-    @GetMapping("/")
-    public ResponseEntity<?> home(){
-        // 맨 처음 화면
-        // 로그인 확인 후 로그인 되있으면 회원정보 리턴
-        return null;
-    }
+
 
     @GetMapping("/feeds")
     public ResponseEntity<?> feed(){

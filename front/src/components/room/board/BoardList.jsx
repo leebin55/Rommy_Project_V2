@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom';
 import BoardSearch from '../commonComp/BoardSearch';
 import BoardSingle from './BoardSingle';
 import axiosInstance from '../../../utils/AxiosInstance';
+import { checkUser } from '../../../utils/JwtUtils';
 
 function BoardList({ setBoardState }) {
   const [boardList, setBoardList] = useState([]); // 화면에 출력될 일반 게시판 글 list
   const [select, setSelect] = useState('0'); // 검색 select box 선택한 것
   const [search, setSearch] = useState(''); // 검색 input box 에 입력한 내용
+  const [isOwn, setIsOwn] = useState(false); // 본인의 room인지 확인
   // const [start_page, setStart_page] = useState("1");
   // const [end_page, setEnd_page] = useState("1");
   const { roomUser, roomId } = useParams();
@@ -47,19 +49,22 @@ function BoardList({ setBoardState }) {
   });
 
   useEffect(() => {
+    setIsOwn(checkUser(roomUser));
     loadBoardList();
   }, []);
 
   return (
     <div className="board-container">
       <div className="btn-write-box">
-        <button
-          onClick={() => {
-            setBoardState({ list: false, write: true, update: false });
-          }}
-        >
-          글쓰기
-        </button>
+        {isOwn ? (
+          <button
+            onClick={() => {
+              setBoardState({ list: false, write: true, update: false });
+            }}
+          >
+            글쓰기
+          </button>
+        ) : null}
       </div>
       <div className="board-table-container">
         <table>

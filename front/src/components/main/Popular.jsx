@@ -1,33 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axiosInstance from '../../utils/AxiosInstance';
+import PopularSingle from './PopularSingle';
 
 function Popular() {
+  const [rooms, setRooms] = useState([]);
+
   const loadPopularRoom = async () => {
     await axiosInstance.get('/rooms/top').then((res) => {
-      console.log(res.data);
+      console.log('인기 미니홈피 :', res.data);
+      setRooms(res.data);
     });
   };
-  useEffect(() => {}, []);
+  useEffect(() => {
+    loadPopularRoom();
+  }, []);
 
   return (
     <div className="popular-box">
       <p className="popular-title">&#10024; 이번주 인기 미니홈피 &#10024;</p>
-      <div className="popular-mini">
-        <img className="popular-mini-img" src="img/noimage.png" />
-        <p>나는 인기있는 미니홈피</p>
-      </div>
-      <div className="popular-mini">
-        <img className="popular-mini-img" src="img/noimage.png" />
-        <p>미니홈피명</p>
-      </div>
-      <div className="popular-mini">
-        <img className="popular-mini-img" src="img/noimage.png" />
-        <p>미니홈피명</p>
-      </div>
-      <div className="popular-mini">
-        <img className="popular-mini-img" src="img/noimage.png" />
-        <p>미니홈피명</p>
-      </div>
+      {rooms.length > 0 && rooms.map((item) => <PopularSingle item={item} />)}
     </div>
   );
 }

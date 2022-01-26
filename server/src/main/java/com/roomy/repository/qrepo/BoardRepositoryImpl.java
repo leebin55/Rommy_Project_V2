@@ -22,8 +22,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
                 user.username, board.title,board.content,board.createDate, board.boardHit
                 ,board.likeCount))
                 .from(board)
-                .join(user)
-                .on(board.boardSeq.eq(boardSeq))
+                .innerJoin(board.user,user)
+                .where(board.boardSeq.eq(boardSeq))
                 .fetchOne();
 
     }

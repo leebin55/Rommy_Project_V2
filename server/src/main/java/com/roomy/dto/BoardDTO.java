@@ -18,12 +18,11 @@ public class BoardDTO {
     private String nickname;
     private String title;
     private String content;
-    private LocalDateTime createDate;
+    private String createDate;
     private Long boardHit;
     private Long likeCount;
     private BoardStatus status;
     private int boardCode;
-
 
 
     public Board createBoard(){
