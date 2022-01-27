@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import axiosInstance from '../../../utils/AxiosInstance';
+import { Button } from '@mui/material';
 
-export default function UpdateModal() {
+export default function Update({ user }) {
   const [preview, setPreview] = useState(); //프로필 미리보기 설정
-  const [userProfile, setUserProfile] = useState('');
   const [nickname, setNickname] = useState('');
-  const [Profile, setProfile] = useState('');
-  const [email, setEmail] = useState('');
+  const [profile, setProfile] = useState('');
   const [tempFile, setTempFile] = useState({}); // 프로필 파일 변경될때 임시로
 
   const textStyle = {
-    width: 400,
-    margin: 1,
+    width: 350,
+    margin: 2,
   };
 
   // 사진을 선택할때
@@ -31,16 +30,48 @@ export default function UpdateModal() {
     setTempFile(file);
   };
 
+  const clickUpdateBtn = async () => {
+    if (tempFile !== profile) {
+      const formData = new FormData();
+      formData.append('img', tempFile);
+      // file upload 먼저> 서버에 저장된 이름 받아오기
+      await axiosInstance.post(`/files`, formData).then((res) => {
+        if (res.data) {
+          console.log('file 이름 : ', res.data);
+          updateUserInfo(res.data[0]);
+          window.location.reload();
+        }
+      });
+    }
+  };
+
+  const updateUserInfo = async (fileName) => {
+    await axiosInstance
+      .patch(`/users/${user.username}`, {
+        username: user.username,
+        nickname,
+        profile: fileName,
+      })
+      .then((res) => {
+        console.log('update user info : ', res);
+      });
+  };
+
+  useEffect(() => {
+    setNickname(user.nickname);
+    setPreview(user.profile);
+  }, []);
+
   return (
     <Box component="form" sx={{ width: '25ch' }} noValidate autoComplete="off">
       <div id="modal-update-description">
-        <div>
+        <div className="modal-update-img-container">
           <input
             type="file"
             id="profile_img"
             name="profile_img"
             accept="image/png, image/jpeg image/jpg"
-            defaultValue={userProfile}
+            defaultValue={profile}
             onChange={imgChange}
           />
           <div className="profile-update-img-container">
@@ -57,19 +88,9 @@ export default function UpdateModal() {
             variant="filled"
             value={nickname}
             sx={textStyle}
-            helperText="이름"
+            helperText="닉네임"
             onChange={(event) => {
               setNickname(event.target.value);
-            }}
-          />
-          <TextField
-            id="filled-basic"
-            variant="filled"
-            value={email}
-            sx={textStyle}
-            helperText="이메일"
-            onChange={(event) => {
-              setEmail(event.target.value);
             }}
           />
           <TextField
@@ -88,6 +109,8 @@ export default function UpdateModal() {
           />
         </div>
       </div>
+      <Button onClick={clickUpdateBtn}>수정하기</Button>
+      <Button>비밀번호 변경</Button>
     </Box>
   );
 }

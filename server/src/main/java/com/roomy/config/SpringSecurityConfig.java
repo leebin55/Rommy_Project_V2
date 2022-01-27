@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -58,6 +59,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/sign_up").permitAll()
                 .antMatchers("/feeds").permitAll()
                 .antMatchers("/rooms/top").permitAll()
+                .antMatchers("/uploads/*").permitAll() // img
+
                 .anyRequest() // 나머지 요청들에 대해서는
                 .authenticated();// 인증받아야 한다.;
 
@@ -89,7 +92,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //        });
     }
 
-//---------------------빈등록------------------------------------------------
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+
+        web.ignoring()
+                .antMatchers("/img/**");
+    }
+
+    //---------------------빈등록------------------------------------------------
 
 
     @Bean

@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react';
 import { styled, Box } from '@mui/system';
 import ModalUnstyled from '@mui/base/ModalUnstyled';
-import { Paper } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
 import { useDropzone } from 'react-dropzone';

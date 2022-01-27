@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axiosInstance from '../../../utils/AxiosInstance';
 
-export default function JoinModal({ handleClose }) {
+export default function Join({ handleClose }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -61,8 +61,8 @@ export default function JoinModal({ handleClose }) {
       component="form"
       sx={{
         padding: '30px',
-
-        '& .MuiTextField-root': { m: 1 },
+        textAlign: 'center',
+        '& .MuiTextField-root': { m: 2 },
       }}
       noValidate
       autoComplete="off"

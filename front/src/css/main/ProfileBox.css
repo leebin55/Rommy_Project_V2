@@ -46,3 +46,15 @@
   background-color: lightseagreen;
   color: aliceblue;
 }
+
+#modal-update-description {
+  display: flex;
+}
+
+.modal-update-img-container {
+  width: 250px;
+  height: 250px;
+}
+.modal-update-img-container img {
+  width: 100%;
+}

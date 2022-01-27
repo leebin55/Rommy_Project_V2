@@ -12,21 +12,28 @@ function ProfileBox() {
   const navigate = useNavigate();
   // 로그인 했으면 true  안했으면 false : 프로필 박스 로그인 전 후 다르게 표시하기 위해
   const [checkLogin, setCheckLogin] = useState(false);
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [profile, setProfile] = useState('');
-  const [roomId, setRoomId] = useState('');
+  const [user, setUser] = useState({
+    username: '',
+    nickname: '',
+    profile: '',
+    email: '',
+    roomId: '',
+  });
 
   // 로그인한 유저 정보 불러오기 : 프로필 박스에 표기하기 위해
   const loadUserDetail = async () => {
     await axiosInstance.get(`/users/detail`).then((res) => {
-      console.log(res.data);
-      setUsername(res.data.username);
-      setEmail(res.data.email);
-      setRoomId(res.data.roomId);
-      if (res.data.profile) {
-        setProfile(res.data.profile);
-      }
+      console.log('user 받아오기', res.data);
+
+      setUser({
+        username: res.data.username,
+        nickname: res.data.nickname,
+        email: res.data.email,
+        profile: res.data.profile
+          ? `http://localhost:8080/uploads/${res.data.profile}`
+          : ``,
+        roomId: res.data.roomId,
+      });
     });
   };
 
@@ -50,22 +57,26 @@ function ProfileBox() {
       {checkLogin ? (
         <div className="profilebox-container">
           <div className="profilebox-img">
-            <img className="logo" src="img/logo.svg" alt="profile_img" />
-            <h1>{username} 님</h1>
-            <p>{email}</p>
+            {user.profile ? (
+              <img className="logo" src={user.profile} alt="profile_img" />
+            ) : (
+              <img className="logo" src="img/logo.svg" alt="profile_img" />
+            )}
+            <h1>{user.username} 님</h1>
+            <p>{user.email}</p>
           </div>
           <div className="profilebox-body">
             <div>팔로우 2.4k 팔로워 10K</div>
           </div>
           <div className="profilebox-footer">
             <div className="profilebox-btns">
-              <MainModal btnType="수정하기" />
+              <MainModal btnType="수정하기" user={user} />
               <Button onClick={logoutEvent}>로그아웃</Button>
             </div>
             <button
               className="profilebox-room-btn"
               onClick={() => {
-                navigate(`/rooms/${username}/${roomId}`);
+                navigate(`/rooms/${user.username}/${user.roomId}`);
               }}
             >
               나의 ROOM 가기
@@ -76,7 +87,6 @@ function ProfileBox() {
         <div className="profilebox-container">
           <div className="profilebox-img">
             <img className="logo" src="img/logo.svg" alt="profile_img" />
-            {/* user가 있으면 userName을 출력 */}
             <p>로그인을 해주세요</p>
           </div>
 

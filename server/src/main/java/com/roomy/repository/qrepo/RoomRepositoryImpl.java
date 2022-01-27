@@ -31,4 +31,16 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
                 .orderBy(guest.createDate.desc())
                 .fetch();
     }
+
+    @Override
+    public UserWithRoomDTO loadUserAndRoom(Long roomId) {
+
+//        QRoom room = QRoom.room;
+//        QUser user = QUser.user;
+////        String username, String profile, String nickname, Long roomId
+//        query.select(new QUserWithRoomDTO(user.username, user.profile,user.nickname,room.roomId))
+//                .from(room);
+
+        return null;
+    }
 }

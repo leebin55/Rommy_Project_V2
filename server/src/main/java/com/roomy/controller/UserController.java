@@ -50,9 +50,7 @@ public class UserController {
         return ResponseEntity.ok(userList);
     }
 
-
-
-    // user 상세정보
+    // user 상세정보 (user 정보만)
     @GetMapping("/{username}")
     public ResponseEntity<?> detail(@PathVariable String username) {
         log.debug("user detail 컨트롤러 실행 {}",username);
@@ -63,9 +61,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/check")
-    public ResponseEntity<?> checkLogin(){
-        // 여기서 토큰이 유효한지 확인..
-        return ResponseEntity.ok("ok");
+    // user 프로필과 nickname 만 변경 (비밀번호는 따로)
+    @PatchMapping("/{username}")
+    public ResponseEntity<?> update(@PathVariable String username, @RequestBody UserDTO userDTO){
+        log.info("nickname 과 profile 변경 : {}",userDTO.toString());
+        userService.updateUser(userDTO);
+        return null;
     }
 }

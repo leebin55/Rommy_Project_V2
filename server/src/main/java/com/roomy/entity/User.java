@@ -11,7 +11,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity @Builder
+@Entity @Builder(toBuilder = true)
 @Getter
 @Table(name ="tbl_user" , schema = "roomyDB")
 public class User extends BaseEntity implements Persistable<String> {
@@ -72,13 +72,17 @@ public class User extends BaseEntity implements Persistable<String> {
         return createDate == null;
     }
 
+
     // 연관관계로 다른 엔티티에서 참조될때 사용하기 위해
     public void setRoom(Room room) {
         this.room = room;
     }
 
-
-
+    //값 수정을 위해 setter (update 할때)
+    public void updateNicknameAndProfile(String nickname, String profile) {
+        this.nickname= nickname;
+        this.profile = profile;
+    }
     // 회원 권한 user:role = N : N
     // jpa 에서 다대다 관계 매핑을 할때 1 대 다 와 다대1로 풀어서 매핑을 하는 것이 더 좋다
     // 왜 ? 중간테이블이 숨겨져 있기 때문에 복잡하고 예상치 못한 쿼리 발생할 수 있음,

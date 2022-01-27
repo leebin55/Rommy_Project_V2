@@ -4,10 +4,10 @@ import com.roomy.dto.GuestDTO;
 import com.roomy.service.GuestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.security.Principal;
 import java.util.List;
 
@@ -19,19 +19,20 @@ public class GuestController {
     private final GuestService guestService;
 
     //방명록 전체 조회
-    @GetMapping("/{roomId}/guest")
-    public ResponseEntity<?> list(@PathVariable("roomId") Long roomId
+    @GetMapping("/{username}/{roomId}/guests")
+    public ResponseEntity<?> list(@PathVariable("username")String username
+            , @PathVariable("roomId") Long roomId
             , Pageable pageable) {
 //             guestService.getGuestByUsername(username);
         log.debug("guest list 컨트롤러 실행");
         List<GuestDTO> guestList = null;
-            guestList = guestService.getAllGuestByRoom(roomId);
-        log.debug("메인 방명록 리스트 {}", guestList.toArray());
+            guestList = guestService.getAllGuestByRoom(roomId,pageable);
+        log.debug("메인 방명록 리스트 {}", guestList.toString());
         return ResponseEntity.ok(guestList);
     }
 
     // 방명록 등록
-    @PostMapping("/guest")
+    @PostMapping("/guests")
     public ResponseEntity<?> register(@RequestBody GuestDTO guestDTO,
             Principal principal){
         log.info("방명록 등록 : {} , user : {}",guestDTO.toString(),principal.toString());

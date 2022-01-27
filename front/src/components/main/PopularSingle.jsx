@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 function PopularSingle({ item }) {
   const navigate = useNavigate();
+  const [profileUrl, setProfileUrl] = useState('');
 
   const roomNameClick = () => {
     console.log('room으로 이동');
     navigate(`/rooms/${item.username}/${item.roomId}`);
   };
 
+  useEffect(() => {
+    setProfileUrl(`http://localhost:8080/uploads/${item.profile}`);
+  });
   return (
     <div className="popular-mini">
       {item.profile === null ? (
@@ -20,7 +25,7 @@ function PopularSingle({ item }) {
       ) : (
         <img
           className="popular-mini-img"
-          src={item.profile}
+          src={profileUrl}
           alt="popular page"
         ></img>
       )}

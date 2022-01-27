@@ -8,13 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 
-public interface FileRepository extends JpaRepository<BoardImage,Long> {
-
-    // boardSeq 를 받아서 imageURL return
-    @Query(value = "SELECT imgUrl FROM BoardImage " +
-            "WHERE board = :boardSeq " )
-    List<String> findByImgBoardSeq(@Param(value="boardSeq") Long boardSeq);
-
+public interface ImgRepository extends JpaRepository<BoardImage,Long> {
 
     void deleteByBoard(Long boardSeq);
 }

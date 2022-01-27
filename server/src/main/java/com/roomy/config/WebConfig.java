@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     //실제 외부에서 접근할때 사용할 path (file:///c:/bizwork/uploads/)
     @Value("${real-path}")
     String realPath;
-    // http://localhost:8080/uploads/ 형식
+    //  http://localhost:8080/uploads/  형식
     @Value("${upload-path}")
     String vrPath ;
 

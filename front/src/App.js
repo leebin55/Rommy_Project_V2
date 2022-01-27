@@ -3,13 +3,12 @@ import { Routes, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import Search from './pages/Search';
 import Feeds from './pages/Feeds';
-import News from './pages/News';
 //------------------------------------
 import RoomPage from './pages/room/RoomPage';
 import * as Room from './pages/room/RoomComps';
 import GalleryDetail from './components/room/gallery/GalleryDetail';
 import BoardDetail from './components/room/board/BoardDetail';
-import Login from './pages/Login';
+import Login from './components/main/userForm/Login';
 
 function App() {
   return (

@@ -12,11 +12,12 @@ function GuestMain() {
   }, []);
 
   const fetchList = async () => {
-    const response = await fetch(
-      `http://localhost:8080/room/${roomUser}/guest`
-    );
-    const data = await response.json();
-    setGuestList(data);
+    await axiosInstance
+      .get(`/rooms/${roomUser}/${roomId}/guests`)
+      .then((res) => {
+        console.log('guest 불러오기 : ', res.data);
+        setGuestList(res.data);
+      });
   };
 
   // No 표시 하기 위해 리스트 개수 세기

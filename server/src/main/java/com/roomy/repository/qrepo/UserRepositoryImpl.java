@@ -17,13 +17,15 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
 
     private final JPAQueryFactory query;
 
+    //String username, String email, String profile, String nickname,
+    // Long roomId, String intro, String roomName, Long total
     @Override
     public UserWithRoomDTO userWithRoomByUsername(String username) {
         QRoom room = QRoom.room;
         QUser user = QUser.user;
 
        return query.select(new QUserWithRoomDTO(user.username,
-                        user.email, user.profile, user.nickname, room.roomId))
+                        user.email, user.profile, user.nickname, room.roomId,room.intro,room.roomName, room.total))
                 .from(user)
                 .join(user.room,room)
                 .where(user.username.eq(username))
@@ -34,12 +36,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
         QRoom room = QRoom.room;
         QUser user = QUser.user;
 
-        //String username, String profile, Long roomId, String roomName, Long total
-        return query.select(new QUserWithRoomDTO(user.username,user.profile,user.nickname,
-                        room.roomId, room.roomName, room.total))
+        return query.select(new QUserWithRoomDTO(user.username,
+                        user.email, user.profile, user.nickname, room.roomId,room.intro,room.roomName, room.total))
                 .from(user)
-                .join(room)
-                .on(user.username.eq(room.user.username))
+                .join(user.room,room)
                 .orderBy(room.total.desc())
                 .limit(4)
                 .fetch();

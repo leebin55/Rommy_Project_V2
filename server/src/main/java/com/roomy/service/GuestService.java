@@ -1,6 +1,8 @@
 package com.roomy.service;
 
 import com.roomy.dto.GuestDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
@@ -17,7 +19,7 @@ public interface GuestService {
 
     List<GuestDTO> getRecentGuest(Long roomId);
 
-    List<GuestDTO> getAllGuestByRoom(Long roomId);
+    List<GuestDTO> getAllGuestByRoom(Long roomId, Pageable pageable);
 
     List<GuestDTO> getGuestByUsername(String username);
 }

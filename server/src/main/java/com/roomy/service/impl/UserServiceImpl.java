@@ -8,6 +8,7 @@ import com.roomy.repository.UserRepository;
 import com.roomy.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -87,18 +88,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUser(UserDTO userDTO) {
-
+        log.info("userservice update ");
         User user = userRepository.findById(userDTO.getUsername()).orElse(null);
         if(user != null){
-         // update 할수 있는 칼럼은  nickname , email, profile\
-            // password  는 따로 수정
-            user.builder().nickname(userDTO.getNickname()).
-                    email(userDTO.getEmail()).profile(userDTO.getProfile())
-                            .build();
-            // room도 수정해주기
-            Room room =user.getRoom();
-            room.setUser(user);
-
+            user.updateNicknameAndProfile(userDTO.getNickname(),userDTO.getProfile());
             userRepository.save(user);
 
         }

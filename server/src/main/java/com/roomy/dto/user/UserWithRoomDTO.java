@@ -16,22 +16,24 @@ public class UserWithRoomDTO {
     private String roomName;
     private Long total;
 
+
     @QueryProjection
-    public UserWithRoomDTO(String username, String email, String profile, String nickname, Long roomId) {
+    public UserWithRoomDTO(String username, String email, String profile, String nickname, Long roomId, String intro, String roomName, Long total) {
         this.username = username;
         this.email = email;
         this.profile = profile;
         this.nickname = nickname;
         this.roomId = roomId;
+        this.intro = intro;
+        this.roomName = roomName;
+        this.total = total;
     }
 
     @QueryProjection
-    public UserWithRoomDTO(String username, String profile,String nickname, Long roomId, String roomName, Long total) {
+    public UserWithRoomDTO(String username, String profile, String nickname, Long roomId) {
         this.username = username;
         this.profile = profile;
-        this.roomId = roomId;
         this.nickname = nickname;
-        this.roomName = roomName;
-        this.total = total;
+        this.roomId = roomId;
     }
 }

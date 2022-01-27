@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import axiosInstance from '../utils/AxiosInstance';
+import axiosInstance from '../../../utils/AxiosInstance';
 
 export default function Login() {
   const [username, setUsername] = useState('');
