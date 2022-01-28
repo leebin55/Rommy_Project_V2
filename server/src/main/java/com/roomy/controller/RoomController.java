@@ -30,8 +30,8 @@ public class RoomController {
     }
 
     //Room 의 메인페이지 : 최근 게시물 목록들과 최근 방명록4개 보여줌
-    @GetMapping("/{roomId}/main_list")
-    public ResponseEntity<?> loadRoomMain(@PathVariable("roomId") Long roomId){
+    @GetMapping("/{username}/{roomId}/main_list")
+    public ResponseEntity<?> loadRoomMain(@PathVariable("username") String roomUsername,@PathVariable("roomId") Long roomId){
         log.info("roomMain");
         return null;
     }

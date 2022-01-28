@@ -1,6 +1,6 @@
 package com.roomy.controller;
 
-import com.roomy.config.JWT.TokenProvider;
+import com.roomy.jwt.TokenProvider;
 import com.roomy.dto.user.LoginDTO;
 import com.roomy.dto.user.TokenDTO;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.roomy.config.JWT;
+package com.roomy.jwt;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;

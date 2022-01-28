@@ -1,4 +1,4 @@
-package com.roomy.config.JWT;
+package com.roomy.jwt;
 
 
 import io.jsonwebtoken.*;
@@ -19,7 +19,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
-import static java.lang.System.err;
 import static java.util.stream.Collectors.toList;
 
 

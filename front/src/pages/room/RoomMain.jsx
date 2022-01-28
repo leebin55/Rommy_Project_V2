@@ -17,9 +17,11 @@ function RoomMain() {
 
   // 방명록을 등록하면 바로 보여주기
   const loadGuest = async () => {
-    await axiosInstance(`/rooms/${roomId}/guest_recent`).then((res) => {
-      setGuestList(res.data);
-    });
+    await axiosInstance(`/rooms/${roomUser}/${roomId}/guest_recent`).then(
+      (res) => {
+        setGuestList(res.data);
+      }
+    );
   };
 
   const guestPrivate = () => {
@@ -37,7 +39,7 @@ function RoomMain() {
       return;
     }
     await axiosInstance
-      .post(`/rooms/guest`, {
+      .post(`/rooms/${roomUser}/${roomId}/guest`, {
         roomId,
         content,
         status: guestStatus ? 'PRIVATE' : 'PUBLIC',
@@ -49,9 +51,11 @@ function RoomMain() {
   };
 
   const loadRoomMain = async () => {
-    await axiosInstance.get(`/rooms/${roomId}/main_list`).then((res) => {
-      console.log(' room main res : ', res);
-    });
+    await axiosInstance
+      .get(`/rooms/${roomUser}/${roomId}/main_list`)
+      .then((res) => {
+        console.log(' room main res : ', res);
+      });
   };
   // 화면이 랜더링 되면 우선 localStorage 에 토큰있나 확인 하고
   // 토큰의 정보와 홈페이지 주인의 정보가 일치하는 확인

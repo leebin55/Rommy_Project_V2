@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,11 +70,9 @@ public class GuestServiceImpl implements GuestService {
     }
 
     @Override
-    public List<GuestDTO> getAllGuestByRoom(Long roomId , Pageable pageable) {
-        
-
-
-        return null;
+    public Slice<GuestDTO> getAllGuestByRoom(Long roomId , Pageable pageable) {
+        log.info("방명록 불러오기 ");
+        return roomRepository.loadGuestsByRoomId(roomId, pageable);
     }
 
     @Override

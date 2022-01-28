@@ -19,7 +19,7 @@ public interface GuestService {
 
     List<GuestDTO> getRecentGuest(Long roomId);
 
-    List<GuestDTO> getAllGuestByRoom(Long roomId, Pageable pageable);
+    Slice<GuestDTO> getAllGuestByRoom(Long roomId, Pageable pageable);
 
     List<GuestDTO> getGuestByUsername(String username);
 }

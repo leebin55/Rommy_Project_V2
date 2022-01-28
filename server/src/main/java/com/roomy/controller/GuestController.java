@@ -5,6 +5,7 @@ import com.roomy.service.GuestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,20 +21,20 @@ public class GuestController {
 
     //방명록 전체 조회
     @GetMapping("/{username}/{roomId}/guests")
-    public ResponseEntity<?> list(@PathVariable("username")String username
+    public ResponseEntity<?> list(@PathVariable("username")String roomUser
             , @PathVariable("roomId") Long roomId
             , Pageable pageable) {
 //             guestService.getGuestByUsername(username);
-        log.debug("guest list 컨트롤러 실행");
-        List<GuestDTO> guestList = null;
-            guestList = guestService.getAllGuestByRoom(roomId,pageable);
-        log.debug("메인 방명록 리스트 {}", guestList.toString());
-        return ResponseEntity.ok(guestList);
+        log.debug("guest list 컨트롤러 실행 pageable : {}", pageable.toString());
+
+        Slice<GuestDTO> guestSlice = guestService.getAllGuestByRoom(roomId, pageable);
+        return ResponseEntity.ok(guestSlice);
     }
 
     // 방명록 등록
-    @PostMapping("/guests")
-    public ResponseEntity<?> register(@RequestBody GuestDTO guestDTO,
+    @PostMapping("{roomUser}/{roomId}/guests")
+    public ResponseEntity<?> register(@PathVariable("roomUser")String roomUser,
+            @PathVariable("roomId")Long roomId,@RequestBody GuestDTO guestDTO,
             Principal principal){
         log.info("방명록 등록 : {} , user : {}",guestDTO.toString(),principal.toString());
         Long guestSeq = guestService.saveGuest(guestDTO,principal.getName());
@@ -41,8 +42,8 @@ public class GuestController {
     }
 
     // 최근 방명록 4개만
-    @GetMapping("/{roomId}/guest_recent")
-    public ResponseEntity<?> recentList(@PathVariable("roomId") Long roomId){
+    @GetMapping("/{username}/{roomId}/guest_recent")
+    public ResponseEntity<?> recentList(@PathVariable("username")String roomUser,@PathVariable("roomId") Long roomId){
         log.info("최근 방명록 4 개만 불러오기");
         return ResponseEntity.ok(guestService.getRecentGuest(roomId));
     }

@@ -1,4 +1,4 @@
-package com.roomy.config.JWT;
+package com.roomy.jwt;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

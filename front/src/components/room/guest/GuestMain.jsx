@@ -6,6 +6,7 @@ import axiosInstance from '../../../utils/AxiosInstance';
 function GuestMain() {
   const [guestList, setGuestList] = useState([]);
   const { roomUser, roomId } = useParams();
+  const [guestSlice, SetGuestSlice] = useState({});
 
   useEffect(() => {
     fetchList();
@@ -13,28 +14,23 @@ function GuestMain() {
 
   const fetchList = async () => {
     await axiosInstance
-      .get(`/rooms/${roomUser}/${roomId}/guests`)
+      .get(
+        `/rooms/${roomUser}/${roomId}/guests?page=0&size=10&sort=createDate,desc`
+      )
       .then((res) => {
-        console.log('guest 불러오기 : ', res.data);
-        setGuestList(res.data);
+        console.log('guest 불러오기 : ', res);
+        console.log('res.data.content', res.data.content);
+        // setGuestList(res.data.content);
+        SetGuestSlice(res.data);
       });
   };
-
-  // No 표시 하기 위해 리스트 개수 세기
-  let list_length = guestList.length;
 
   return (
     <div className="guest-container">
       <section className="guest-list">
-        {guestList.length > 0 ? (
-          guestList.map((item) => {
-            return (
-              <GuestItem
-                data={item}
-                index={--list_length}
-                fetchList={fetchList}
-              />
-            );
+        {guestSlice.content > 0 ? (
+          guestSlice.content.map((item) => {
+            return <GuestItem data={item} fetchList={fetchList} />;
           })
         ) : (
           <div className="guest-item-box">

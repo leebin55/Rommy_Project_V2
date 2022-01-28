@@ -1,10 +1,10 @@
 package com.roomy.config;
 
 
-import com.roomy.config.JWT.JwtAccessDeniedHandler;
-import com.roomy.config.JWT.JwtEntryPoint;
-import com.roomy.config.JWT.TokenProvider;
-import com.roomy.config.JWT.CustomJwtFilter;
+import com.roomy.jwt.JwtAccessDeniedHandler;
+import com.roomy.jwt.JwtEntryPoint;
+import com.roomy.jwt.TokenProvider;
+import com.roomy.jwt.CustomJwtFilter;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.security.authentication.AuthenticationManager;
