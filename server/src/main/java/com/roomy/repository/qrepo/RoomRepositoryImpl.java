@@ -26,8 +26,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
                 query.select(new QGuestDTO(guest.guestSeq, guest.nickname, guest.username,
                 guest.createDate, guest.status, guest.content))
                 .from(room)
-                .leftJoin(room.guestList,guest)
-                .fetchJoin()
+                .join(room.guestList,guest)
                 .limit(4)
                 .orderBy(guest.createDate.desc())
                 .fetch();

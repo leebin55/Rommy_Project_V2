@@ -29,10 +29,11 @@ const Backdrop = styled('div')`
 `;
 
 const style = {
-  minWidth: 500,
+  width: 600,
   height: 500,
   bgcolor: 'white',
   border: '2px solid #000',
+  textAlign: 'center',
   p: 2,
   px: 4,
   pb: 3,

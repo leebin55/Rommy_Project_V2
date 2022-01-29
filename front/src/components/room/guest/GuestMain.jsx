@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import GuestItem from './GuestItem';
+import GuestSingle from './GuestSingle';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../../utils/AxiosInstance';
 
@@ -28,9 +28,11 @@ function GuestMain() {
   return (
     <div className="guest-container">
       <section className="guest-list">
-        {guestSlice.content > 0 ? (
-          guestSlice.content.map((item) => {
-            return <GuestItem data={item} fetchList={fetchList} />;
+        {guestSlice.content != null ? (
+          guestSlice.content.map((item, index) => {
+            return (
+              <GuestSingle item={item} index={index} fetchList={fetchList} />
+            );
           })
         ) : (
           <div className="guest-item-box">

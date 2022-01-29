@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-function GuestItem({ data, index, fetchList }) {
+export default function GuestSingle({ item, index, fetchList }) {
   const [updating, setUpdating] = useState(false);
   const [update_content, setUpdate_content] = useState();
-  const { userId } = useParams();
+  const { roomUser, roomId } = useParams();
 
   const onChange = (e) => {
     setUpdate_content(e.target.value);
   };
 
   const guestDelete = async () => {
-    if (window.confirm("방명록을 삭제하시겠습니까?")) {
+    if (window.confirm('방명록을 삭제하시겠습니까?')) {
       await fetch(
-        `http://localhost:8080/room/${userId}/guest/${data.guestSeq}`,
+        `http://localhost:8080/room/${roomUser}/guest/${item.guestSeq}`,
         {
-          method: "DELETE",
-          mode: "cors",
-          cache: "no-cache",
-          credentials: "include",
+          method: 'DELETE',
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'include',
         }
       ).then((res) => {
         if (res?.ok) {
-          alert("삭제되었습니다");
+          alert('삭제되었습니다');
           fetchList();
         }
       });
@@ -31,39 +31,42 @@ function GuestItem({ data, index, fetchList }) {
 
   const clickUpdate = () => {
     if (updating) {
-      if (update_content.trim() === "") {
-        alert("방명록을 입력하세요");
+      if (update_content.trim() === '') {
+        alert('방명록을 입력하세요');
         return;
-      } else if (update_content === data.guest_content) {
-        alert("변경된 내용이 없습니다");
+      } else if (update_content === item.guest_content) {
+        alert('변경된 내용이 없습니다');
         return;
       }
       guestUpdate();
     } else if (!updating) {
-      setUpdate_content(data.guestContent);
+      setUpdate_content(item.guestContent);
     }
     setUpdating(!updating);
   };
 
   const guestUpdate = async () => {
-    await fetch(`http://localhost:8080/room/${userId}/guest/${data.guestSeq}`, {
-      method: "PUT",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        guestContent: update_content,
-      }),
-    }).then((res) => {
+    await fetch(
+      `http://localhost:8080/rooms/${roomUser}/guest/${item.guestSeq}`,
+      {
+        method: 'PUT',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          guestContent: update_content,
+        }),
+      }
+    ).then((res) => {
       if (res?.ok) {
-        alert("수정되었습니다");
+        alert('수정되었습니다');
         fetchList();
       }
     });
-    setUpdate_content("");
+    setUpdate_content('');
     fetchList();
   };
 
@@ -74,14 +77,14 @@ function GuestItem({ data, index, fetchList }) {
           <span>NO.</span>
           {index + 1}
         </p>
-        <p>{data.guestWriterName}</p>
+        <p>{item.nickname}</p>
         <p>&#127968;</p>
-        <p>{data.guestCreateAt}</p>
+        <p>{item.crateDate}</p>
         <p className="guest-list-private">
-          {data.guestPrivate ? "공개글로 전환" : "비밀글로 전환"}
+          {item.status ? '비밀글로 전환' : '공개글로 전환'}
         </p>
         <p className="guest-list-update" onClick={() => clickUpdate()}>
-          {updating ? "등록" : "수정"}
+          {updating ? '등록' : '수정'}
         </p>
         <p className="guest-list-delete" onClick={() => guestDelete()}>
           삭제
@@ -93,14 +96,14 @@ function GuestItem({ data, index, fetchList }) {
           {updating ? (
             <textarea
               className="guest-update-content"
-              defaultValue={data.guestContent}
+              defaultValue={item.guestContent}
               value={update_content}
               onChange={onChange}
             ></textarea>
           ) : (
             <>
-              {data.guestPrivate ? "🔒 " : ""}
-              {data.guestContent}
+              {item.status ? ' ' : '🔒'}
+              {item.content}
             </>
           )}
         </div>
@@ -108,5 +111,3 @@ function GuestItem({ data, index, fetchList }) {
     </div>
   );
 }
-
-export default GuestItem;

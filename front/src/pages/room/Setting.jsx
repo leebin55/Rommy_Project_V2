@@ -1,73 +1,93 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import TextField from '@mui/material/TextField';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
-import '../../css/room/Setting.css';
+import { Button } from '@mui/material';
+import { jwtDecoder } from '../../utils/JwtUtils';
 
 function Setting() {
   const navigate = useNavigate();
-  const [room_name, setRoom_name] = useState('');
-  const [room_introduce, setRoom_introduce] = useState('');
-  const { userId } = useParams();
-
-  const onChangeRoomName = (e) => {
-    setRoom_name(e.target.value);
-  };
-
-  const onChangeRoomIntroduce = (e) => {
-    setRoom_introduce(e.target.value);
-  };
+  const [roomName, setRoomName] = useState('');
+  const [intro, setIntro] = useState('');
+  const [tokenUser, setTokenUser] = useState('');
+  const { roomUser, roomId } = useParams();
 
   // 미니홈피 정보들(미니홈피명, 소개글) 불러오기
   const fetchSetting = async () => {
-    const res = await fetch(`http://localhost:8080/room/${userId}`);
-    const data = await res.json();
-    setRoom_name(data.roomName);
-    setRoom_introduce(data.roomIntroduce);
+    axiosInstance.get(`/rooms/${roomUser}/${roomId}`).then((res) => {
+      console.log('room 정보 불러오기 : ', res.data);
+      setRoomName(res.data.roomName);
+      setIntro(res.data.intro);
+    });
   };
 
   // 미니홈피 정보 수정
-  const settingUpdate = async () => {
-    await fetch(`http://localhost:8080/room/${userId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: userId,
-        roomName: room_name,
-        roomIntroduce: room_introduce,
-      }),
-    }).then((res) => {
-      if (res?.ok) {
-        navigate(`/room/${userId}/setting`);
-        alert('수정되었습니다');
-      }
-    });
+  const clickUpdate = async () => {
+    await axiosInstance
+      .patch(`/rooms/${roomUser}/${roomId}`, {
+        roomId,
+        roomName,
+        intro,
+      })
+      .then((res) => {
+        if (res?.ok) {
+          navigate(`/rooms/${roomUser}/${roomId}/setting`);
+          alert('수정되었습니다');
+        }
+      });
   };
 
   useEffect(() => {
     fetchSetting();
+    const token = localStorage.getItem('token');
+    if (token) {
+      const { sub } = jwtDecoder(token);
+      setTokenUser(sub);
+    }
   }, []);
 
   return (
     <div className="setting-container">
-      <h1>미니홈피 설정</h1>
-      <div className="setting-input-box">
-        <input
-          className="setting-input"
-          defaultValue={room_name}
-          value={room_name}
-          onChange={(e) => onChangeRoomName(e)}
-        ></input>
-        <textarea
-          className="setting-textfield"
-          defaultValue={room_introduce}
-          value={room_introduce}
-          onChange={(e) => onChangeRoomIntroduce(e)}
-        ></textarea>
-        <div className="setting-btn-box">
-          <button onClick={() => settingUpdate()}>수정</button>
-        </div>
+      <h1>ROOM 설정</h1>
+      <div>
+        <TextField
+          sx={{ width: '500px' }}
+          id="room-name"
+          value={roomName}
+          helperText="Room의 이름"
+          margin="normal"
+          onChange={(e) => {
+            setRoomName(e.target.value);
+          }}
+        />
       </div>
+      <div>
+        <TextField
+          id="outlined-multiline-static"
+          multiline
+          rows={10}
+          value={intro}
+          helperText="Room 소개글"
+          margin="normal"
+          fullWidth="true"
+          onChange={(e) => {
+            setIntro(e.target.value);
+          }}
+        />
+      </div>
+      {roomUser === tokenUser && (
+        <>
+          <Button onClick={clickUpdate}>수정</Button>
+          <Button
+            onClick={() => {
+              fetchSetting();
+            }}
+          >
+            취소
+          </Button>
+        </>
+      )}
     </div>
   );
 }

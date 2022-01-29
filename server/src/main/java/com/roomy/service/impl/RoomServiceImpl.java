@@ -1,8 +1,10 @@
 package com.roomy.service.impl;
 
 import com.roomy.dto.RecentBoardAndGuestDTO;
+import com.roomy.dto.RoomDTO;
 import com.roomy.dto.room.RoomProfileDTO;
 import com.roomy.dto.user.UserWithRoomDTO;
+import com.roomy.entity.Room;
 import com.roomy.entity.User;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.GuestRepository;
@@ -49,6 +51,26 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<UserWithRoomDTO> loadTop4() {
         return userRepository.loadTop4Room();
+    }
+
+    @Override
+    public RoomDTO findByRoomId(Long roomId) {
+        log.info("findByRoomId service 실행");
+        Room room = roomRepository.findById(roomId).orElse(null);
+        if(room == null){
+            new IllegalStateException("해당 room 없음");
+        }
+        return RoomDTO.toDTO(room);
+    }
+
+    @Override
+    public void updateRoom(RoomDTO roomDTO) {
+        Room room = roomRepository.findById(roomDTO.getRoomId()).orElse(null);
+        if(room == null){
+            new IllegalStateException("해당 room 없음");
+        }
+        room.updateRoom(roomDTO.getRoomName(),roomDTO.getIntro());
+        roomRepository.save(room);
     }
 
 

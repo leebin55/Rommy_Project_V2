@@ -5,21 +5,35 @@ import { useNavigate, useParams } from 'react-router';
 import BoardWrite from './BoardWrite';
 import axiosInstance from '../../../utils/AxiosInstance';
 import '../../../css/room/Board.css';
+import { Avatar } from '@mui/material';
 
 function BoardDetail() {
   const navigate = useNavigate();
   const { roomUser, roomId, boardSeq } = useParams();
 
-  const [detail, setDetail] = useState({});
+  const [detail, setDetail] = useState({
+    boardHit: 0,
+    content: '',
+    createDate: '',
+    likeCount: 0,
+    nickname: '',
+    title: '',
+    username: '',
+  });
   const [isDetail, setIsDetail] = useState(true);
   const [heart, setHeart] = useState(false); // 하트 눌렀었는지. 비회원이면 false 모양이 기본값으로 들어가도록 false로 초기값 지정
+  const [profile, setProfile] = useState('');
   const [heartNum, setHeartNum] = useState(''); // 이 글의 하트수
 
   const fetchDetail = async () => {
     await axiosInstance
-      .get(`/rooms/${roomId}/boards/${boardSeq}`)
+      .get(`/rooms/${roomUser}/${roomId}/boards/${boardSeq}`)
       .then((res) => {
+        console.log(res.data);
         setDetail(res.data);
+        if (res.data.profile !== null || res.data.profile.trim() !== '') {
+          setProfile(`http://localhost:8080/uploads/${res.data.profile}`);
+        }
         setHeart(res.data.checkLike);
         // [위] 사용자가 하트를 눌렀었는지 표시하기 위함
         setHeartNum(res.data.likeCount);
@@ -71,9 +85,21 @@ function BoardDetail() {
         <div>
           <div className="board-detail-title">
             <button onClick={() => clickBackBtn()}>뒤로</button>
-            <p>
-              {detail.profile} {detail.nickname}
-            </p>
+            {detail.profile ? (
+              <div>
+                <Avatar sx={{ width: 30, height: 30 }} aria-label="recipe">
+                  <input
+                    type="image"
+                    src={profile}
+                    alt="feed"
+                    style={{ width: '100%' }}
+                  />
+                </Avatar>
+                <p>{detail.nickname}</p>
+              </div>
+            ) : (
+              <div></div>
+            )}
             <p>{detail.boardTitle}</p>
             <button onClick={() => clickUpdate()}>수정</button>
             <button onClick={() => fetchDelete()}>삭제</button>

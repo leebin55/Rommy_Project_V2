@@ -16,7 +16,7 @@ function BoardList({ setBoardState }) {
 
   const loadBoardList = async () => {
     const res = await axiosInstance
-      .get(`/rooms/${roomId}/boards?size=20,sort=roomId,desc`)
+      .get(`/rooms/${roomUser}/${roomId}/boards?size=20,sort=roomId,desc`)
       .then((res) => {
         console.log(res.data.content);
         setBoardList(res.data.content);
@@ -40,7 +40,7 @@ function BoardList({ setBoardState }) {
       return;
     }
     const res = await axiosInstance(
-      `/room/${roomId}/board/search?query=${search}&select=${select}`
+      `/rooms/${roomUser}/${roomId}/boards/search?query=${search}&select=${select}`
     );
     const result = await res;
     setBoardList(result);

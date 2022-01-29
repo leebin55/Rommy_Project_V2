@@ -39,7 +39,7 @@ function RoomMain() {
       return;
     }
     await axiosInstance
-      .post(`/rooms/${roomUser}/${roomId}/guest`, {
+      .post(`/rooms/${roomUser}/${roomId}/guests`, {
         roomId,
         content,
         status: guestStatus ? 'PRIVATE' : 'PUBLIC',
@@ -52,7 +52,7 @@ function RoomMain() {
 
   const loadRoomMain = async () => {
     await axiosInstance
-      .get(`/rooms/${roomUser}/${roomId}/main_list`)
+      .get(`/rooms/${roomUser}/${roomId}/boards-guests`)
       .then((res) => {
         console.log(' room main res : ', res);
       });

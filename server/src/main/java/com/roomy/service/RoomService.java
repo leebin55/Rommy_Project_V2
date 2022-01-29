@@ -1,6 +1,7 @@
 package com.roomy.service;
 
 import com.roomy.dto.RecentBoardAndGuestDTO;
+import com.roomy.dto.RoomDTO;
 import com.roomy.dto.room.RoomProfileDTO;
 import com.roomy.dto.user.UserWithRoomDTO;
 
@@ -13,5 +14,9 @@ public interface RoomService {
     RecentBoardAndGuestDTO loadRoomMainList(String username);
 
     List<UserWithRoomDTO> loadTop4();
+
+    RoomDTO findByRoomId(Long roomId);
+
+    void updateRoom(RoomDTO roomDTO);
     
 }

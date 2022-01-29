@@ -27,8 +27,8 @@ public class BoardController {
     private final BoardService boardService;
 
     // room 에서 글 조회
-    @GetMapping("/{roomId}/boards")
-    public ResponseEntity<?> list(@PathVariable("roomId") Room room, Pageable pageable) {
+    @GetMapping("/{username}/{roomId}/boards")
+    public ResponseEntity<?> list(@PathVariable("username")String username,@PathVariable("roomId") Room room, Pageable pageable) {
         log.debug("board list 컨트롤러 실행 {}", room);
         Slice<BoardDTO> boardDTOS = boardService.loadBoardByRoom(room, pageable);
 //        return ResponseEntity.ok(boardList);
@@ -36,7 +36,7 @@ public class BoardController {
     }
 
     // 글 등록
-    @PostMapping("{username}/{roomId}/boards")
+    @PostMapping("/{username}/{roomId}/boards")
     public ResponseEntity<?> register(@PathVariable("username")String username,
             @PathVariable("roomId")Long roomId, @RequestBody BoardDTO boardDTO,
                                       Principal principal) {
@@ -52,8 +52,8 @@ public class BoardController {
     }
 
     // 글 상세보기
-    @GetMapping("/{roomId}/boards/{boardSeq}")
-    public ResponseEntity<?> detail(@PathVariable("roomId")Long roomId,
+    @GetMapping("/{username}/{roomId}/boards/{boardSeq}")
+    public ResponseEntity<?> detail(@PathVariable("username")String username,@PathVariable("roomId")Long roomId,
                                     @PathVariable("boardSeq") Long boardSeq) {
         log.debug("board detail 컨트롤러 실행 {}",boardSeq);
         UserWithBoardDTO userWithBoardDTO =  boardService.getBoardBySeq(boardSeq);
@@ -62,17 +62,19 @@ public class BoardController {
 
     // 글 수정
     @PatchMapping("/{username}/{roomId}/boards")
-    public ResponseEntity<?> update(@RequestBody BoardDTO boardDTO) {
+    public ResponseEntity<?> update(@PathVariable("username")String username,@PathVariable("roomId") Long roomId
+            ,@RequestBody BoardDTO boardDTO) {
         log.debug("board update 컨트롤러 실행 {}", boardDTO.toString());
         Long boardSeq =boardService.updateBoard(boardDTO);
         return ResponseEntity.ok(boardSeq);
     }
 
     // 글 삭제
-    @DeleteMapping("/{userId}/{roomId}/boards/{board_seq}")
-    public void delete(@PathVariable Long board_seq) {
+    @DeleteMapping("/{username}/{roomId}/boards/{board_seq}")
+    public void delete(@PathVariable("username")String username,@PathVariable("roomId") Long roomId
+            ,@PathVariable("boardSeq") Long boardSeq) {
         log.debug("board delete 컨트롤러 실행");
-        boardService.deleteBoard(board_seq);
+        boardService.deleteBoard(boardSeq);
     }
 
 }
