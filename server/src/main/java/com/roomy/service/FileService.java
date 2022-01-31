@@ -1,6 +1,6 @@
 package com.roomy.service;
 
-import com.roomy.entity.BoardImage;
+import com.roomy.entity.Image;
 import com.roomy.entity.Board;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,5 +20,5 @@ public interface FileService {
 
     public Resource loadFileAsResource(String fileName);
 
-    void insert(BoardImage imageVO);
+    void insert(Image imageVO);
 }

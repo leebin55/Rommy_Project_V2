@@ -5,12 +5,11 @@ import { useNavigate, useParams } from 'react-router';
 import BoardWrite from './BoardWrite';
 import axiosInstance from '../../../utils/AxiosInstance';
 import '../../../css/room/Board.css';
-import { Avatar } from '@mui/material';
+import ProfileAvatar from '../commonComp/ProfileAvatar';
 
 function BoardDetail() {
   const navigate = useNavigate();
   const { roomUser, roomId, boardSeq } = useParams();
-
   const [detail, setDetail] = useState({
     boardHit: 0,
     content: '',
@@ -31,9 +30,6 @@ function BoardDetail() {
       .then((res) => {
         console.log(res.data);
         setDetail(res.data);
-        if (res.data.profile !== null || res.data.profile.trim() !== '') {
-          setProfile(`http://localhost:8080/uploads/${res.data.profile}`);
-        }
         setHeart(res.data.checkLike);
         // [위] 사용자가 하트를 눌렀었는지 표시하기 위함
         setHeartNum(res.data.likeCount);
@@ -44,6 +40,16 @@ function BoardDetail() {
     if (window.confirm('글을 수정하시겠습니까?')) {
       setIsDetail(false);
     }
+  };
+
+  const updateBoard = async () => {
+    await axiosInstance
+      .patch(`/rooms/${roomUser}/${roomId}/board`, {})
+      .then((res) => {
+        if (res?.ok) {
+          navigate(`/rooms/${roomUser}/${roomId}/boards`);
+        }
+      });
   };
 
   const clickBackBtn = () => {
@@ -85,27 +91,14 @@ function BoardDetail() {
         <div>
           <div className="board-detail-title">
             <button onClick={() => clickBackBtn()}>뒤로</button>
-            {detail.profile ? (
-              <div>
-                <Avatar sx={{ width: 30, height: 30 }} aria-label="recipe">
-                  <input
-                    type="image"
-                    src={profile}
-                    alt="feed"
-                    style={{ width: '100%' }}
-                  />
-                </Avatar>
-                <p>{detail.nickname}</p>
-              </div>
-            ) : (
-              <div></div>
-            )}
-            <p>{detail.boardTitle}</p>
+
+            <p>{detail.title}</p>
             <button onClick={() => clickUpdate()}>수정</button>
             <button onClick={() => fetchDelete()}>삭제</button>
           </div>
           <div className="board-detail-head-box">
-            <p>{detail.title}</p>
+            <ProfileAvatar profile={detail.profile} />
+            <p className="board-detail-head-nickname">{detail.nickname}</p>
             <p className="board-detail-head-date">{detail.createDate}</p>
           </div>
 

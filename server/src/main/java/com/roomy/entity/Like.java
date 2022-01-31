@@ -23,12 +23,12 @@ public class Like { // user 와 board 에대해 외래키 관리
     private Long likeId;
 
     // 좋아요 게시물 seq FK
-    @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name="board_seq")
     private Board board;
 
     // 좋아요 누른 회원 Seq
-    @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name="username")
     private User user;
 

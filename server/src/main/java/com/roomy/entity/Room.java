@@ -41,11 +41,11 @@ public class Room {
     private String intro;
 
     @Builder.Default
-    @OneToMany(mappedBy = "room",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "room",cascade = CascadeType.PERSIST,orphanRemoval = true)
     private List<Board> boardList= new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "room",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "room",cascade = CascadeType.PERSIST,orphanRemoval = true)
     private List<Guest> guestList= new ArrayList<>();
 
     // Room을 방문할 때마다 total 만 1씩 증가하기때문에

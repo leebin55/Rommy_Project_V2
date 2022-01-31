@@ -11,7 +11,7 @@ public interface RoomService {
 
     RoomProfileDTO loadRoomLayoutInfo(String roomUser , String loggedInUser);
 
-    RecentBoardAndGuestDTO loadRoomMainList(String username);
+    RecentBoardAndGuestDTO loadRoomMainList(Long roomId);
 
     List<UserWithRoomDTO> loadTop4();
 

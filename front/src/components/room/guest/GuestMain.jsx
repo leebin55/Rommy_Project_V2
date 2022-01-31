@@ -30,9 +30,7 @@ function GuestMain() {
       <section className="guest-list">
         {guestSlice.content != null ? (
           guestSlice.content.map((item, index) => {
-            return (
-              <GuestSingle item={item} index={index} fetchList={fetchList} />
-            );
+            return <GuestSingle item={item} index={index} />;
           })
         ) : (
           <div className="guest-item-box">

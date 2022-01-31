@@ -16,7 +16,7 @@ public class Guest extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long guestSeq;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "room_seq")
     private Room room;
 
@@ -31,6 +31,11 @@ public class Guest extends BaseEntity{
 
     @Column(columnDefinition = "VARCHAR(200)", nullable = false)
     private String content;
+
+    public void updateGuest(String content, GuestStatus status){
+        this.content= content;
+        this.status = status;
+    }
 
 // == 연관관계 메서드
     public void setRoom(Room room){

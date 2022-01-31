@@ -41,11 +41,13 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RecentBoardAndGuestDTO loadRoomMainList(String username) {
+    public RecentBoardAndGuestDTO loadRoomMainList(Long roomId) {
         // 일단 갤러리 , 일반게시물 5개씩불러오기
         // 그리고 게스트 4개
-        log.info("loadRoomMain room : {}");
-        return null;
+        log.info("loadRoomMain room : {}",roomId);
+        RecentBoardAndGuestDTO allBoards = roomRepository.findRecentAllBoardsByRoomId(roomId);
+        log.info("load room main : {}", allBoards.toString());
+        return allBoards;
     }
 
     @Override

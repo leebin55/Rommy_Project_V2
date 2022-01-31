@@ -1,8 +1,8 @@
 package com.roomy.entity;
 
+import com.roomy.entity.othertype.BoardCode;
 import com.roomy.entity.othertype.BoardStatus;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -45,22 +45,23 @@ public class Board extends BaseEntity{
     private BoardStatus status;
 
     @Builder.Default
-    @OneToMany(mappedBy = "board",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "board",cascade = CascadeType.PERSIST,orphanRemoval = true)
     private List<Like> likeList = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST,orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<BoardImage>  imgList = new ArrayList<>();
+    @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST,orphanRemoval = true)
+    private List<Image>  imgList = new ArrayList<>();
 
 // likeCount 칼럼으로 넣을지 아님 likeList 에서 count 할지 고민중
   //  private Long likeCount;
 
     // 게시물 구분코드 ( 1 갤러리 / 2 일반게시판 )
-     private int boardCode;
+    @Enumerated(EnumType.STRING)
+     private BoardCode boardCode;
 
     // 조회수
     private Long boardHit;

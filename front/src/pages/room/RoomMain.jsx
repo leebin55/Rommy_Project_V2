@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
 import { useNavigate } from 'react-router-dom';
 import GuestPost from '../../components/room/guest/GuestPost';
+import MainRecentBoard from '../../components/room/MainRecentBoard';
 
 /**
  * Room 의 레이아웃 중 오른쪽 부분(메인, 갤러리, 게시판,세팅 등등으로 )
@@ -12,12 +13,14 @@ function RoomMain() {
   const [content, setContent] = useState(''); // 입력한 방명록 작성 내용
   const [guestStatus, setGuestStatus] = useState(false); // 입력한 방명록 공개여부
   const [guestList, setGuestList] = useState([]);
+  const [boardList, setBoardList] = useState([]);
+  const [galleryList, setGalleryList] = useState([]);
   const { roomUser, roomId } = useParams();
   const navigate = useNavigate();
 
   // 방명록을 등록하면 바로 보여주기
   const loadGuest = async () => {
-    await axiosInstance(`/rooms/${roomUser}/${roomId}/guest_recent`).then(
+    await axiosInstance(`/rooms/${roomUser}/${roomId}/guests-recent`).then(
       (res) => {
         setGuestList(res.data);
       }
@@ -55,6 +58,9 @@ function RoomMain() {
       .get(`/rooms/${roomUser}/${roomId}/boards-guests`)
       .then((res) => {
         console.log(' room main res : ', res);
+        setBoardList(res.data.boardList);
+        setGalleryList(res.data.galleryList);
+        setGuestList(res.data.guestList);
       });
   };
   // 화면이 랜더링 되면 우선 localStorage 에 토큰있나 확인 하고
@@ -66,8 +72,8 @@ function RoomMain() {
   return (
     <>
       <section className="main-top">
-        <div className="main-recent-box"></div>
-        <div className="main-list-box"></div>
+        <MainRecentBoard list={boardList} navigate={navigate} />
+        <MainRecentBoard list={galleryList} navigate={navigate} />
       </section>
       <section className="main-bottom">
         <div className="main-guest">

@@ -9,14 +9,12 @@ import com.roomy.repository.UserRepository;
 import com.roomy.service.GuestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service @Slf4j @Transactional(readOnly = true)
@@ -47,24 +45,30 @@ public class GuestServiceImpl implements GuestService {
 
     @Override @Transactional
     public Long updateGuest(GuestDTO guestDto) {
+        Guest guest = guestRepository.findById(guestDto.getGuestSeq()).orElse(null);
+        if(guest != null){
+            guest.updateGuest(guestDto.getContent(),guestDto.getStatus());
+            guestRepository.save(guest);
+            return guest.getGuestSeq();
+        }
         return null;
     }
 
     @Override @Transactional
     public Long deleteGuest(Long guestSeq) {
-
         guestRepository.deleteById(guestSeq);
         return guestSeq;
     }
 
     @Override
     public GuestDTO findByGuestSeq(Long guestSeq) {
-        return null;
+        Guest guest = guestRepository.findById(guestSeq).orElse(null);
+        return GuestDTO.toDTO(guest);
     }
 
     @Override
     public List<GuestDTO> getRecentGuest(Long roomId) {
-        List<GuestDTO> guestList = roomRepository.loadRecent4Guest(roomId);
+        List<GuestDTO> guestList = roomRepository.findRecentGuestByRoomId(roomId);
         log.info("recentGuest service : {}", guestList.toString());
         return guestList;
     }
@@ -72,7 +76,7 @@ public class GuestServiceImpl implements GuestService {
     @Override
     public Slice<GuestDTO> getAllGuestByRoom(Long roomId , Pageable pageable) {
         log.info("방명록 불러오기 ");
-        return roomRepository.loadGuestsByRoomId(roomId, pageable);
+        return roomRepository.findGuestByRoomIdWithPage(roomId, pageable);
     }
 
     @Override

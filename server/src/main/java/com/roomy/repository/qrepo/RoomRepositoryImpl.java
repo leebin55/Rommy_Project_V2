@@ -1,11 +1,12 @@
 package com.roomy.repository.qrepo;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.roomy.dto.GuestDTO;
-import com.roomy.dto.QGuestDTO;
+import com.roomy.dto.*;
 import com.roomy.dto.user.UserWithRoomDTO;
+import com.roomy.entity.QBoard;
 import com.roomy.entity.QGuest;
 import com.roomy.entity.QRoom;
+import com.roomy.entity.othertype.BoardCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -19,7 +20,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
     private final JPAQueryFactory query;
 
     @Override
-    public List<GuestDTO> loadRecent4Guest(Long roomId) {
+    public List<GuestDTO> findRecentGuestByRoomId(Long roomId) {
         QRoom room = QRoom.room;
         QGuest guest = QGuest.guest;
         return
@@ -33,7 +34,34 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
     }
 
     @Override
-    public Slice<GuestDTO> loadGuestsByRoomId(Long roomId, Pageable pageable) {
+    public RecentBoardAndGuestDTO findRecentAllBoardsByRoomId(Long roomId) {
+
+        QRoom room = QRoom.room;
+        QBoard board = QBoard.board;
+        List<GuestDTO> recentGuests = findRecentGuestByRoomId(roomId);
+
+        List<BoardDTO> recentBoards = query.select(new QBoardDTO(board.boardSeq, board.title, board.status))
+                .from(room)
+                .join(room.boardList, board)
+                .orderBy(board.createDate.desc())
+                .limit(5)
+                .where(board.boardCode.eq(BoardCode.General))
+                .fetch();
+
+        List<BoardDTO> recentGallerys = query.select(new QBoardDTO((board.boardSeq), board.title, board.status))
+                .from(room)
+                .join(room.boardList, board)
+                .orderBy(board.createDate.desc())
+                .limit(5)
+                .where(board.boardCode.eq(BoardCode.Gallery))
+                .fetch();
+
+
+        return RecentBoardAndGuestDTO.RecentBoardAndGuest(recentBoards,recentGallerys,recentGuests);
+    }
+
+    @Override
+    public Slice<GuestDTO> findGuestByRoomIdWithPage(Long roomId, Pageable pageable) {
         QRoom room = QRoom.room;
         QGuest guest = QGuest.guest;
         List<GuestDTO> content = query.select(new QGuestDTO(guest.guestSeq, guest.nickname, guest.username,

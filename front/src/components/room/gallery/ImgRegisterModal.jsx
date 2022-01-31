@@ -4,6 +4,7 @@ import ModalUnstyled from '@mui/base/ModalUnstyled';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
 import { useDropzone } from 'react-dropzone';
+import { Button } from '@mui/material';
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -75,9 +76,9 @@ export default function ImgRegisterModal() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
+      <Button onClick={handleOpen}>
         <AddCircleOutlineIcon fontSize="large" color="secondary" />
-      </button>
+      </Button>
       <StyledModal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"

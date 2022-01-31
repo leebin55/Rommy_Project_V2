@@ -1,5 +1,6 @@
 package com.roomy.controller;
 
+import com.roomy.dto.RecentBoardAndGuestDTO;
 import com.roomy.dto.RoomDTO;
 import com.roomy.dto.room.RoomProfileDTO;
 import com.roomy.service.RoomService;
@@ -49,11 +50,12 @@ public class RoomController {
     return null;
     }
 
-    //Room 의 메인페이지 : 최근 게시물 목록들과 최근 방명록4개 보여줌
+    //Room 의 메인페이지 : 최근 게시물 목록들(5개씩)과 최근 방명록4개 보여줌
     @GetMapping("/{username}/{roomId}/boards-guests")
     public ResponseEntity<?> loadRoomMain(@PathVariable("username") String roomUsername,@PathVariable("roomId") Long roomId){
-        log.info("roomMain");
-        return null;
+        log.info("roomMain controller");
+        RecentBoardAndGuestDTO recentAllBoards = roomService.loadRoomMainList(roomId);
+        return ResponseEntity.ok(recentAllBoards);
     }
 
     //인기 미니홈피

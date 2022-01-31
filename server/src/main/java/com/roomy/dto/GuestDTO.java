@@ -34,4 +34,10 @@ public class GuestDTO {
       return
               Guest.builder().username(username).nickname(nickname).content(content).status(status).build();
     }
+
+    public static GuestDTO toDTO(Guest guest){
+        return GuestDTO.builder().guestSeq(guest.getGuestSeq()).content(guest.getContent())
+                .status(guest.getStatus()).crateDate(guest.getCreateDate()).nickname(guest.getNickname())
+                .username(guest.getUsername()).build();
+    }
 }

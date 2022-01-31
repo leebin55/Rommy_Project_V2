@@ -1,73 +1,55 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axiosInstance from '../../../utils/AxiosInstance';
 
-export default function GuestSingle({ item, index, fetchList }) {
+export default function GuestSingle({ item, index }) {
   const [updating, setUpdating] = useState(false);
-  const [update_content, setUpdate_content] = useState();
+  const [content, setContent] = useState();
   const { roomUser, roomId } = useParams();
 
   const onChange = (e) => {
-    setUpdate_content(e.target.value);
+    setContent(e.target.value);
   };
 
   const guestDelete = async () => {
     if (window.confirm('방명록을 삭제하시겠습니까?')) {
-      await fetch(
-        `http://localhost:8080/room/${roomUser}/guest/${item.guestSeq}`,
-        {
-          method: 'DELETE',
-          mode: 'cors',
-          cache: 'no-cache',
-          credentials: 'include',
-        }
-      ).then((res) => {
-        if (res?.ok) {
+      await axiosInstance
+        .delete(`/rooms/${roomUser}/${roomId}/guests/${item.guestSeq}`)
+        .then((res) => {
           alert('삭제되었습니다');
-          fetchList();
-        }
-      });
+          window.location.reload();
+        });
     }
   };
 
   const clickUpdate = () => {
     if (updating) {
-      if (update_content.trim() === '') {
+      if (content.trim() === '') {
         alert('방명록을 입력하세요');
         return;
-      } else if (update_content === item.guest_content) {
+      } else if (content === item.guest_content) {
         alert('변경된 내용이 없습니다');
         return;
       }
       guestUpdate();
     } else if (!updating) {
-      setUpdate_content(item.guestContent);
+      setContent(item.guestContent);
     }
     setUpdating(!updating);
   };
 
   const guestUpdate = async () => {
-    await fetch(
-      `http://localhost:8080/rooms/${roomUser}/guest/${item.guestSeq}`,
-      {
-        method: 'PUT',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          guestContent: update_content,
-        }),
-      }
-    ).then((res) => {
-      if (res?.ok) {
+    await axiosInstance
+      .patch(`/rooms/${roomUser}/${roomId}/guests`, {
+        guestSeq: item.guestSeq,
+        content,
+        status: item.status,
+      })
+      .then((res) => {
         alert('수정되었습니다');
-        fetchList();
-      }
-    });
-    setUpdate_content('');
-    fetchList();
+        window.location.reload();
+      });
+    setContent('');
   };
 
   return (
@@ -96,8 +78,8 @@ export default function GuestSingle({ item, index, fetchList }) {
           {updating ? (
             <textarea
               className="guest-update-content"
-              defaultValue={item.guestContent}
-              value={update_content}
+              defaultValue={item.content}
+              value={content}
               onChange={onChange}
             ></textarea>
           ) : (

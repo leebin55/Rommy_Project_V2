@@ -30,33 +30,15 @@ function BoardWrite({ upData }) {
       alert('내용을 입력하세요');
       return;
     }
-    // update
-    if (upData != null) {
-      await axiosInstance
-        .patch(`/rooms/${roomId}/board`, {
-          boardSeq: upData.boardSeq,
-          boardUserId: upData.boardUserId,
-          boardTitle: title,
-          boardContent: content,
-          boardPrivate: boardStatus,
-        })
-        .then((res) => {
-          if (res?.ok) {
-            navigate(`/rooms/${roomUser}/${roomId}/boards`);
-          }
-        });
-      //register
-    } else {
-      await axiosInstance
-        .post(`/rooms/${roomUser}/${roomId}/boards`, {
-          title,
-          content,
-          status: boardStatus,
-        })
-        .then((res) => {
-          window.location.reload();
-        });
-    }
+    await axiosInstance
+      .post(`/rooms/${roomUser}/${roomId}/boards`, {
+        title,
+        content,
+        status: boardStatus,
+      })
+      .then((res) => {
+        window.location.reload();
+      });
   };
 
   const updating = () => {

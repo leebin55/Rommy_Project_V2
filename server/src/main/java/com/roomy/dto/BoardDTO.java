@@ -1,6 +1,8 @@
 package com.roomy.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.roomy.entity.Board;
+import com.roomy.entity.othertype.BoardCode;
 import com.roomy.entity.othertype.BoardStatus;
 import lombok.*;
 
@@ -22,13 +24,13 @@ public class BoardDTO {
     private Long boardHit;
     private Long likeCount;
     private BoardStatus status;
-    private int boardCode;
+    private BoardCode boardCode;
 
 
     public Board createBoard(){
         return Board.builder().boardSeq(boardSeq)
                 .title(title).content(content)
-                .status(status).boardCode(2)
+                .status(status).boardCode(BoardCode.General)
                 .likeCount(0L)
                 .boardHit(0L).build();
     }
@@ -38,5 +40,10 @@ public class BoardDTO {
                 .status(status).build();
     }
 
-
+    @QueryProjection
+    public BoardDTO(Long boardSeq, String title, BoardStatus status) {
+        this.boardSeq = boardSeq;
+        this.title = title;
+        this.status = status;
+    }
 }

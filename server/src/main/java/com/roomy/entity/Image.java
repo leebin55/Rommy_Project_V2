@@ -14,7 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Entity
 @Table(name="tbl_board_image")
-public class BoardImage {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long imgSeq;

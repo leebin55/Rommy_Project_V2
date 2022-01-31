@@ -1,6 +1,6 @@
 package com.roomy.service.impl;
 
-import com.roomy.entity.BoardImage;
+import com.roomy.entity.Image;
 import com.roomy.entity.Board;
 import com.roomy.exception.FileException;
 import com.roomy.repository.ImgRepository;
@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -84,7 +83,7 @@ public class FileServiceImpl implements FileService {
 
     public void insertImages (List<String> imgURLs,Long board_seq){
         for(String image:imgURLs){
-            BoardImage imageVO= BoardImage.builder().imgUrl(image).build();
+            Image imageVO= Image.builder().imgUrl(image).build();
           //  imageVO.setImgBoardSeq(board_seq);
             fileRepository.save(imageVO);
         }
@@ -113,7 +112,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void insert(BoardImage imageVO) {
+    public void insert(Image imageVO) {
         fileRepository.save(imageVO);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/follow")
+@RequestMapping("/follows")
 @RestController @Slf4j
 public class FollowController {
 
