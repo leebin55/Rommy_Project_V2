@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import '../../css/room/Room.css';
 import axiosInstance from '../../utils/AxiosInstance';
 import FollowSelectBox from './FollowSelectBox';
+import returnFileURL from '../../utils/FileUtils';
 import { useParams } from 'react-router-dom';
 
-function LeftSide({ roomData, userInfo }) {
+function LeftSide({ roomData, followingList }) {
   // select Box (follow 가 기본값으로 설정)> followSelect 가 false면 follower가 select
   const [followSelect, setFollowSelect] = useState('true');
   const [followList, setFollowList] = useState([]);
@@ -14,7 +15,6 @@ function LeftSide({ roomData, userInfo }) {
    * 그전에는 아직 값이 안담겨 있음> userParam을 이용해서 가져옴
    */
   //   const userId = userInfo.userId;
-  const { userId } = useParams();
 
   //selectBox 위의 follow 나 follwer 버튼 클릭
   const selectBtnClick = (event) => {
@@ -34,28 +34,13 @@ function LeftSide({ roomData, userInfo }) {
       return;
     }
   };
-  //follow list  조회
-  const getFollowList = () => axiosInstance.get(`/friend/follow/${userId}`);
-
-  // follower list 조회
-  const getFollowerList = () => axiosInstance.get(`/friend/follower/${userId}`);
-
-  useEffect(() => {
-    // 랜더링 할때 followList,follower List 부름 > 친구 추가는 데이터 가 많이 바뀌지 않기때문에 처음에 한번만 부름
-    Promise.all([getFollowList(), getFollowerList()]).then((res) => {
-      setFollowList(res[0].data);
-      setFollowerList(res[1].data);
-      // selectBox 처음 기본은 follow 회원 리스트로 세팅
-      setSelectBoxMenu(res[0].data);
-    });
-  }, []);
 
   return (
     <div className="leftside-container">
       <div className="leftside-profile-container">
-        {userInfo.userProfile ? (
+        {roomData.profile ? (
           <>
-            <img src={userInfo.userProfile} alt="user_profile" />
+            <img src={returnFileURL(roomData.profile)} alt="user_profile" />
           </>
         ) : (
           <>
@@ -64,10 +49,10 @@ function LeftSide({ roomData, userInfo }) {
         )}
       </div>
       <div className="leftside-room-intro">
-        <p>{roomData.roomIntroduce}</p>
+        <p>{roomData.intro}</p>
       </div>
       <div className="leftside-room-username">
-        <h3>{userInfo.userName} 님</h3>
+        <h3>{roomData.username} 님</h3>
       </div>
       <div className="leftside-room-friend-select">
         <div className="leftside-room-friend-select-btns">
@@ -86,7 +71,7 @@ function LeftSide({ roomData, userInfo }) {
             follower
           </button>
         </div>
-        <FollowSelectBox selectBoxMenu={selectBoxMenu} />
+        <FollowSelectBox selectBoxMenu={followingList} />
       </div>
     </div>
   );

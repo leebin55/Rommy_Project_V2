@@ -13,7 +13,7 @@ function Room() {
   // 현재 접속해있는 미니홈피 주인회원id URL에서 잘라오기
   const { roomUser, roomId } = useParams();
   const [roomData, setRoomData] = useState({});
-  const [userInfo, setUserInfo] = useState('');
+  const [followingList, setFollowingList] = useState([]);
   const [checkFollow, setCheckFollow] = useState(false);
   const [showFollowBtn, setShoFollowBtn] = useState(true);
   let tokenUser = null; // token 이 존재할 때 토큰에서 username(sub) 를 가져옴 > 본인의 room 인지 확인 하기 위해
@@ -23,19 +23,17 @@ function Room() {
 
   const loadRoomInfo = async () => {
     await axiosInstance
-      .get(`/rooms/${roomUser}/${roomId}/follow`)
+      .get(`/rooms/${roomUser}/${roomId}/users-room`)
       .then((res) => {
         console.log('room res : ', res);
+        setRoomData(res.data.userWithRoom);
+        setFollowingList(res.data.followingList);
       });
   };
-  useEffect(() => {
-    // JwtValidate 는 토큰이 localStorage 에 있나 확인하고
-    // 있으면 exp 이 지낫는지 확인 > 모두 Ok 이면 true 리턴
-    // 토큰이 없거나 만료 기간이 지나면 토큰 지우고 false 리턴
 
+  useEffect(() => {
     const tokenDe = jwtDecoder(localStorage.getItem('token'));
     tokenUser = tokenDe.sub;
-    console.log('JwtValidate 통과  tokenUser : ', tokenUser);
     loadRoomInfo();
     if (tokenUser === roomUser) {
       setShoFollowBtn(false);
@@ -72,7 +70,7 @@ function Room() {
           </p>
           <div className="room-left-2">
             <section className="room-left-side">
-              <LeftSide roomData={roomData} userInfo={userInfo} />
+              <LeftSide roomData={roomData} followingList={followingList} />
             </section>
           </div>
         </div>

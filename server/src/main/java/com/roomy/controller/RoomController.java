@@ -2,7 +2,7 @@ package com.roomy.controller;
 
 import com.roomy.dto.RecentBoardAndGuestDTO;
 import com.roomy.dto.RoomDTO;
-import com.roomy.dto.room.RoomProfileDTO;
+import com.roomy.dto.user.UserWithRoomAndFollowDTO;
 import com.roomy.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,8 +46,8 @@ public class RoomController {
     , @PathVariable("roomId") Long roomId,Principal principal){
         log.info("roomLayout");
         String loggedInUsername = principal.getName();
-            RoomProfileDTO roomInfo = roomService.loadRoomLayoutInfo(roomUsername, loggedInUsername);
-    return null;
+        UserWithRoomAndFollowDTO roomProfile = roomService.loadRoomLayoutInfo(roomUsername, loggedInUsername);
+        return ResponseEntity.ok(roomProfile);
     }
 
     //Room 의 메인페이지 : 최근 게시물 목록들(5개씩)과 최근 방명록4개 보여줌

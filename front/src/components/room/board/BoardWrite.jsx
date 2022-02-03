@@ -1,11 +1,10 @@
 import { React, useState, useRef, useEffect } from 'react';
 import Editor from './Editor';
 import EditorToolbar from './EditorToolbar';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axiosInstance from '../../../utils/AxiosInstance';
 
 function BoardWrite({ upData }) {
-  const navigate = useNavigate();
   const [boardStatus, setBoardStatus] = useState('PUBLIC');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

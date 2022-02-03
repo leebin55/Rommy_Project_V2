@@ -1,5 +1,6 @@
 package com.roomy.dto.user;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.roomy.entity.User;
 import com.roomy.entity.othertype.UserRole;
 import lombok.*;
@@ -21,6 +22,4 @@ public class UserDTO {
                 .email(email).profile(profile).nickname(nickname)
                 .role(UserRole.ROLE_USER).password(password).build();
     }
-
-
 }

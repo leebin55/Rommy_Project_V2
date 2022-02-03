@@ -2,10 +2,9 @@ package com.roomy.service.impl;
 
 import com.roomy.dto.RecentBoardAndGuestDTO;
 import com.roomy.dto.RoomDTO;
-import com.roomy.dto.room.RoomProfileDTO;
+import com.roomy.dto.user.UserWithRoomAndFollowDTO;
 import com.roomy.dto.user.UserWithRoomDTO;
 import com.roomy.entity.Room;
-import com.roomy.entity.User;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.GuestRepository;
 import com.roomy.repository.RoomRepository;
@@ -33,11 +32,10 @@ public class RoomServiceImpl implements RoomService {
     //  + 로그인한 유저가 room user follow 햇는지 확인
     @Override
     @Transactional(readOnly = true) // 조회만 함 : flush 를 하지않음
-    public RoomProfileDTO loadRoomLayoutInfo(String roomUsername , String loggedInUsername) {
-        User roomUser = userRepository.findByUsername(roomUsername);
-        User loggedInUser = userRepository.findByUsername(loggedInUsername);
-//         userRepository.loadRoomMain(roomUsername);
-        return null;
+    public UserWithRoomAndFollowDTO loadRoomLayoutInfo(String roomUsername , String loggedInUsername) {
+        log.info("roomProfile service :{}",roomUsername);
+        return userRepository.loadRoomProfileByUsername(roomUsername);
+
     }
 
     @Override

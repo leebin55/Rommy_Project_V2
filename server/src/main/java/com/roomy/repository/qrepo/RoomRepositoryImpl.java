@@ -28,8 +28,9 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
                 guest.createDate, guest.status, guest.content))
                 .from(room)
                 .join(room.guestList,guest)
-                .limit(4)
+                .where(room.roomId.eq(roomId))
                 .orderBy(guest.createDate.desc())
+                .limit(4)
                 .fetch();
     }
 
@@ -45,7 +46,8 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
                 .join(room.boardList, board)
                 .orderBy(board.createDate.desc())
                 .limit(5)
-                .where(board.boardCode.eq(BoardCode.General))
+                .where(room.roomId.eq(roomId)
+                        .and(board.boardCode.eq(BoardCode.General)))
                 .fetch();
 
         List<BoardDTO> recentGallerys = query.select(new QBoardDTO((board.boardSeq), board.title, board.status))
@@ -53,7 +55,8 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
                 .join(room.boardList, board)
                 .orderBy(board.createDate.desc())
                 .limit(5)
-                .where(board.boardCode.eq(BoardCode.Gallery))
+                .where(room.roomId.eq(roomId)
+                        .and(board.boardCode.eq(BoardCode.Gallery)))
                 .fetch();
 
 

@@ -2,14 +2,14 @@ package com.roomy.service;
 
 import com.roomy.dto.RecentBoardAndGuestDTO;
 import com.roomy.dto.RoomDTO;
-import com.roomy.dto.room.RoomProfileDTO;
+import com.roomy.dto.user.UserWithRoomAndFollowDTO;
 import com.roomy.dto.user.UserWithRoomDTO;
 
 import java.util.List;
 
 public interface RoomService {
 
-    RoomProfileDTO loadRoomLayoutInfo(String roomUser , String loggedInUser);
+    UserWithRoomAndFollowDTO loadRoomLayoutInfo(String roomUser , String loggedInUser);
 
     RecentBoardAndGuestDTO loadRoomMainList(Long roomId);
 

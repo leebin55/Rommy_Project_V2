@@ -26,7 +26,7 @@ public class Board extends BaseEntity{
 
     /** room : board = 1 : N*/
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "room_seq")
+    @JoinColumn(name = "room_id")
     private Room room;
 
     @ManyToOne(fetch = LAZY)

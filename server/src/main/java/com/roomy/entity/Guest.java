@@ -17,7 +17,7 @@ public class Guest extends BaseEntity{
     private Long guestSeq;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "room_seq")
+    @JoinColumn(name = "room_id")
     private Room room;
 
     // 글쓴 user
