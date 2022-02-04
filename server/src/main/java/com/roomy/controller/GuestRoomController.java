@@ -10,12 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/rooms")
 @RestController @Slf4j
-public class GuestController {
+public class GuestRoomController {
 
     private final GuestService guestService;
 
@@ -38,8 +37,8 @@ public class GuestController {
     }
 
     // 방명록 등록
-    @PostMapping("{roomUser}/{roomId}/guests")
-    public ResponseEntity<?> register(@PathVariable("roomUser")String roomUser,
+    @PostMapping("{username}/{roomId}/guests")
+    public ResponseEntity<?> register(@PathVariable("username")String roomUser,
             @PathVariable("roomId")Long roomId,@RequestBody GuestDTO guestDTO,
             Principal principal){
         log.info("방명록 등록 : {} , user : {}",guestDTO.toString(),principal.toString());

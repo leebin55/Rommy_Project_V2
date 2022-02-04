@@ -1,5 +1,6 @@
 package com.roomy.controller;
 
+import com.roomy.aspect.annotation.RoomValid;
 import com.roomy.dto.RecentBoardAndGuestDTO;
 import com.roomy.dto.RoomDTO;
 import com.roomy.dto.user.UserWithRoomAndFollowDTO;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+
 
 @RequiredArgsConstructor
 @RequestMapping("/rooms")
@@ -55,9 +57,4 @@ public class RoomController {
         return ResponseEntity.ok(recentAllBoards);
     }
 
-    //인기 미니홈피
-    @GetMapping("/top")
-    public ResponseEntity<?> popularRooms(){
-        return ResponseEntity.ok(roomService.loadTop4());
-    }
 }

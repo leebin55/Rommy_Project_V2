@@ -1,5 +1,7 @@
-package com.roomy.trace;
+package com.roomy.aspect;
 
+import com.roomy.trace.LogTrace;
+import com.roomy.trace.TraceStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

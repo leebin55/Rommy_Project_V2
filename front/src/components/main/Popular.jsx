@@ -6,7 +6,7 @@ function Popular() {
   const [rooms, setRooms] = useState([]);
 
   const loadPopularRoom = async () => {
-    await axiosInstance.get('/rooms/top').then((res) => {
+    await axiosInstance.get('/top-rooms').then((res) => {
       console.log('인기 미니홈피 :', res.data);
       setRooms(res.data);
     });

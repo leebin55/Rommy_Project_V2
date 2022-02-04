@@ -21,7 +21,7 @@ import java.security.Principal;
 @Slf4j
 @RestController
 @RequestMapping("/rooms")
-public class BoardController {
+public class BoardRoomController {
 
     @Qualifier("boardService")
     private final BoardService boardService;

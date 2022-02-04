@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserWithRoomDTO loadUserAndRoom(String username) {
-        UserWithRoomDTO userWithRoom = userRepository.userWithRoomByUsername(username);
+        UserWithRoomDTO userWithRoom = userRepository.userWithRoomByUsername(username).orElse(null);
         log.info("user detail with room : {}", userWithRoom.toString());
         return userWithRoom;
     }

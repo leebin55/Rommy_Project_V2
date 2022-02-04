@@ -58,7 +58,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/auth/login").permitAll()
                 .antMatchers("/users/sign_up").permitAll()
                 .antMatchers("/feeds").permitAll()
-                .antMatchers("/rooms/top").permitAll()
+                .antMatchers("/top-rooms").permitAll()
                 .antMatchers("/uploads/*").permitAll() // img
 
                 .anyRequest() // 나머지 요청들에 대해서는
