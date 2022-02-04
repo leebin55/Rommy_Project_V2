@@ -28,7 +28,7 @@ function GuestMain() {
   return (
     <div className="guest-container">
       <section className="guest-list">
-        {guestSlice.content != null ? (
+        {guestSlice.numberOfElements > 0 ? (
           guestSlice.content.map((item, index) => {
             return <GuestSingle item={item} index={index} />;
           })

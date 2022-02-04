@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends JpaRepository<User,String>, UserRepositoryCustom {
 
 
-    <Optional> User findByUsername(String username);
 
     Boolean existsByUsername(String username);
 

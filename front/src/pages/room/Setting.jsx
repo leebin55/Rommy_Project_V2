@@ -31,10 +31,8 @@ function Setting() {
         intro,
       })
       .then((res) => {
-        if (res?.ok) {
-          navigate(`/rooms/${roomUser}/${roomId}/setting`);
-          alert('수정되었습니다');
-        }
+        alert('수정되었습니다');
+        window.location.reload();
       });
   };
 

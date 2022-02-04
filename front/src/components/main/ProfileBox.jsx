@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
 import MainModal from './userForm/MainModal';
 import { Button } from '@mui/material';
+import returnFileURL from '../../utils/FileUtils';
 
 /**
  * 메인 화면에서 프로필 박스 부분
@@ -29,9 +30,7 @@ function ProfileBox() {
         username: res.data.username,
         nickname: res.data.nickname,
         email: res.data.email,
-        profile: res.data.profile
-          ? `http://localhost:8080/uploads/${res.data.profile}`
-          : ``,
+        profile: res.data.profile,
         roomId: res.data.roomId,
       });
     });
@@ -58,11 +57,15 @@ function ProfileBox() {
         <div className="profilebox-container">
           <div className="profilebox-img">
             {user.profile ? (
-              <img className="logo" src={user.profile} alt="profile_img" />
+              <img
+                className="logo"
+                src={returnFileURL(user.profile)}
+                alt="profile_img"
+              />
             ) : (
               <img className="logo" src="img/logo.svg" alt="profile_img" />
             )}
-            <h1>{user.username} 님</h1>
+            <h1>{user.nickname} 님</h1>
             <p>{user.email}</p>
           </div>
           <div className="profilebox-body">
