@@ -26,7 +26,6 @@ public class GuestController {
             , Pageable pageable) {
 //             guestService.getGuestByUsername(username);
         log.debug("guest list 컨트롤러 실행 pageable : {}", pageable.toString());
-
         Slice<GuestDTO> guestSlice = guestService.getAllGuestByRoom(roomId, pageable);
         return ResponseEntity.ok(guestSlice);
     }
@@ -35,7 +34,6 @@ public class GuestController {
     @GetMapping("/{username}/{roomId}/guests/{guestSeq}")
     public ResponseEntity<?> detail(@PathVariable("username")String roomUser
             , @PathVariable("roomId") Long roomId, @PathVariable("guestSeq")Long guestSeq) {
-        log.debug("guest 상세보기: {}", guestSeq);
         return ResponseEntity.ok( guestService.findByGuestSeq(guestSeq));
     }
 
@@ -52,7 +50,6 @@ public class GuestController {
     // 최근 방명록 4개만
     @GetMapping("/{username}/{roomId}/guests-recent")
     public ResponseEntity<?> recentList(@PathVariable("username")String roomUser,@PathVariable("roomId") Long roomId){
-        log.info("최근 방명록 4 개만 불러오기");
         return ResponseEntity.ok(guestService.getRecentGuest(roomId));
     }
 
@@ -60,7 +57,6 @@ public class GuestController {
     public ResponseEntity<?> deleteGuest(@PathVariable("username")String roomUser,@PathVariable("roomId") Long roomId,
                                          @PathVariable("guestSeq")Long guestSeq,Principal principal){
         if(principal.getName().equals(roomUser)){
-            log.info("방명록 삭제 : {}", guestSeq);
             guestService.deleteGuest(guestSeq);
             return ResponseEntity.ok(guestSeq);
         }
@@ -71,7 +67,6 @@ public class GuestController {
     public ResponseEntity<?> updateGuest(@PathVariable("username")String roomUser,@PathVariable("roomId") Long roomId,
                                         @RequestBody GuestDTO guestDTO,Principal principal){
         if(principal.getName().equals(roomUser)){
-            log.info("방명록 수정 : {}", guestDTO.getGuestSeq());
             guestService.updateGuest(guestDTO);
             return ResponseEntity.ok(guestDTO.getGuestSeq());
         }

@@ -22,7 +22,6 @@ public class RoomController {
     @GetMapping("/{username}/{roomId}")
     public ResponseEntity<?> loadRoomInfo(@PathVariable("username") String username
             , @PathVariable("roomId") Long roomId){
-        log.info("room 설정");
         RoomDTO room = roomService.findByRoomId(roomId);
         return ResponseEntity.ok(room);
     }
@@ -44,7 +43,6 @@ public class RoomController {
     @GetMapping("/{username}/{roomId}/users-room")
     public ResponseEntity<?> loadRoomLayout(@PathVariable("username") String roomUsername
     , @PathVariable("roomId") Long roomId,Principal principal){
-        log.info("roomLayout");
         String loggedInUsername = principal.getName();
         UserWithRoomAndFollowDTO roomProfile = roomService.loadRoomLayoutInfo(roomUsername, loggedInUsername);
         return ResponseEntity.ok(roomProfile);
@@ -53,7 +51,6 @@ public class RoomController {
     //Room 의 메인페이지 : 최근 게시물 목록들(5개씩)과 최근 방명록4개 보여줌
     @GetMapping("/{username}/{roomId}/boards-guests")
     public ResponseEntity<?> loadRoomMain(@PathVariable("username") String roomUsername,@PathVariable("roomId") Long roomId){
-        log.info("roomMain controller");
         RecentBoardAndGuestDTO recentAllBoards = roomService.loadRoomMainList(roomId);
         return ResponseEntity.ok(recentAllBoards);
     }
@@ -61,7 +58,6 @@ public class RoomController {
     //인기 미니홈피
     @GetMapping("/top")
     public ResponseEntity<?> popularRooms(){
-        log.info("인기미니홈피");
         return ResponseEntity.ok(roomService.loadTop4());
     }
 }

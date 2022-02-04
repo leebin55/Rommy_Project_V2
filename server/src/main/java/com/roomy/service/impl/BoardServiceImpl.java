@@ -34,7 +34,7 @@ public class BoardServiceImpl implements BoardService {
     @Override @Transactional(readOnly = true)
     public Page<BoardDTO> selectAllByUsername(String username) {
         // 만약 해당 username 이없다면 회원이 아닌것 > 처리해주기
-       User user = userRepository.findByUsername(username);
+       User user = userRepository.findById(username).orElse(null);
         if(user == null){
             log.info("selectAllByUsername user없음");
             return null;
@@ -86,7 +86,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Long saveBoard(BoardDTO boardDTO) {
         log.debug("boardDTO insert 메서드 {}", boardDTO.toString());
-        User user = userRepository.findByUsername(boardDTO.getUsername());
+        User user = userRepository.findById(boardDTO.getUsername()).orElse(null);
         Room room = roomRepository.findById(boardDTO.getRoomId()).orElse(null);
         if(room == null || user == null){
             new IllegalStateException("해당 유저가 없음");

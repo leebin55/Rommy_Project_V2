@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService{
 
     @Override //username 으로 찾기
     public UserDTO findByUsername(String username) {
-        User findUser = userRepository.findByUsername(username);
+        User findUser = userRepository.findById(username).orElse(null);
         if(findUser==null){
             return null;
         }

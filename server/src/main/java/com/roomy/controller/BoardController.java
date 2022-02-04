@@ -29,7 +29,6 @@ public class BoardController {
     // room 에서 글 조회
     @GetMapping("/{username}/{roomId}/boards")
     public ResponseEntity<?> list(@PathVariable("username")String username,@PathVariable("roomId") Room room, Pageable pageable) {
-        log.debug("board list 컨트롤러 실행 {}", room);
         Slice<BoardDTO> boardDTOS = boardService.loadBoardByRoom(room, pageable);
 //        return ResponseEntity.ok(boardList);
         return ResponseEntity.ok(boardDTOS);
@@ -44,7 +43,6 @@ public class BoardController {
         if(username.equals(principal.getName())){
             BoardDTO board = boardDTO.toBuilder().username(principal.getName())
                     .roomId(roomId).build();
-            log.debug("board write 컨트롤러 실행 {}", board.toString());
             Long boardSeq= boardService.saveBoard(board);
             return ResponseEntity.ok(boardSeq);
         }
@@ -55,7 +53,6 @@ public class BoardController {
     @GetMapping("/{username}/{roomId}/boards/{boardSeq}")
     public ResponseEntity<?> detail(@PathVariable("username")String username,@PathVariable("roomId")Long roomId,
                                     @PathVariable("boardSeq") Long boardSeq) {
-        log.debug("board detail 컨트롤러 실행 {}",boardSeq);
         UserWithBoardDTO userWithBoardDTO =  boardService.getBoardBySeq(boardSeq);
         return ResponseEntity.ok(userWithBoardDTO);
     }
@@ -64,7 +61,6 @@ public class BoardController {
     @PatchMapping("/{username}/{roomId}/boards")
     public ResponseEntity<?> update(@PathVariable("username")String username,@PathVariable("roomId") Long roomId
             ,@RequestBody BoardDTO boardDTO) {
-        log.debug("board update 컨트롤러 실행 {}", boardDTO.toString());
         Long boardSeq =boardService.updateBoard(boardDTO);
         return ResponseEntity.ok(boardSeq);
     }
@@ -73,7 +69,6 @@ public class BoardController {
     @DeleteMapping("/{username}/{roomId}/boards/{board_seq}")
     public void delete(@PathVariable("username")String username,@PathVariable("roomId") Long roomId
             ,@PathVariable("boardSeq") Long boardSeq) {
-        log.debug("board delete 컨트롤러 실행");
         boardService.deleteBoard(boardSeq);
     }
 

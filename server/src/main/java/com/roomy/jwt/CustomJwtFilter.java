@@ -57,7 +57,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
                 Authentication auth = tokenProvider.getAuthentication(jwt);
                 // security context 에 set
                 SecurityContextHolder.getContext().setAuthentication(auth);
-                log.info("securityContextHolder 에 setting");
+//                log.info("securityContextHolder 에 setting");
             }else {
                 // 토큰 없이 정보 요청할 때 처리해주기
                 log.info("token 정보 없음 uri : {}", requestURI);
@@ -72,13 +72,12 @@ public class CustomJwtFilter extends OncePerRequestFilter {
      *  */
     private String resolveToken(HttpServletRequest request) {
 
-        log.info("resolbeToken method  실행 : {}", request.getRequestURI());
+        log.info("resolveToken method  실행 : {}", request.getRequestURI());
         // http request  header에서 Authorization을 가지고 옴
         String bearerToken = request.getHeader(AUTHORIZATION);
         log.info("bearerToken : {}", bearerToken);
         // "Bearer " 꼭 띄어쓰기 하기
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
-            log.info("if 실행");
             return bearerToken.substring(7);// 7번째 이후 문자열 부터 (Bearer )띄어쓰기 다음부터
         }
         return null;
