@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { jwtDecoder, jwtValidate } from './JwtUtils';
+import ErrorPage from '../pages/ErrorPage';
+import { jwtValidate } from './JwtUtils';
 
 // axios 에 관한 옵션 공통 처리
 
@@ -51,9 +52,12 @@ axiosInstance.interceptors.response.use(
     // http status 가 200 이 아닌 경우 응답 에러 직전 호출
     // .catch() 실행
     console.log('res 에러', error.response);
+    if (error.response.status === 400) {
+      console.log(error.response.data.message);
+      window.location.href = `/error`;
+    }
     // 여기서 토큰 만료등 과같은 에러 핸들링하기
     // localStorage.removeItem('token');
-    return Promise.reject(error);
   }
 );
 

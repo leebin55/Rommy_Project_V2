@@ -8,13 +8,16 @@ import RoomPage from './pages/room/RoomPage';
 import * as Room from './pages/room/RoomComps';
 import GalleryDetail from './components/room/gallery/GalleryDetail';
 import BoardDetail from './components/room/board/BoardDetail';
-import Login from './components/main/userForm/Login';
+//------------------------------------
+import ReqLogin from './pages/ReqLogin';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="login" element={<Login />} />
+        <Route path="/error" element={<ErrorPage />} />
+        <Route path="/login" element={<ReqLogin />} />
         <Route path="/" element={<MainPage />}>
           <Route index element={<Feeds />} />
           <Route path="search" element={<Search />} />

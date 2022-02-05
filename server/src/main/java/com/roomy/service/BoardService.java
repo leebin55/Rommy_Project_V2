@@ -27,5 +27,5 @@ public interface BoardService {
 
     public Page<BoardDTO> selectAllByUsername(String username);
 
-    Slice<BoardDTO> loadBoardByRoom(Room room, Pageable pageable);
+    Slice<BoardDTO> loadBoardByRoom(Long room, Pageable pageable);
 }

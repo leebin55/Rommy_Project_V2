@@ -1,6 +1,5 @@
 package com.roomy.controller;
 
-import com.roomy.aspect.annotation.RoomValid;
 import com.roomy.dto.RecentBoardAndGuestDTO;
 import com.roomy.dto.RoomDTO;
 import com.roomy.dto.user.UserWithRoomAndFollowDTO;

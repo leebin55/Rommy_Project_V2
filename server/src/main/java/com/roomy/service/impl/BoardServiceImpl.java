@@ -15,6 +15,8 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Slf4j
 @Service(value = "boardService") @Transactional
 @RequiredArgsConstructor
@@ -49,9 +51,10 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public Slice<BoardDTO> loadBoardByRoom(Room room, Pageable pageable) {
+    public Slice<BoardDTO> loadBoardByRoom(Long roomId, Pageable pageable) {
+        Room room = roomRepository.findById(roomId).orElse(null);
         if(room == null){
-            new IllegalStateException("해당 room은 존재하지않습니다.");
+            new RuntimeException("해당 room 없음");
         }
         Slice<Board> boardWithPage = boardRepository.findByRoomOrderByCreateDateDesc(room, pageable);
 

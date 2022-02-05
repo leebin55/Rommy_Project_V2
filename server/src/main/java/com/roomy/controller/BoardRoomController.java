@@ -28,8 +28,8 @@ public class BoardRoomController {
 
     // room 에서 글 조회
     @GetMapping("/{username}/{roomId}/boards")
-    public ResponseEntity<?> list(@PathVariable("username")String username,@PathVariable("roomId") Room room, Pageable pageable) {
-        Slice<BoardDTO> boardDTOS = boardService.loadBoardByRoom(room, pageable);
+    public ResponseEntity<?> list(@PathVariable("username")String username,@PathVariable("roomId") Long roomId, Pageable pageable) {
+        Slice<BoardDTO> boardDTOS = boardService.loadBoardByRoom(roomId, pageable);
 //        return ResponseEntity.ok(boardList);
         return ResponseEntity.ok(boardDTOS);
     }

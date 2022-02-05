@@ -2,6 +2,7 @@ package com.roomy.repository;
 
 import com.roomy.entity.Follow;
 import com.roomy.entity.User;
+import com.roomy.repository.qrepo.FollowRepositoryCustom;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 
-public interface FollowRepository extends JpaRepository<Follow,Long> {
+public interface FollowRepository extends JpaRepository<Follow,Long> , FollowRepositoryCustom {
 
   Boolean existsByFromUserAndToUser(User fromUser, User toUser);
 

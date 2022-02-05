@@ -1,7 +1,5 @@
 package com.roomy.repository.qrepo;
 
-import com.roomy.dto.BoardDTO;
-import com.roomy.dto.GalleryDTO;
 import com.roomy.dto.GuestDTO;
 import com.roomy.dto.RecentBoardAndGuestDTO;
 import com.roomy.dto.user.UserWithRoomDTO;

@@ -1,5 +1,6 @@
 package com.roomy.service.impl;
 
+import com.roomy.dto.user.UserDTO;
 import com.roomy.entity.Follow;
 import com.roomy.entity.User;
 import com.roomy.repository.FollowRepository;
@@ -10,12 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @RequiredArgsConstructor
 @Service @Slf4j
 @Transactional
 public class FollowServiceImpl implements FollowService {
 
-    private final FollowRepository friendRepository;
+    private final FollowRepository followRepository;
     private final UserRepository userRepository;
 
     @Override
@@ -34,13 +37,24 @@ public class FollowServiceImpl implements FollowService {
         return checkFollowDTO.checkFollow;
     }
 
+    @Override
+    public Set<UserDTO> loadFollowings(String username) {
+        return    followRepository.findFollowersByUsername(username);
+
+    }
+
+    @Override
+    public Set<UserDTO> loadFollowers(String username) {
+        return null;
+    }
+
     private checkFollowDTO checkFollowWithUser(String fromUsername, String toUsername){
         User fromUser = userRepository.findById(fromUsername).orElse(null);
         User toUser = userRepository.findById(toUsername).orElse(null);
         if(fromUser == null || toUser == null){
             new IllegalStateException("해당 유저를 찾을 수 없습니다.");
         }
-        Boolean checkExist = friendRepository.existsByFromUserAndToUser(fromUser,toUser);
+        Boolean checkExist = followRepository.existsByFromUserAndToUser(fromUser,toUser);
         return new checkFollowDTO(checkExist,fromUser,toUser);
     }
 
@@ -48,13 +62,13 @@ public class FollowServiceImpl implements FollowService {
         log.info("follow 실행");
         Follow follow = Follow.friendEntity(fromUser, toUser);// following, follower
         follow.userFollow(follow);
-        friendRepository.save(follow);
+        followRepository.save(follow);
     }
 
     private void unfollow(User fromUser, User toUser) {
         Follow follow = Follow.friendEntity(fromUser, toUser);
         follow.userUnFollow(fromUser,toUser);
-        friendRepository.delete(follow);
+        followRepository.delete(follow);
     }
     static class checkFollowDTO{
         private Boolean checkFollow;

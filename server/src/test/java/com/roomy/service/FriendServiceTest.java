@@ -1,6 +1,6 @@
 package com.roomy.service;
 
-import com.roomy.dto.user.UserDTO;
+import com.roomy.dto.user.UserWithRoomDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,9 +18,9 @@ class FriendServiceTest {
     @Test
     void followOrUnfollowTest(){
 
-        String userA = userService.joinUser(UserDTO.builder().username("a").nickname("login")
+        String userA = userService.joinUser(UserWithRoomDTO.builder().username("a").nickname("login")
                 .password("11").build());
-        String userB = userService.joinUser(UserDTO.builder().username("b").nickname("room")
+        String userB = userService.joinUser(UserWithRoomDTO.builder().username("b").nickname("room")
                 .password("11").build());
         followService.followOrUnfollow(userB,userA);//roomuser, loggedUser
 //        Assertions.assertEquals(userA.getFollowingList().size(),1);
