@@ -31,6 +31,7 @@ public class FollowServiceImpl implements FollowService {
         }
     }
 
+
     @Override
     public Boolean checkFollow(String fromUsername, String toUsername) {
         checkFollowDTO checkFollowDTO = checkFollowWithUser(fromUsername, toUsername);

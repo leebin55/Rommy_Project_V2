@@ -1,6 +1,8 @@
 package com.roomy.service;
 
 import com.roomy.dto.user.UserDTO;
+import com.roomy.entity.Follow;
+import com.roomy.entity.User;
 
 import java.util.Set;
 

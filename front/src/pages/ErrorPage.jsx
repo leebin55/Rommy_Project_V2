@@ -1,18 +1,23 @@
 import { Button } from '@mui/material';
 import React from 'react';
+import '../css/error.css';
 
 function ErrorPage() {
   return (
     <div className="error-page-container">
-      <Button
-        onClick={() => {
-          window.history.go(-2);
-        }}
-      >
-        뒤로가기
-      </Button>
-      <h2>메시지를 보여줘야 되는데.. </h2>
-      <p>어떻게 보여주는게 좋을지</p>
+      <div className="error-page-sub-container">
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => {
+            window.history.go(-2);
+          }}
+        >
+          뒤로가기
+        </Button>
+        <h1>잘못된 주소입니다. </h1>
+        <p>다시 확인해주세요</p>
+      </div>
     </div>
   );
 }

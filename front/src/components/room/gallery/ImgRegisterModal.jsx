@@ -86,13 +86,14 @@ export default function ImgRegisterModal() {
         onClose={handleClose}
         BackdropComponent={Backdrop}
       >
-        <Box sx={style} {...rootProps}>
+        <Box sx={style}>
           <h3>새 게시물 등록</h3>
           <input {...getInputProps()} />
-          <div>
+          <div className="gallery-drop-container" {...rootProps}>
             <PhotoCameraBackIcon sx={{ fontSize: 200 }} />
             <p>사진을 여기에 끝어다 놓거나 클릭해주세요</p>
           </div>
+          <Button variant="contained">등록</Button>
         </Box>
       </StyledModal>
     </div>

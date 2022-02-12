@@ -1,9 +1,9 @@
 import React from 'react';
 
-function GuestPost({ item }) {
+function GuestPost({ item, index }) {
   const baseURL = 'http://localhost:3000/rooms';
   return (
-    <div className="main-guest-box">
+    <div key={index} className="main-guest-box">
       <img src="/img/postit.png" alt="guest-post" />
       <div className="guest-post-nickname">
         <p>{item.nickname}</p>

@@ -11,7 +11,7 @@ public interface GalleryService {
 
     public Long saveGallery(GalleryDTO gallery);
 
-    public Long updateGallry(GalleryDTO gallery);
+    public Long updateGallery(GalleryDTO gallery);
 
     public  void deleteBoard(Long boardSeq);
 

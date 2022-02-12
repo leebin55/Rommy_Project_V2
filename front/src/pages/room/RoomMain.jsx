@@ -78,7 +78,9 @@ function RoomMain() {
       <section className="main-bottom">
         <div className="main-guest">
           {guestList.length > 0 ? (
-            guestList.map((item) => <GuestPost item={item} />)
+            guestList.map((item, index) => (
+              <GuestPost item={item} index={index} />
+            ))
           ) : (
             <div className="main-guest-empty">
               💬 첫번째 방명록을 남겨보세요 ! 💖

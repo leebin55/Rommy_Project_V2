@@ -53,7 +53,7 @@ div.room-right-header {
   display: flex;
   position: absolute;
   z-index: 1;
-  top: 50px;
+  top: 30px;
   left: 30px;
   width: 80%;
   font-size: 20px;
@@ -61,9 +61,10 @@ div.room-right-header {
 }
 div.room-right-header button {
   margin-left: auto;
-  border: 1px solid #ddd;
   padding: 0 20px;
   font-size: 18px;
+  margin-top: 3px;
+  height: 40px;
 }
 div.room-right-header button:hover {
   font-weight: bold;

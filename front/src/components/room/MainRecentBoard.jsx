@@ -7,8 +7,8 @@ export default function MainRecentBoard({ list, navigate }) {
     <div className="main-recent-board-box">
       <ul>
         {list.length > 0 ? (
-          list.map((item) => (
-            <li onClick={clickList} value={item.boardSeq}>
+          list.map((item, index) => (
+            <li key={index} onClick={clickList} value={item.boardSeq}>
               {item.title}
             </li>
           ))

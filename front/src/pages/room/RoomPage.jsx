@@ -44,22 +44,20 @@ function Room() {
   const followBtnEvent = () => {
     if (checkFollow) {
       // true일때 > follow한 상태일때
-      setCheckFollow(false);
-      // Unfollow 실행 > table에서 delete
-      axiosInstance.delete(`/friend/unfollow`, {
-        data: {
-          // userId: 'testId', // 로그인한 유저
-          followUserId: roomUser, // 미니홈피 주인
-        },
+      axiosInstance.delete(`/follows/${roomUser}`).then((res) => {
+        console.log(res);
+        setCheckFollow(false);
       });
       return;
-    }
-    setCheckFollow(true);
-    // follow 실행
-    axiosInstance.post(`/friend/follow`, {
-      //  userId: 'testId', // 로그인한 유저
-      followUserId: roomUser, // 미니홈피 주인
-    });
+    } // end
+    axiosInstance
+      .post(`/follows`, {
+        roomUser,
+      })
+      .then((res) => {
+        console.log(res);
+        setCheckFollow(true);
+      });
   };
   return (
     <div className="room-background">
