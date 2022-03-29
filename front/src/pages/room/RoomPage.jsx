@@ -31,12 +31,19 @@ function Room() {
       });
   };
 
+  // follow 했는지 확인
+  const loadIsFollow = async () => {
+    await axiosInstance.get().then((res) => {});
+  };
+
   useEffect(() => {
     const tokenDe = jwtDecoder(localStorage.getItem('token'));
     tokenUser = tokenDe.sub;
     loadRoomInfo();
     if (tokenUser === roomUser) {
       setShoFollowBtn(false);
+    } else {
+      loadIsFollow();
     }
   }, []);
   //-----------------------------------------------------------------

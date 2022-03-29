@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+	  "target":"ES2016",
+    "module": "commonjs",
+	"moduleResolution": "node",  
+	"rootDir": "./src",
+	"outDir": "./dist",
+	"esModuleInterop": true,    
+    "noImplicitAny": true, // any 타입 입력했을 때 에러
+    "removeComments": true, // js 컴파일 시킬때 주석 제거
+    "preserveConstEnums": true,
+	"forceConsistentCasingInFileNames": true, 
+	"strict": true,
+    "sourceMap": true
+    
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

@@ -30,7 +30,6 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public void deleteBoard(Long boardSeq) {
-
     }
 
     @Override
