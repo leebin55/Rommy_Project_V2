@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import axiosInstance from '../../../utils/AxiosInstance';
+import axiosInstance from '../../utils/AxiosInstance';
 
-export default function Login() {
+export default function Login({ state }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const btnStyle = {
     width: '200px',
@@ -27,7 +29,8 @@ export default function Login() {
           .then((res) => {
             console.log(res.data);
             localStorage.setItem('token', res.data.token);
-            window.location.reload();
+            if (state === 'modal') window.location.reload();
+            if (state === 'page') navigate('/');
           });
         return;
       } catch (error) {

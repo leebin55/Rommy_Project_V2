@@ -2,6 +2,7 @@ package com.roomy.controller;
 
 import com.roomy.dto.user.UserDTO;
 import com.roomy.dto.user.UserWithRoomDTO;
+import com.roomy.exception.UserNotFoundException;
 import com.roomy.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,49 +20,42 @@ public class UserController {
 
     private final UserService userService;
 
-    // user 등록 : 회원가입
     @PostMapping("/sign_up")
     public ResponseEntity<?> join(@RequestBody UserDTO userDto) {
        String username =userService.joinUser(userDto);
-       if(username!= null){
+       if(username != null){
            return ResponseEntity.ok(username);
        }
         return ResponseEntity.badRequest().body("회원가입 실패");
     }
 
-    // user 정보 + roomId
     @GetMapping("/detail")
     public ResponseEntity<?> loadUserDetailByToken(Principal principal){
-        log.info("user login 후 정보 불러오기 : {}", principal.toString());
         if(principal != null){
 //            UserDTO loggedUser = userService.findByUsername(principal.getName());
-            UserWithRoomDTO userWithRoom = userService.loadUserAndRoom(principal.getName());
+            UserWithRoomDTO userWithRoom = userService.getUserAndRoomByUsername(principal.getName());
             return ResponseEntity.ok(userWithRoom);
         }
         return ResponseEntity.badRequest().body("로그인 정보 없음");
     }
 
-    // 모든 user 조회
     @GetMapping({"/",""})
     public ResponseEntity<?> list() {
-        Page<UserDTO> userList = userService.getAllUserList();
+        Page<UserDTO> userList = userService.getAllUserWithPage();
         return ResponseEntity.ok(userList);
     }
 
-    // user 상세정보 (user 정보만)
     @GetMapping("/{username}")
     public ResponseEntity<?> detail(@PathVariable String username) {
         UserDTO user = userService.findByUsername(username);
         if(user == null){
-            return ResponseEntity.badRequest().body("해당 회원이 존재하지 않습니다.");
+            new UserNotFoundException("해당 회원이 존재하지 않습니다.");
         }
         return ResponseEntity.ok(user);
     }
 
-    // user 프로필과 nickname 만 변경 (비밀번호는 따로)
     @PatchMapping("/{username}")
     public ResponseEntity<?> update(@PathVariable String username, @RequestBody UserDTO userDTO){
-        log.info("nickname 과 profile 변경 : {}",userDTO.toString());
         userService.updateUser(userDTO);
         return null;
     }

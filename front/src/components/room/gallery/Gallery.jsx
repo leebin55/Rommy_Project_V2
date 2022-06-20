@@ -1,5 +1,5 @@
 import React from 'react';
-import GalleryList from '../../components/room/gallery/GalleryList';
+import GalleryList from './GalleryList';
 
 function Gallery() {
   return (

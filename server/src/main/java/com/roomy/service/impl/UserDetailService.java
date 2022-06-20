@@ -19,10 +19,8 @@ import java.util.List;
 public class UserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("userdetailService 실행 : {}", username);
         User user = userRepository.findById(username).orElse(null);
         if(user == null){
             log.debug("해당 유저를 찾을 수 없습니다.");

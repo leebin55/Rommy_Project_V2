@@ -1,6 +1,6 @@
 import React from 'react';
 
-function GuestPost({ item, index }) {
+function GuestPostBox({ item, index }) {
   const baseURL = 'http://localhost:3000/rooms';
   return (
     <div key={index} className="main-guest-box">
@@ -15,4 +15,4 @@ function GuestPost({ item, index }) {
   );
 }
 
-export default GuestPost;
+export default GuestPostBox;

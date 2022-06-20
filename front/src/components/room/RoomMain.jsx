@@ -2,13 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
 import { useNavigate } from 'react-router-dom';
-import GuestPost from '../../components/room/guest/GuestPost';
-import MainRecentBoard from '../../components/room/MainRecentBoard';
+import GuestPostBox from './guest/GuestPostBox';
+import MainRecentBoard from './MainRecentBoard';
 
-/**
- * Room 의 레이아웃 중 오른쪽 부분(메인, 갤러리, 게시판,세팅 등등으로 )
- * Room 의 메인 화면
- */
 function RoomMain() {
   const [content, setContent] = useState(''); // 입력한 방명록 작성 내용
   const [guestStatus, setGuestStatus] = useState(false); // 입력한 방명록 공개여부
@@ -63,8 +59,7 @@ function RoomMain() {
         setGuestList(res.data.guestList);
       });
   };
-  // 화면이 랜더링 되면 우선 localStorage 에 토큰있나 확인 하고
-  // 토큰의 정보와 홈페이지 주인의 정보가 일치하는 확인
+
   useEffect(() => {
     loadRoomMain();
   }, []);
@@ -79,7 +74,7 @@ function RoomMain() {
         <div className="main-guest">
           {guestList.length > 0 ? (
             guestList.map((item, index) => (
-              <GuestPost item={item} index={index} />
+              <GuestPostBox item={item} index={index} />
             ))
           ) : (
             <div className="main-guest-empty">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../utils/AxiosInstance';
-import '../../../css/gallery/GalleryDetail.css';
+import '../../../css/room/GalleryDetail.css';
 
 function GalleryDetail() {
   const navigate = useNavigate();

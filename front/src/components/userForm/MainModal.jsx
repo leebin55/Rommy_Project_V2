@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Join from './Join';
 import Cancel from '@mui/icons-material/Cancel';
 import Update from './Update';
-import Login from '../userForm/Login';
+import Login from './Login';
 
 const style = {
   position: 'absolute',
@@ -63,7 +63,7 @@ export default function MainModal({ btnType, user }) {
             </Box>
             {btnType === '로그인' && (
               <>
-                <Login />
+                <Login state="modal" />
               </>
             )}
             {btnType === '회원가입' && (

@@ -22,31 +22,28 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final TokenProvider tokenProvider;
+    private final TokenProvider jwtProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
         log.debug("login dto {} ",loginDTO.toString());
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),loginDTO.getPassword());
-        // 위의 토큰을 이용해서 Authentication 객체를 생성하기위해 authenticate method 가 실행될때
-        // loadUserByUsername실행
+
         Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authToken);
-        // 위의 authentication 을 security context 에 담음
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        // 그 인중 정보를 이용해서 jwt 토큰 생성
-        String token = tokenProvider.createToken(authentication);
-        //Header 에 토큰을 넣고
+
+        String token = jwtProvider.createToken(authentication);
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(AUTHORIZATION, "Bearer " + token);
 
         return new ResponseEntity<>(TokenDTO.tokenInfo(token),
                 httpHeaders, HttpStatus.OK);
     }
-
 
     @DeleteMapping("/logout")
     public ResponseEntity<Void> logout(

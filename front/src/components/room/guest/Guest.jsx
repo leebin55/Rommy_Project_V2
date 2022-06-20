@@ -1,10 +1,10 @@
-import { React, useState, useEffect } from 'react';
-import GuestSingle from './GuestSingle';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import GuestSingle from './GuestSingle';
 import axiosInstance from '../../../utils/AxiosInstance';
+import '../../../css/room/Guest.css';
 
-function GuestMain() {
-  const [guestList, setGuestList] = useState([]);
+function Guest() {
   const { roomUser, roomId } = useParams();
   const [guestSlice, SetGuestSlice] = useState({});
 
@@ -41,5 +41,4 @@ function GuestMain() {
     </div>
   );
 }
-
-export default GuestMain;
+export default Guest;

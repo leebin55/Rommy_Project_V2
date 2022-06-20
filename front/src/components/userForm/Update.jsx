@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import axiosInstance from '../../../utils/AxiosInstance';
+import axiosInstance from '../../utils/AxiosInstance';
 import { Button } from '@mui/material';
-import returnFileURL from '../../../utils/FileUtils';
+import returnFileURL from '../../utils/FileUtils';
 
 export default function Update({ user }) {
   const [preview, setPreview] = useState(); //프로필 미리보기 설정

@@ -1,7 +1,7 @@
 package com.roomy.aspect;
 
 import com.roomy.dto.user.UserWithRoomDTO;
-import com.roomy.exception.ResourceNotFoundException;
+import com.roomy.exception.UserNotFoundException;
 import com.roomy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,11 +32,10 @@ public class RoomValidateAspect {
         Long roomId = (Long) args[1];
         UserWithRoomDTO user = userRepository.userWithRoomByUsername(username).orElse(null);
         if(user == null){
-            throw new ResourceNotFoundException("해당 회원이 존재하지 않습니다.");
-
+            throw new UserNotFoundException("해당 회원이 존재하지 않습니다.");
         }
         if(user.getRoomId() != roomId){
-            throw new ResourceNotFoundException("해당 회원의 ROOM 번호와 일치하지 않습니다.");
+            throw new UserNotFoundException("해당 회원의 ROOM 번호와 일치하지 않습니다.");
         }
 
         return joinPoint.proceed();

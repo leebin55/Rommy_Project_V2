@@ -1,11 +1,11 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
-import Search from './pages/Search';
-import Feeds from './pages/Feeds';
+import Search from './components/Search';
+import Feeds from './components/feed/Feeds';
 //------------------------------------
-import RoomPage from './pages/room/RoomPage';
-import * as Room from './pages/room/RoomComps';
+import RoomPage from './pages/RoomPage';
+import * as Room from './components/room/RoomComps';
 import GalleryDetail from './components/room/gallery/GalleryDetail';
 import BoardDetail from './components/room/board/BoardDetail';
 //------------------------------------

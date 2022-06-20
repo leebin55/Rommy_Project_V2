@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
+import '../../../css/room/Board.css';
+import BoardList from './BoardList';
+import BoardWrite from './BoardWrite';
 
-const AppContext = createContext();
-export const useBoardContext = () => useContext(AppContext);
-
-function BoardContextProvider({ children }) {
+function Board() {
   const [boardState, setBoardState] = useState({
     list: true,
     update: false,
@@ -27,14 +27,19 @@ function BoardContextProvider({ children }) {
       });
     }
   };
-  const propsData = {
-    boardState,
-    toBoardPage,
-  };
-
   return (
-    <AppContext.Provider value={propsData}>{children}</AppContext.Provider>
+    <>
+      {boardState.list ? (
+        <>
+          <BoardList toBoardPage={toBoardPage} />
+        </>
+      ) : (
+        <>
+          <BoardWrite toBoardPage={toBoardPage} />
+        </>
+      )}
+    </>
   );
 }
 
-export default BoardContextProvider;
+export default Board;

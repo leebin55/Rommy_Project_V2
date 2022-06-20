@@ -60,8 +60,9 @@ export default function GuestSingle({ item, index }) {
           {index + 1}
         </p>
         <p>{item.nickname}</p>
-        <p>&#127968;</p>
-        <p>{item.crateDate}</p>
+        <p>
+          {item.crateDate.slice(0, 10)} {item.crateDate.slice(11, 16)}
+        </p>
         <p className="guest-list-private">
           {item.status ? '비밀글로 전환' : '공개글로 전환'}
         </p>

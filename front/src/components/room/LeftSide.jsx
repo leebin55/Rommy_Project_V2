@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/room/Room.css';
 import axiosInstance from '../../utils/AxiosInstance';
-import FollowSelectBox from './FollowSelectBox';
+import FollowSelectBox from './friend/FollowSelectBox';
 import returnFileURL from '../../utils/FileUtils';
 import { useParams } from 'react-router-dom';
 

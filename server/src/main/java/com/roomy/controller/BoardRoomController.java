@@ -39,7 +39,6 @@ public class BoardRoomController {
     public ResponseEntity<?> register(@PathVariable("username")String username,
             @PathVariable("roomId")Long roomId, @RequestBody BoardDTO boardDTO,
                                       Principal principal) {
-        // 현재 로그인한 유저와 해당 룸의 유저가 같을 때만 글 들록
         if(username.equals(principal.getName())){
             BoardDTO board = boardDTO.toBuilder().username(principal.getName())
                     .roomId(roomId).build();
@@ -65,7 +64,6 @@ public class BoardRoomController {
         return ResponseEntity.ok(boardSeq);
     }
 
-    // 글 삭제
     @DeleteMapping("/{username}/{roomId}/boards/{board_seq}")
     public void delete(@PathVariable("username")String username,@PathVariable("roomId") Long roomId
             ,@PathVariable("boardSeq") Long boardSeq) {

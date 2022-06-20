@@ -1,7 +1,7 @@
 package com.roomy.aspect;
 
 import com.roomy.dto.ExceptionMessageDTO;
-import com.roomy.exception.ResourceNotFoundException;
+import com.roomy.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ExceptionMessageDTO> notFoundException(ResourceNotFoundException e
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ExceptionMessageDTO> notFoundException(UserNotFoundException e
             , HttpServletRequest request) {
 
         ExceptionMessageDTO exceptionMessage = new ExceptionMessageDTO(HttpStatus.BAD_REQUEST

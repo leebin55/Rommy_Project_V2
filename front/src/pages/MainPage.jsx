@@ -1,9 +1,9 @@
 import React from 'react';
-import MainNav from '../components/main/MainNav';
+import Nav from '../components/Nav';
 import { Outlet } from 'react-router-dom';
-import ProfileBox from '../components/main/ProfileBox';
-import Popular from '../components/main/Popular';
-import '../css/main/Main.css';
+import ProfileBox from '../components/userForm/ProfileBox';
+import Popular from '../components/popular/Popular';
+import '../css/Main.css';
 
 function MainPage() {
   return (
@@ -11,7 +11,7 @@ function MainPage() {
       <header>
         <img className="logo" src="img/logo1.png" alt="logo" />
       </header>
-      <MainNav />
+      <Nav />
       <div className="main-container">
         <section className="section-left">
           <ProfileBox />

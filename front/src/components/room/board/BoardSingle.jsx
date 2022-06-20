@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 
-export default function BoardSingle({ item, roomUser, roomId }) {
+export default function BoardSingle({ item, index, roomUser, roomId }) {
   const navigate = useNavigate();
   return (
     <tr>
-      <td>{item.boardSeq}</td>
+      <td>{index + 1}</td>
       <td
         className="board-list-title"
         onClick={() =>

@@ -1,14 +1,11 @@
-import React, { createContext, useContext, useState } from "react";
-import { useCookies } from "react-cookie";
+import React, { createContext, useContext, useState } from 'react';
 
 const AppContext = createContext();
 export const useLoginContext = () => useContext(AppContext);
 
 function LoginContextProvider({ children }) {
-  const [userProfile, setUserProfile] = useState("");
+  const [userProfile, setUserProfile] = useState('');
 
-  // temp -> check_login
-  // 로그인 돼있는 상태인지 여부
   const [check_login, setCheck_login] = useState(false);
 
   const [modal, setModal] = useState({
@@ -39,7 +36,6 @@ function LoginContextProvider({ children }) {
     joinClick,
     findClick,
     deleteClick,
-    // 회원 정보 조회(로그인할때) : 메인화면에서 프로필 보여줄때 사용
     userProfile,
     setUserProfile,
   };

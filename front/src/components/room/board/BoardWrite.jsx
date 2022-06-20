@@ -4,7 +4,7 @@ import EditorToolbar from './EditorToolbar';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../../utils/AxiosInstance';
 
-function BoardWrite({ upData }) {
+function BoardWrite({ toBoardPage, upData }) {
   const [boardStatus, setBoardStatus] = useState('PUBLIC');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -29,6 +29,16 @@ function BoardWrite({ upData }) {
       alert('내용을 입력하세요');
       return;
     }
+    if (upData) {
+      await axiosInstance
+        .patch(`/rooms/${roomUser}/${roomId}/board`, {})
+        .then((res) => {
+          if (res?.ok) {
+            // navigate(`/rooms/${roomUser}/${roomId}/boards`);
+            console.log('//');
+          }
+        });
+    }
     await axiosInstance
       .post(`/rooms/${roomUser}/${roomId}/boards`, {
         title,
@@ -41,9 +51,9 @@ function BoardWrite({ upData }) {
   };
 
   const updating = () => {
-    setTitle(upData.boardTitle);
-    setContent(upData.boardContent);
-    setBoardStatus(upData.boardPrivate);
+    setTitle(upData.title);
+    setContent(upData.content);
+    // setBoardStatus(upData.boardPrivate);
   };
 
   useEffect(() => {
@@ -78,6 +88,9 @@ function BoardWrite({ upData }) {
       </div>
       <button type="button" onClick={() => writeSubmit()}>
         등록
+      </button>
+      <button type="button" onClick={() => toBoardPage('list')}>
+        리스트로
       </button>
     </div>
   );

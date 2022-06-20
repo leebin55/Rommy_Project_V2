@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/main/Search.css';
+import '../css/Search.css';
 
 // 메인화면 - 미니홈피 검색 페이지
 function SearchMain() {

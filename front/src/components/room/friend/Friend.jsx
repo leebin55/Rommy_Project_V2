@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../utils/AxiosInstance';
-import TableList from '../../components/room/friend/TableList';
+import axiosInstance from '../../../utils/AxiosInstance';
+import TableList from './TableList';
 import { useParams } from 'react-router-dom';
 
 function Friend() {

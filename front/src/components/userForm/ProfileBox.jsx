@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import '../../css/main/ProfileBox.css';
+import '../../css/ProfileBox.css';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
-import MainModal from './userForm/MainModal';
+import MainModal from './MainModal';
 import { Button } from '@mui/material';
 import returnFileURL from '../../utils/FileUtils';
 

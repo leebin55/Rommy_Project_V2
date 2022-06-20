@@ -85,7 +85,7 @@ public class BoardServiceImpl implements BoardService {
        return  userWithBoardDTO;
 
     }
-//------------------------------- save , delete ----------------------------------------------------
+
     @Override
     public Long saveBoard(BoardDTO boardDTO) {
         log.debug("boardDTO insert 메서드 {}", boardDTO.toString());
