@@ -103,11 +103,10 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Long updateBoard(BoardDTO board) {
         Board findBoard = boardRepository.findById(board.getBoardSeq()).orElse(null);
+
         if(findBoard != null){
-            // 게시물 수정될 때는 title, content, updateDate , status 만 변경됨
             findBoard.toBuilder().title(board.getTitle()).content(board.getContent())
                             .status(board.getStatus()).build();
-
             boardRepository.save(findBoard);
             return board.getBoardSeq();
         }
@@ -135,8 +134,4 @@ public class BoardServiceImpl implements BoardService {
     }
 
 
-
-    private Board findVOById(Long boardSeq){
-        return  boardRepository.findById(boardSeq).orElse(null);
-    }
 }

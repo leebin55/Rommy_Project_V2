@@ -14,6 +14,7 @@ function BoardDetail() {
   const [isOwn, setIsOwn] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [detail, setDetail] = useState({
+    boardSeq,
     boardHit: 0,
     content: '',
     createDate: '',
@@ -29,23 +30,9 @@ function BoardDetail() {
     await axiosInstance
       .get(`/rooms/${roomUser}/${roomId}/boards/${boardSeq}`)
       .then((res) => {
-        console.log(res.data);
-        setDetail(res.data);
+        setDetail({ ...res.data, boardSeq });
         setHeart(res.data.checkLike);
-        // [위] 사용자가 하트를 눌렀었는지 표시하기 위함
         setHeartNum(res.data.likeCount);
-      });
-  };
-
-  const clickUpdate = async () => {};
-
-  const updateBoard = async () => {
-    await axiosInstance
-      .patch(`/rooms/${roomUser}/${roomId}/board`, {})
-      .then((res) => {
-        if (res?.ok) {
-          navigate(`/rooms/${roomUser}/${roomId}/boards`);
-        }
       });
   };
 
@@ -95,7 +82,13 @@ function BoardDetail() {
               <p>{detail.title}</p>
               {isOwn && (
                 <>
-                  <button onClick={() => setIsUpdate(true)}>수정</button>
+                  <button
+                    onClick={() => {
+                      setIsUpdate(true);
+                    }}
+                  >
+                    수정
+                  </button>
                   <button onClick={() => fetchDelete()}>삭제</button>
                 </>
               )}

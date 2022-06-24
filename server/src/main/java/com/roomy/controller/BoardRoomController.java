@@ -48,7 +48,6 @@ public class BoardRoomController {
         return ResponseEntity.badRequest().body("글을 등록할 권한이 없습니다.");
     }
 
-    // 글 상세보기
     @GetMapping("/{username}/{roomId}/boards/{boardSeq}")
     public ResponseEntity<?> detail(@PathVariable("username")String username,@PathVariable("roomId")Long roomId,
                                     @PathVariable("boardSeq") Long boardSeq) {
@@ -56,7 +55,6 @@ public class BoardRoomController {
         return ResponseEntity.ok(userWithBoardDTO);
     }
 
-    // 글 수정
     @PatchMapping("/{username}/{roomId}/boards")
     public ResponseEntity<?> update(@PathVariable("username")String username,@PathVariable("roomId") Long roomId
             ,@RequestBody BoardDTO boardDTO) {

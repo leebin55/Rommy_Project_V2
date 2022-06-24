@@ -20,11 +20,6 @@ function Board() {
         list: false,
         update: false,
       });
-    } else if (state === 'update') {
-      setBoardState({
-        list: false,
-        update: true,
-      });
     }
   };
   return (

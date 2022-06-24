@@ -1,13 +1,16 @@
 import { React, useState, useRef, useEffect } from 'react';
 import Editor from './Editor';
 import EditorToolbar from './EditorToolbar';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../utils/AxiosInstance';
+import { writeValidate } from '../../../utils/validate';
 
 function BoardWrite({ toBoardPage, upData }) {
+  const navigate = useNavigate();
   const [boardStatus, setBoardStatus] = useState('PUBLIC');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [status, setStaust] = useState('');
   const boardTitle = useRef();
 
   const { roomUser, roomId } = useParams();
@@ -21,43 +24,46 @@ function BoardWrite({ toBoardPage, upData }) {
   };
 
   const writeSubmit = async () => {
-    if (title.trim() === '') {
-      alert('제목을 입력하세요');
-      boardTitle.current.focus();
-      return;
-    } else if (content.trim() === '') {
-      alert('내용을 입력하세요');
-      return;
-    }
-    if (upData) {
+    const result = writeValidate(title, content);
+    if (upData && result) {
       await axiosInstance
-        .patch(`/rooms/${roomUser}/${roomId}/board`, {})
+        .patch(`/rooms/${roomUser}/${roomId}/boards`, {
+          boardSeq: upData.boardSeq,
+          title,
+          content,
+        })
         .then((res) => {
-          if (res?.ok) {
-            // navigate(`/rooms/${roomUser}/${roomId}/boards`);
-            console.log('//');
+          console.log('update ', res);
+          if (res.status === 200) {
+            navigate(`/rooms/${roomUser}/${roomId}/boards`);
+          } else {
+            alert('fail');
           }
         });
+      return;
     }
-    await axiosInstance
-      .post(`/rooms/${roomUser}/${roomId}/boards`, {
-        title,
-        content,
-        status: boardStatus,
-      })
-      .then((res) => {
-        window.location.reload();
-      });
+    if (result) {
+      await axiosInstance
+        .post(`/rooms/${roomUser}/${roomId}/boards`, {
+          title,
+          content,
+          status: boardStatus,
+        })
+        .then((res) => {
+          window.location.reload();
+        });
+    }
   };
 
   const updating = () => {
     setTitle(upData.title);
     setContent(upData.content);
-    // setBoardStatus(upData.boardPrivate);
+    setBoardStatus(upData.boardPrivate);
   };
 
   useEffect(() => {
     if (upData) {
+      console.log(upData);
       updating();
     }
   }, []);
