@@ -3,6 +3,12 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axiosInstance from '../../utils/AxiosInstance';
+import {
+  idValidate,
+  pwValidate,
+  emailValidate,
+  nickValidate,
+} from '../../utils/validate';
 
 export default function Join({ handleClose }) {
   const [username, setUsername] = useState('');
@@ -10,6 +16,8 @@ export default function Join({ handleClose }) {
   const [email, setEmail] = useState('');
   const [rePassword, setRePassword] = useState('');
   const [nickname, setNickname] = useState('');
+  const [usernameCheck, setUsernameCheck] = useState(false);
+  const [idHelper, setIdHelper] = useState('Required');
 
   const btnStyle = {
     width: '200px',
@@ -19,7 +27,7 @@ export default function Join({ handleClose }) {
 
   const joinClickEvent = async () => {
     const result = joinFormValidation();
-    if (result === 'ok') {
+    if (result) {
       await axiosInstance
         .post('/users/sign_up', {
           username,
@@ -33,29 +41,38 @@ export default function Join({ handleClose }) {
         });
     }
   };
+
   const joinFormValidation = () => {
-    if (username === null || username.trim() === '') {
-      alert(`ID 를 다시 입력해 주세요`);
-      return;
+    if (
+      idValidate(username) &&
+      pwValidate(password, rePassword) &&
+      emailValidate(email) &&
+      nickValidate(nickname)
+    ) {
+      if (!usernameCheck) {
+        alert('아이디 중복검사를 해주세요');
+        return false;
+      }
+      return true;
     }
-    if (password === null || password.trim() === '') {
-      alert(`password 를 다시 입력해 주세요`);
-      return;
-    }
-    if (password !== rePassword) {
-      alert('password 가 일치하지 않습니다.');
-      return;
-    }
-    if (email === null || email.trim() === '') {
-      alert(`email 을 다시 입력해 주세요`);
-      return;
-    }
-    if (nickname === null || nickname.trim() === '') {
-      alert(`닉네임을 다시 입력해 주세요`);
-      return;
-    }
-    return 'ok';
   };
+
+  const duplicateValidation = async (tempId) => {
+    if (idValidate(tempId)) {
+      await axiosInstance.get(`users/valid/${tempId}`).then((res) => {
+        if (res.status) {
+          if (res.data) {
+            setUsernameCheck(false);
+            setIdHelper('사용 불가능한 아이디 입니다.');
+          } else {
+            setUsernameCheck(true);
+            setIdHelper('사용가능한 아이디 입니다.');
+          }
+        }
+      });
+    }
+  };
+
   return (
     <Box
       component="form"
@@ -73,7 +90,7 @@ export default function Join({ handleClose }) {
             id="standard-required"
             label="ID"
             variant="standard"
-            helperText="required"
+            helperText={idHelper}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -84,8 +101,7 @@ export default function Join({ handleClose }) {
               fontSize: '12px',
               backgroundColor: 'gray',
             }}
-            /* 주의 : ()=>{} 안에서 넣지 않으면 랜더링 되자마자 실행됨 */
-            onClick={() => {}}
+            onClick={() => duplicateValidation(username)}
             variant="contained"
           >
             중복확인
@@ -95,7 +111,7 @@ export default function Join({ handleClose }) {
           <TextField
             id="standard-error-helper-text"
             label="PW"
-            helperText="비밀번호는 어찌고 저찌고"
+            helperText="비밀번호는 8글자 이상"
             type="password"
             variant="standard"
             onChange={(e) => {
@@ -131,12 +147,7 @@ export default function Join({ handleClose }) {
           />
         </div>
 
-        <Button
-          sx={btnStyle}
-          /* 주의 : ()=>{} 안에서 넣지 않으면 랜더링 되자마자 실행됨 */
-          onClick={joinClickEvent}
-          variant="contained"
-        >
+        <Button sx={btnStyle} onClick={joinClickEvent} variant="contained">
           회원가입
         </Button>
       </div>

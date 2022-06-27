@@ -57,12 +57,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().
                 antMatchers("/auth/login").permitAll()
                 .antMatchers("/users/sign_up").permitAll()
+                .antMatchers("/users/valid/**").permitAll()
                 .antMatchers("/feeds").permitAll()
                 .antMatchers("/top-rooms").permitAll()
                 .antMatchers("/uploads/*").permitAll() // img
-
-                .anyRequest() // 나머지 요청들에 대해서는
-                .authenticated();// 인증받아야 한다.;
+                .anyRequest()
+                .authenticated();
 
 
         http
@@ -104,12 +104,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        // 암호화 하는 알고리즘은 여b러가지 존재 (SHA256,scrypt,pbkdf2...)
-        // 기본 해시 함수인 SHA, MD5등을 이용하는 것은 빠른 처리속도로 인하여 보안에 취약.
-        //해시를 강하게 하기 위해서는 무작위 salt와 함께 반복적인 해싱작업이 필요하다.
-        //구현이 쉽고 비교적 위의 알고릴즘보다 강력한 BCrypt 를 이용
-        // 만약에 여러 이미 다른 알고리즘으로 암호화를 저장되어있지만 더 고도화된 암호화를 하고 싶다면
-        // DelegatingPasswordEncoder 를 이용하자
         return new BCryptPasswordEncoder();
     }
 

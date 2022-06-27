@@ -59,4 +59,9 @@ public class UserController {
         userService.updateUser(userDTO);
         return null;
     }
+
+    @GetMapping("/valid/{username}")
+    public boolean checkDuplicate(@PathVariable String username){
+        return userService.validateDuplicateUser(username);
+    }
 }

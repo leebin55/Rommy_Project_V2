@@ -5,6 +5,7 @@ import com.roomy.dto.user.UserWithBoardDTO;
 import com.roomy.entity.Board;
 import com.roomy.entity.Room;
 import com.roomy.entity.User;
+import com.roomy.exception.UserNotFoundException;
 import com.roomy.repository.BoardRepository;
 import com.roomy.repository.RoomRepository;
 import com.roomy.repository.UserRepository;
@@ -26,27 +27,21 @@ public class BoardServiceImpl implements BoardService {
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
 
-//------------------------------ 조회 ---------------------------------------------------
     @Override @Transactional(readOnly = true)
     public Page<BoardDTO> search(String select, String query) {
         return null;
     }
 
-    // username 가 쓴 일반 게시물 조회 : username 을 사용한 이유 > url 에 room/{username} 이런 패턴이기 때문
     @Override @Transactional(readOnly = true)
     public Page<BoardDTO> selectAllByUsername(String username) {
-        // 만약 해당 username 이없다면 회원이 아닌것 > 처리해주기
        User user = userRepository.findById(username).orElse(null);
         if(user == null){
-            log.info("selectAllByUsername user없음");
-            return null;
+            new UserNotFoundException("해당 회원 없음");
         }
         Page<Board> boardVOList
                 = boardRepository.getUserBoardList(2,user,
                setPageRequest());
         return null;
-       // log.debug("보드리스트 {}", list);
-       // return list;
     }
 
 
@@ -69,10 +64,8 @@ public class BoardServiceImpl implements BoardService {
         });
     }
 
-    // 모든 일반 게시물 조회
     @Override @Transactional(readOnly = true)
     public Page<BoardDTO> getAllBoardList() {
-        // Page<BoardVO> 는 엔티티 자체를 그냥 넘기는 것 > 엔티티는 노출하지 않는 것이 좋으므로
         Page<Board> boardVOList=boardRepository.findAllByBoardCode(2, setPageRequest());
         // DTO 로 변환
         return null;
@@ -83,7 +76,6 @@ public class BoardServiceImpl implements BoardService {
         UserWithBoardDTO userWithBoardDTO = boardRepository.loadBoardDetail(boardSeq);
         log.info("boardwituser : {}",userWithBoardDTO.toString());
        return  userWithBoardDTO;
-
     }
 
     @Override
@@ -92,7 +84,7 @@ public class BoardServiceImpl implements BoardService {
         User user = userRepository.findById(boardDTO.getUsername()).orElse(null);
         Room room = roomRepository.findById(boardDTO.getRoomId()).orElse(null);
         if(room == null || user == null){
-            new IllegalStateException("해당 유저가 없음");
+            new UserNotFoundException("해당 회원 없음");
         }
         Board board = boardDTO.createBoard();
         board.setRoomAndUser(room , user);
@@ -115,20 +107,10 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public void deleteBoard(Long boardSeq) {
-
         boardRepository.deleteById(boardSeq);
     }
 
-    // url로 직접 치고 room으로 들어갈수 있기 때문에 /room/{username}
-    // username 이 존재하는지 확인>> 이건 /room/{username}으로 요청되는 모든 것에
-    // 적용해야 되는데??
-    // AOP????
-
-    //-------------------------------private method --------------------------------------------------
-
- // PageRequest return
     private PageRequest setPageRequest(){
-
         return PageRequest.of(0,10,
                 Sort.by(Sort.Direction.DESC,"boardSeq"));
     }

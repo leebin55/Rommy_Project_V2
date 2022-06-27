@@ -31,7 +31,7 @@ public class RoomServiceImpl implements RoomService {
     // user , room, follow join 해서 한번에 데이터 불러오기
     //  + 로그인한 유저가 room user follow 햇는지 확인
     @Override
-    @Transactional(readOnly = true) // 조회만 함 : flush 를 하지않음
+    @Transactional(readOnly = true)
     public UserWithRoomAndFollowDTO loadRoomLayoutInfo(String roomUsername , String loggedInUsername) {
         log.info("roomProfile service :{}",roomUsername);
         return userRepository.loadRoomProfileByUsername(roomUsername);

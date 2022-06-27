@@ -18,8 +18,6 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "tbl_board", schema="roomyDB")
 public class Board extends BaseEntity{
 
-
-    // 게시물 번호 PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long boardSeq;
@@ -33,10 +31,8 @@ public class Board extends BaseEntity{
     @JoinColumn(name="username")
     private User user;
 
-    // 게시물 제목
     private String title;
 
-    // 게시물 내용
     @Column(columnDefinition = "VARCHAR(4000)")
     private String content;
     
@@ -56,19 +52,13 @@ public class Board extends BaseEntity{
     @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST,orphanRemoval = true)
     private List<Image>  imgList = new ArrayList<>();
 
-// likeCount 칼럼으로 넣을지 아님 likeList 에서 count 할지 고민중
-  //  private Long likeCount;
-
-    // 게시물 구분코드 ( 1 갤러리 / 2 일반게시판 )
     @Enumerated(EnumType.STRING)
      private BoardCode boardCode;
 
-    // 조회수
     private Long boardHit;
 
     public Long likeCount;
 
-    // == 연관관계 method ==// 연관관계 주인 아닌 곳에서도 까먹지 않고 값을 입력해 주기 위해
     public void setRoomAndUser(Room room,User user){
         this.room = room;
         this.user= user;

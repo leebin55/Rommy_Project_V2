@@ -4,6 +4,7 @@ import com.roomy.dto.user.UserDTO;
 import com.roomy.dto.user.UserWithRoomDTO;
 import com.roomy.entity.Room;
 import com.roomy.entity.User;
+import com.roomy.exception.InvalidException;
 import com.roomy.repository.UserRepository;
 import com.roomy.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -60,22 +61,21 @@ public class UserServiceImpl implements UserService{
       return userRepository.existsByUsername(username);
     }
 
-    // user 가입하면 해당 유저의 room 도 같이 생성
     @Override
     public String joinUser(UserDTO userDTO) {
         Boolean existCheck = validateDuplicateUser(userDTO.getUsername());
-        if(existCheck == false){
-            UserDTO encodedUser = userDTO.toBuilder().password(passwordEncoder.encode(userDTO.getPassword())).build();
-            User user = encodedUser.toEntity();
-            // user 가 생성되면  room 도 같이 생성
-            Room room = Room.builder().roomName(user.getNickname()+" 님")
-                    .intro(makeIntro(user.getNickname()))
-                    .build();
-           room.setUser(user);
-            userRepository.save(user);
-            return user.getUsername();
+        if(existCheck == true){
+            new InvalidException("이미 회원가입한 회원입니다.");
         }
-        return null;
+        UserDTO encodedUser = userDTO.toBuilder().password(passwordEncoder.encode(userDTO.getPassword())).build();
+        User user = encodedUser.toEntity();
+        // user 가 생성되면  room 도 같이 생성
+        Room room = Room.builder().roomName(user.getNickname()+" 님")
+                .intro(makeIntro(user.getNickname()))
+                .build();
+        room.setUser(user);
+        userRepository.save(user);
+        return user.getUsername();
     }
 
     @Override
