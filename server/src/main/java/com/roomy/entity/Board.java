@@ -66,6 +66,13 @@ public class Board extends BaseEntity{
         room.getBoardList().add(this);
     }
 
+    public void updateContentAndTitle(String title, String content) {
+        this.title= title;
+        this.content = content;
+    }
 
+    public void plusHitCnt(){
+        this.boardHit++;
+    }
 
 }

@@ -15,7 +15,6 @@ public class FollowController {
 
     private final FollowService followService;
 
-    // 로그인한 유저가  username 을 follow  했는지 확인
     @GetMapping("/{username}")
     public ResponseEntity<?> checkFollow(@PathVariable("username") String username,Principal principal){
         Boolean checkFollow = followService.checkFollow(principal.getName(), username);

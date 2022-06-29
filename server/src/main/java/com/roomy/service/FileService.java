@@ -12,6 +12,8 @@ public interface FileService {
 
     public Set<String> uploadFiles(List<MultipartFile> files);
 
+    public String uploadFile(MultipartFile file);
+
     public void deleteFile(Long imgSeq);
 
     //public List<String> uploadMultiFiles(MultipartHttpServletRequest files);

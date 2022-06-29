@@ -34,8 +34,6 @@
 
 .btn-write-box {
   width: 100%;
-  margin: auto;
-  text-align: right;
 }
 
 .btn-write-box button {
@@ -44,7 +42,7 @@
   background-color: #eee;
   border: 1px solid gray;
   border-radius: 10px;
-  margin-left: auto;
+  margin: 10px;
 }
 
 .board-page-box {

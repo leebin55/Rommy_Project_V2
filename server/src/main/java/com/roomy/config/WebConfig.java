@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-@Configuration //RoomApplication.class 에 @SpringBootApplication 이 붙었기 때문에 @Configuration > 빈 자동 등록
+@Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     //실제 외부에서 접근할때 사용할 path (file:///c:/bizwork/uploads/)
@@ -34,7 +34,6 @@ public class WebConfig implements WebMvcConfigurer {
         WebMvcConfigurer.super.addArgumentResolvers(resolvers);
     }
 
-    // client에서 vrPath인 /uploads 로 요청하면 file:///c:/bizwork/uploads 경로로 접근
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
             registry.addResourceHandler(vrPath)

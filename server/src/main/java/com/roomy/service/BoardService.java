@@ -19,7 +19,7 @@ public interface BoardService {
 
     public  void deleteBoard(Long boardSeq);
 
-    public UserWithBoardDTO getBoardBySeq(Long boardSeq);
+    public UserWithBoardDTO getBoardBySeqAndPlusHit(Long boardSeq);
 
     public Page<BoardDTO> getAllBoardList();
 

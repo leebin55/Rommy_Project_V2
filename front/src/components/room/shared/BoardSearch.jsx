@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axiosInstance from '../../../utils/AxiosInstance';
 
 function BoardSearch({ userId, boardType }) {
-  const [select, setSelect] = useState('0'); // 검색 select box 선택한 것
-  const [search, setSearch] = useState(''); // 검색 input box 에 입력한 내용
+  const [select, setSelect] = useState('0');
+  const [search, setSearch] = useState('');
 
   const getSearchList = async () => {
     await axiosInstance
@@ -16,7 +16,7 @@ function BoardSearch({ userId, boardType }) {
   };
 
   return (
-    <div>
+    <>
       <select
         style={{
           height: '25px',
@@ -53,7 +53,7 @@ function BoardSearch({ userId, boardType }) {
       >
         검색
       </button>
-    </div>
+    </>
   );
 }
 

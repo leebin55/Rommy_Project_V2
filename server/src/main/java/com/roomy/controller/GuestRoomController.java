@@ -18,30 +18,24 @@ public class GuestRoomController {
 
     private final GuestService guestService;
 
-    //방명록 전체 조회
     @GetMapping("/{username}/{roomId}/guests")
     public ResponseEntity<?> list(@PathVariable("username")String roomUser
             , @PathVariable("roomId") Long roomId
             , Pageable pageable) {
-//             guestService.getGuestByUsername(username);
-        log.debug("guest list 컨트롤러 실행 pageable : {}", pageable.toString());
         Slice<GuestDTO> guestSlice = guestService.getAllGuestByRoom(roomId, pageable);
         return ResponseEntity.ok(guestSlice);
     }
 
-    //방명록 조회 by guestSeq
     @GetMapping("/{username}/{roomId}/guests/{guestSeq}")
     public ResponseEntity<?> detail(@PathVariable("username")String roomUser
             , @PathVariable("roomId") Long roomId, @PathVariable("guestSeq")Long guestSeq) {
         return ResponseEntity.ok( guestService.findByGuestSeq(guestSeq));
     }
 
-    // 방명록 등록
     @PostMapping("{username}/{roomId}/guests")
     public ResponseEntity<?> register(@PathVariable("username")String roomUser,
             @PathVariable("roomId")Long roomId,@RequestBody GuestDTO guestDTO,
             Principal principal){
-        log.info("방명록 등록 : {} , user : {}",guestDTO.toString(),principal.toString());
         Long guestSeq = guestService.saveGuest(guestDTO,principal.getName());
         return ResponseEntity.ok(guestSeq);
     }

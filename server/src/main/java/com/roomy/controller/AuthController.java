@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.Map;
+
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RequiredArgsConstructor
@@ -27,7 +29,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
-        log.debug("login dto {} ",loginDTO.toString());
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),loginDTO.getPassword());
 
@@ -45,9 +46,4 @@ public class AuthController {
                 httpHeaders, HttpStatus.OK);
     }
 
-    @DeleteMapping("/logout")
-    public ResponseEntity<Void> logout(
-            @RequestBody TokenDTO TokenDto) {
-       return null;
-    }
 }

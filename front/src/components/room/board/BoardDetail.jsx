@@ -45,7 +45,7 @@ function BoardDetail() {
       await axiosInstance
         .delete(`/rooms/${roomUser}/${roomId}/boards/${boardSeq}`)
         .then((res) => {
-          if (res?.ok) {
+          if (res.status === 200) {
             alert('삭제되었습니다');
             navigate(`/rooms/${roomUser}/${roomId}/boards`);
           }

@@ -16,8 +16,6 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Slf4j
 @Service(value = "boardService") @Transactional
 @RequiredArgsConstructor
@@ -67,14 +65,15 @@ public class BoardServiceImpl implements BoardService {
     @Override @Transactional(readOnly = true)
     public Page<BoardDTO> getAllBoardList() {
         Page<Board> boardVOList=boardRepository.findAllByBoardCode(2, setPageRequest());
-        // DTO 로 변환
         return null;
     }
 
-    @Override @Transactional(readOnly = true)
-    public UserWithBoardDTO getBoardBySeq(Long boardSeq) {
+    @Override
+    public UserWithBoardDTO getBoardBySeqAndPlusHit(Long boardSeq) {
+        Board findBoard = boardRepository.findById(boardSeq).orElse(null);
+        findBoard.plusHitCnt();
+        boardRepository.save(findBoard);
         UserWithBoardDTO userWithBoardDTO = boardRepository.loadBoardDetail(boardSeq);
-        log.info("boardwituser : {}",userWithBoardDTO.toString());
        return  userWithBoardDTO;
     }
 
@@ -97,8 +96,7 @@ public class BoardServiceImpl implements BoardService {
         Board findBoard = boardRepository.findById(board.getBoardSeq()).orElse(null);
 
         if(findBoard != null){
-            findBoard.toBuilder().title(board.getTitle()).content(board.getContent())
-                            .status(board.getStatus()).build();
+            findBoard.updateContentAndTitle(board.getTitle(), board.getContent());
             boardRepository.save(findBoard);
             return board.getBoardSeq();
         }

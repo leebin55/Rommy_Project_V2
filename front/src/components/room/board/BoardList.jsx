@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import BoardSearch from '../shared/BoardSearch';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+// import PaginationBtn from '../shared/PaginationBtn';
 import BoardSingle from './BoardSingle';
 import axiosInstance from '../../../utils/AxiosInstance';
 import { checkUser } from '../../../utils/JwtUtils';
@@ -10,13 +13,17 @@ function BoardList({ toBoardPage }) {
   const [select, setSelect] = useState('0');
   const [search, setSearch] = useState('');
   const [isOwn, setIsOwn] = useState(false);
-  // const [start_page, setStart_page] = useState("1");
-  // const [end_page, setEnd_page] = useState("1");
+  const [page, setPage] = useState(1);
+  const [endPage, setEndPage] = useState(1);
   const { roomUser, roomId } = useParams();
+
+  const pageHandleChange = (event, value) => {
+    setPage(value);
+  };
 
   const loadBoardList = async () => {
     await axiosInstance
-      .get(`/rooms/${roomUser}/${roomId}/boards?size=20,sort=roomId,desc`)
+      .get(`/rooms/${roomUser}/${roomId}/boards?size=10`)
       .then((res) => {
         console.log(res.data.content);
         setBoardList(res.data.content);
@@ -53,6 +60,7 @@ function BoardList({ toBoardPage }) {
   return (
     <div className="board-container">
       <div className="btn-write-box">
+        <BoardSearch roomUser={roomUser} boardType="board" />
         {isOwn && (
           <button
             onClick={() => {
@@ -90,7 +98,15 @@ function BoardList({ toBoardPage }) {
           </tbody>
         </table>
       </div>
-      <BoardSearch roomUser={roomUser} boardType="board" />
+      <Stack spacing={2} alignItems="center">
+        <Pagination
+          count={10}
+          page={page}
+          onChange={pageHandleChange}
+          boundaryCount={5}
+          color="primary"
+        />
+      </Stack>
     </div>
   );
 }

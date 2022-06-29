@@ -27,53 +27,37 @@ public class FileServiceImpl implements FileService {
         this.fileRepository = fileRepository;
     }
 
-    //application.yml 파일에서 file.upload-dir: /uploads 를 가져오기
     @Value("${file.upload-dir}")
     private String fileLocation;
 
-    //  받아온 이미지를 새로운 이름으로 만들어
-    //  application.yml 에 지정한 위치에ㅔ 저장 후 이름 리턴
-    // c:/bizwork/uploads
-    // /uploads를 하면 로컬디스크에 폴더가 생성되기는 하지만 저장실패(아마 접근을 못해서
-    // 오류가 난다.)
+
     @Override
-    public Set<String> uploadFiles(List<MultipartFile> files) {
-        log.debug("fileLocation : {}" ,fileLocation);
-        if(files.isEmpty()){
+    public String uploadFile(MultipartFile file) {
+        if(file.isEmpty()){
             return null;
         }
-        // 업로드할 폴더 검사
         File dir = new File(fileLocation);
-        //업로드할 폴더가 없으면
         if(!dir.exists()){
-            //폴더 생성
             log.debug("파일 경로 없음");
             dir.mkdirs();
         }
-    Set<String> newFileNames = new HashSet<>();
-      for(MultipartFile file : files){
             String strUUID = UUID.randomUUID().toString();
-            //원본파일에서 이름 추출
             String originalFileName = file.getOriginalFilename();
-            // UUID와 파일이름을 합쳐 새로운 이름 만들기
-          String newFileName = String.format("%s-%s", strUUID, originalFileName);
-          // 저장할 폴더와 파일이름을 매개변수로 전달하여
-          // 파일을 저장하기 위해 File객체 생성
-
-          File uploadFile = new File(fileLocation,newFileName);
-          try{
-              file.transferTo(uploadFile);
-          }catch (IllegalStateException | IOException e)  {
-              log.debug("파일을 저장할 수 없음....");
-              new FileException("파일을 저장할 수 없습니다.");
-              //e.printStackTrace();
-      }
-        newFileNames.add(newFileName);
-        }
-        // 나중에 path 변경될 수 있기 때문에 file이름만 리턴
-       // return "http://localhost:8080/uploads/"+newFileName;
-        return newFileNames;
+            String newFileName = String.format("%s-%s", strUUID, originalFileName);
+            File uploadFile = new File(fileLocation,newFileName);
+            try{
+                file.transferTo(uploadFile);
+            }catch (IllegalStateException | IOException e)  {
+                new FileException("파일을 저장할 수 없습니다.");
+            }
+        return newFileName;
     }
+
+    @Override
+    public Set<String> uploadFiles(List<MultipartFile> files) {
+        return null;
+    }
+
 
     @Override
     public void deleteFile(Long imgSeq) {

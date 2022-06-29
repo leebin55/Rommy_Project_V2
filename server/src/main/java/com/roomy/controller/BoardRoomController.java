@@ -3,13 +3,11 @@ package com.roomy.controller;
 
 import com.roomy.dto.BoardDTO;
 import com.roomy.dto.user.UserWithBoardDTO;
-import com.roomy.entity.Room;
 import com.roomy.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
@@ -26,15 +24,12 @@ public class BoardRoomController {
     @Qualifier("boardService")
     private final BoardService boardService;
 
-    // room 에서 글 조회
     @GetMapping("/{username}/{roomId}/boards")
     public ResponseEntity<?> list(@PathVariable("username")String username,@PathVariable("roomId") Long roomId, Pageable pageable) {
         Slice<BoardDTO> boardDTOS = boardService.loadBoardByRoom(roomId, pageable);
-//        return ResponseEntity.ok(boardList);
         return ResponseEntity.ok(boardDTOS);
     }
 
-    // 글 등록
     @PostMapping("/{username}/{roomId}/boards")
     public ResponseEntity<?> register(@PathVariable("username")String username,
             @PathVariable("roomId")Long roomId, @RequestBody BoardDTO boardDTO,
@@ -51,7 +46,7 @@ public class BoardRoomController {
     @GetMapping("/{username}/{roomId}/boards/{boardSeq}")
     public ResponseEntity<?> detail(@PathVariable("username")String username,@PathVariable("roomId")Long roomId,
                                     @PathVariable("boardSeq") Long boardSeq) {
-        UserWithBoardDTO userWithBoardDTO =  boardService.getBoardBySeq(boardSeq);
+        UserWithBoardDTO userWithBoardDTO =  boardService.getBoardBySeqAndPlusHit(boardSeq);
         return ResponseEntity.ok(userWithBoardDTO);
     }
 
@@ -62,10 +57,11 @@ public class BoardRoomController {
         return ResponseEntity.ok(boardSeq);
     }
 
-    @DeleteMapping("/{username}/{roomId}/boards/{board_seq}")
-    public void delete(@PathVariable("username")String username,@PathVariable("roomId") Long roomId
-            ,@PathVariable("boardSeq") Long boardSeq) {
+    @DeleteMapping("/{username}/{roomId}/boards/{boardSeq}")
+    public ResponseEntity<?> delete(@PathVariable("username")String username,@PathVariable("roomId")Long roomId,
+                                    @PathVariable("boardSeq") Long boardSeq) {
         boardService.deleteBoard(boardSeq);
+        return ResponseEntity.ok("ok");
     }
 
 }
