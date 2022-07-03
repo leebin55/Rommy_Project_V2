@@ -1,39 +1,39 @@
-div.room-background {
+#room-background {
   background-color: lightgray;
   width: 100vw;
   height: 100vh;
 }
 
-div.room-main-container {
+#room-main-container {
   display: flex;
   width: 1200px;
   height: 700px;
   margin: auto;
 }
 
-div.room-left-1,
-div.room-left-2,
-div.room-right-1,
-div.room-right-2,
-section.room-left-side,
-section.room-right-side {
+#room-left-section,
+#room-right-section
+#room-left-side-container,
+#room-right-side-container,
+#room-left-side,
+#room-right-side {
   border-radius: 10px;
 }
 
-div.room-left-1,
-div.room-right-1 {
+#room-left-section,
+#room-right-section {
   height: 700px;
   padding-top: 30px;
   background-color:#2F2D49;
   border: none;
 }
 
-div.room-left-1 {
+#room-left-section{
   position: relative;
   width: 25%;
 }
 
-.room-left-1 .room-visit {
+#room-left-section .room-visit {
   position: absolute;
   top: 55px;
   left: 110px;
@@ -44,12 +44,12 @@ div.room-left-1 {
   font-size: 17px;
 }
 
-div.room-right-1 {
+#room-right-section {
   position: relative;
   width: 75%;
 }
 
-div.room-right-header {
+#room-right-header {
   display: flex;
   position: absolute;
   z-index: 1;
@@ -59,32 +59,33 @@ div.room-right-header {
   font-size: 20px;
   font-weight: bold;
 }
-div.room-right-header button {
+
+#room-right-header button {
   margin-left: auto;
   padding: 0 20px;
   font-size: 18px;
   margin-top: 3px;
   height: 40px;
 }
-div.room-right-header button:hover {
+#room-right-header button:hover {
   font-weight: bold;
 }
 
-div.room-left-2,
-div.room-right-2 {
+#room-left-side-container,
+#room-right-side-container {
   height: 635px;
   padding-top: 55px;
   background-color: #eee;
   border: 1px solid gray;
 }
 
-div.room-left-2 {
+#room-left-side-container {
   width: 90%;
   margin-left: auto;
   border-right: none;
 }
 
-div.room-right-2 {
+#room-right-side-container {
   display: flex;
   width: 95%;
   border-left: none;
@@ -92,20 +93,20 @@ div.room-right-2 {
   position: relative;
 }
 
-section.room-left-side,
-section.room-right-side {
+#room-left-side,
+#room-right-side {
   height: 550px;
   border: 1px solid black;
   background-color: white;
 }
 
-section.room-left-side {
+#room-left-side {
   width: 240px;
   margin-left: auto;
   margin-right: 5px;
 }
 
-section.room-right-side {
+#room-right-side {
   position: absolute;
   width: 750px;
   margin-left: 5px;
@@ -115,7 +116,7 @@ section.room-right-side {
 
 /* -------------------- RoomNav -------------------- */
 
-section.room-main-nav {
+#room-main-nav {
   position: absolute;
   z-index: 1;
   left: 745px;

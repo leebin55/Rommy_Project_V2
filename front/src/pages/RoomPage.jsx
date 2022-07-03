@@ -11,7 +11,7 @@ function Room() {
   const [roomData, setRoomData] = useState({});
   const [followingList, setFollowingList] = useState([]);
   const [isFollow, setIsFollow] = useState(false);
-  const [showFollowBtn, setShoFollowBtn] = useState(true);
+  const [showFollowBtn, setShowFollowBtn] = useState(true);
   let tokenUser = null;
 
   const loadRoomInfo = async () => {
@@ -21,11 +21,8 @@ function Room() {
         console.log('room res : ', res);
         setRoomData(res.data.userWithRoom);
         setFollowingList(res.data.followingList);
+        setIsFollow(res.data.follow);
       });
-  };
-
-  const checkFollow = async () => {
-    await axiosInstance.get().then((res) => {});
   };
 
   useEffect(() => {
@@ -33,63 +30,57 @@ function Room() {
     tokenUser = tokenDe.sub;
     loadRoomInfo();
     if (tokenUser === roomUser) {
-      setShoFollowBtn(false);
-    } else {
-      checkFollow();
+      setShowFollowBtn(false);
     }
   }, []);
 
-  const followBtnEvent = () => {
-    if (checkFollow) {
+  const followBtnEvent = async () => {
+    if (isFollow) {
       // true일때 > follow한 상태일때
-      axiosInstance.delete(`/follows/${roomUser}`).then((res) => {
-        console.log(res);
+      await axiosInstance.delete(`/follows/${roomUser}`).then((res) => {
+        console.log('unfollow :', res);
         setIsFollow(false);
       });
-      return;
-    }
-    axiosInstance
-      .post(`/follows`, {
-        roomUser,
-      })
-      .then((res) => {
-        console.log(res);
+    } else {
+      await axiosInstance.post(`/follows/${roomUser}`).then((res) => {
+        console.log('follow  : ', res);
         setIsFollow(true);
       });
+    }
   };
   return (
-    <div className="room-background">
-      <div className="room-main-container">
-        <div className="room-left-1">
+    <div id="room-background">
+      <main id="room-main-container">
+        <aside id="room-left-section">
           <p className="room-visit">
             today<span>0</span>total<span>{roomData.roomTotal}</span>
           </p>
-          <div className="room-left-2">
-            <section className="room-left-side">
+          <div id="room-left-side-container">
+            <div id="room-left-side">
               <LeftSide roomData={roomData} followingList={followingList} />
-            </section>
+            </div>
           </div>
-        </div>
-        <div className="room-right-1">
-          <div className="room-right-header">
-            <p className="room-name">{roomData.roomName}</p>
+        </aside>
+        <div id="room-right-section">
+          <section id="room-right-header">
+            <p>{roomData.roomName}</p>
             {showFollowBtn && (
               <button onClick={followBtnEvent}>
                 {' '}
-                {checkFollow ? <>✖ UNFOLLOW</> : <>➕ FOLLOW </>}
+                {isFollow ? <>✖ UNFOLLOW</> : <>➕ FOLLOW </>}
               </button>
             )}
-          </div>
-          <div className="room-right-2">
-            <section className="room-right-side">
+          </section>
+          <section id="room-right-side-container">
+            <div id="room-right-side">
               <Outlet />
-            </section>
-            <section className="room-main-nav">
+            </div>
+            <nav id="room-main-nav">
               <RoomNav roomUser={roomUser} roomId={roomId} />
-            </section>
-          </div>
+            </nav>
+          </section>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

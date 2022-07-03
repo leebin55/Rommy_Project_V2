@@ -9,7 +9,9 @@ import java.util.Set;
 public interface FollowService {
 
 
-    void followOrUnfollow(String fromUser , String toUser);
+    void follow(String fromUser , String toUser);
+
+    void unfollow(String fromUser, String toUser);
 
     Boolean checkFollow(String fromUser, String toUser);
 

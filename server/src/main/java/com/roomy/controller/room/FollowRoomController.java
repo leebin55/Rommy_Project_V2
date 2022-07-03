@@ -1,4 +1,4 @@
-package com.roomy.controller;
+package com.roomy.controller.room;
 
 import com.roomy.service.FollowService;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ public class FollowRoomController {
     private final FollowService followService;
 
     @GetMapping("/{username}/{roomId}/followings")
-    public ResponseEntity<?> loadFollowings(@PathVariable("username") String username){
+    public ResponseEntity<?> listFollowings(@PathVariable("username") String username){
         return ResponseEntity.ok("");
     }
 
     @GetMapping("/{username}/{roomId}/followers")
-    public ResponseEntity<?> loadFollowers(@PathVariable("username") String username){
+    public ResponseEntity<?> listFollowers(@PathVariable("username") String username){
 
         return ResponseEntity.ok("");
     }

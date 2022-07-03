@@ -22,26 +22,29 @@ public class FollowServiceImpl implements FollowService {
     private final UserRepository userRepository;
 
     @Override
-    public void followOrUnfollow( String fromUsername, String toUsername) {
-        checkFollowDTO checkFollowDTO = checkFollowWithUser(fromUsername, toUsername);
-        if(checkFollowDTO.checkFollow){
-            unfollow(checkFollowDTO.fromUser,checkFollowDTO.toUser);
-        }else{
-            follow(checkFollowDTO.fromUser,checkFollowDTO.toUser);
-        }
+    public void follow(String fromUser , String toUser) {
+        FollowDTO dto = this.getUserEntities(fromUser, toUser);
+        Follow follow = Follow.createFollowEntity(dto.fromUser, dto.toUser);
+        follow.userFollow(follow);
+        followRepository.save(follow);
     }
 
-
+    @Override
+    public void unfollow(String fromUser, String toUser) {
+        FollowDTO dto = this.getUserEntities(fromUser, toUser);
+        followRepository.deleteByFromUserAndToUser(dto.fromUser,dto.toUser);
+    }
+    
     @Override
     public Boolean checkFollow(String fromUsername, String toUsername) {
-        checkFollowDTO checkFollowDTO = checkFollowWithUser(fromUsername, toUsername);
-        return checkFollowDTO.checkFollow;
+        FollowDTO dto = getUserEntities(fromUsername, toUsername);
+        Boolean checkExist = followRepository.existsByFromUserAndToUser(dto.fromUser,dto.toUser);
+        return checkExist;
     }
 
     @Override
     public Set<UserDTO> loadFollowings(String username) {
         return    followRepository.findFollowersByUsername(username);
-
     }
 
     @Override
@@ -49,38 +52,28 @@ public class FollowServiceImpl implements FollowService {
         return null;
     }
 
-    private checkFollowDTO checkFollowWithUser(String fromUsername, String toUsername){
+    private FollowDTO getUserEntities(String fromUsername, String toUsername){
         User fromUser = userRepository.findById(fromUsername).orElse(null);
         User toUser = userRepository.findById(toUsername).orElse(null);
         if(fromUser == null || toUser == null){
             new IllegalStateException("해당 유저를 찾을 수 없습니다.");
         }
-        Boolean checkExist = followRepository.existsByFromUserAndToUser(fromUser,toUser);
-        return new checkFollowDTO(checkExist,fromUser,toUser);
+        return new FollowDTO(fromUser,toUser);
     }
 
-    private void follow(User fromUser , User toUser) {
-        log.info("follow 실행");
-        Follow follow = Follow.friendEntity(fromUser, toUser);// following, follower
-        follow.userFollow(follow);
-        followRepository.save(follow);
-    }
-
-    private void unfollow(User fromUser, User toUser) {
-        Follow follow = Follow.friendEntity(fromUser, toUser);
-        follow.userUnFollow(fromUser,toUser);
-        followRepository.delete(follow);
-    }
-    static class checkFollowDTO{
-        private Boolean checkFollow;
+    static class FollowDTO {
+//        private Boolean checkFollow;
         private User fromUser;
         private User toUser;
 
-        public checkFollowDTO(Boolean checkFollow, User fromUser, User toUser) {
-            this.checkFollow = checkFollow;
+        public FollowDTO(User fromUser, User toUser){
             this.fromUser = fromUser;
             this.toUser = toUser;
         }
+
+//        public void setCheckFollow(Boolean isFollow){
+//            this.checkFollow = isFollow;
+//        }
     }
 
 }

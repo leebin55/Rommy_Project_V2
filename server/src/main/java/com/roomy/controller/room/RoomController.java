@@ -1,4 +1,4 @@
-package com.roomy.controller;
+package com.roomy.controller.room;
 
 import com.roomy.dto.RecentBoardAndGuestDTO;
 import com.roomy.dto.RoomDTO;
@@ -46,6 +46,7 @@ public class RoomController {
     , @PathVariable("roomId") Long roomId,Principal principal){
         String loggedInUsername = principal.getName();
         UserWithRoomAndFollowDTO roomProfile = roomService.loadRoomLayoutInfo(roomUsername, loggedInUsername);
+        log.info("여기여기 : {}", roomProfile.toString());
         return ResponseEntity.ok(roomProfile);
     }
 

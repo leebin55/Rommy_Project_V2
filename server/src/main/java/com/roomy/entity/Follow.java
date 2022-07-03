@@ -27,7 +27,7 @@ public class Follow {
     private User fromUser;
 
 // ------------------생성자 관련-----------------------
-    public static Follow friendEntity(User follower, User following){
+    public static Follow createFollowEntity(User follower, User following){
         return new Follow(follower, following);
     }
 

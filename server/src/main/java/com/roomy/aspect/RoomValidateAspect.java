@@ -20,7 +20,7 @@ public class RoomValidateAspect {
 
     private final UserRepository userRepository;
 
-    @Around("execution(* com.roomy.controller.*Room*.*(..))")
+    @Around("execution(* com.roomy.controller.room.*Room*.*(..))")
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable{
 
         Object[] args = joinPoint.getArgs();

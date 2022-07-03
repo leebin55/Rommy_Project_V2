@@ -21,14 +21,15 @@ public class FollowController {
         return ResponseEntity.ok(checkFollow);
     }
 
-    @PostMapping
-    public ResponseEntity<?> follow(@RequestBody String roomUser, Principal principal){
-
-    return null;
+    @PostMapping("/{roomUser}")
+    public ResponseEntity<?> follow(@PathVariable String roomUser, Principal principal){
+        followService.follow(principal.getName(),roomUser);
+    return ResponseEntity.ok("success");
     }
 
-    @DeleteMapping("{roomUser}")
+    @DeleteMapping("/{roomUser}")
     public ResponseEntity unFollow(@PathVariable String roomUser,Principal principal){
-        return null;
+        followService.unfollow(principal.getName(), roomUser);
+        return ResponseEntity.ok("success");
     }
 }

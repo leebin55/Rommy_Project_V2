@@ -1,4 +1,4 @@
-package com.roomy.controller;
+package com.roomy.controller.room;
 
 
 import com.roomy.dto.BoardDTO;

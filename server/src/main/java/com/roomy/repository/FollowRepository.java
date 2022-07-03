@@ -21,5 +21,5 @@ public interface FollowRepository extends JpaRepository<Follow,Long> , FollowRep
   @Query(value = "select f.fromUser from Follow f where f.toUser =:user order by f.followId desc ")
   List<String> loadFollowers(@Param(value = "user") User user , Pageable pageable);
 
-
+  void deleteByFromUserAndToUser(User fromUser, User toUser);
 }

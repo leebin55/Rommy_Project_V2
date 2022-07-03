@@ -64,6 +64,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
                 .orderBy(follow.followId.desc())
                 .fetch();
 
-        return UserWithRoomAndFollowDTO.toUserWitRoomAndFollows(userWithRoom,followingList);
+        return UserWithRoomAndFollowDTO.createUserWitRoomAndFollows(userWithRoom,followingList);
     }
 }
