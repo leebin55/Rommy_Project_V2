@@ -32,7 +32,6 @@ public class UserController {
     @GetMapping("/detail")
     public ResponseEntity<?> loadUserDetailByToken(Principal principal){
         if(principal != null){
-//            UserDTO loggedUser = userService.findByUsername(principal.getName());
             UserWithRoomDTO userWithRoom = userService.getUserAndRoomByUsername(principal.getName());
             return ResponseEntity.ok(userWithRoom);
         }

@@ -34,7 +34,7 @@ public class FollowServiceImpl implements FollowService {
         FollowDTO dto = this.getUserEntities(fromUser, toUser);
         followRepository.deleteByFromUserAndToUser(dto.fromUser,dto.toUser);
     }
-    
+
     @Override
     public Boolean checkFollow(String fromUsername, String toUsername) {
         FollowDTO dto = getUserEntities(fromUsername, toUsername);
@@ -70,10 +70,6 @@ public class FollowServiceImpl implements FollowService {
             this.fromUser = fromUser;
             this.toUser = toUser;
         }
-
-//        public void setCheckFollow(Boolean isFollow){
-//            this.checkFollow = isFollow;
-//        }
     }
 
 }
